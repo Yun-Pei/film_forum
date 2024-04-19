@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from chatroom import views #記得要import app的view
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+    path("chat", views.testPage) #給剛剛寫好的function設定一個url
 ]
