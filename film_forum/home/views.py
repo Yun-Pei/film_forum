@@ -1,3 +1,4 @@
 from django.shortcuts import render
-
-# Create your views here.
+#新加入的function
+def testPage(request):
+    return render(request, "index.html")
