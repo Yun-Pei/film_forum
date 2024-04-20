@@ -8,7 +8,7 @@
     <!-- <link rel="stylesheet" href="style.css" /> -->
     <link href='{% static "style.css" %}' rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Responsive Navbar</title>
+    <title>Kounel</title>
   </head>
   <body>
     <header>
@@ -16,9 +16,20 @@
         <div class="logo"><a href="#">Kounel</a></div>
         <ul class="links">
           <li><a href="hero">Home</a></li>
-          <li><a href="Watchlist">Watchlist</a></li>
           <li><a href="Username">Username</a></li>
-          <li><a href="Toplist">Toplist</a></li>
+          <li>
+            <a href="toplist">Toplist</a>
+            <ul class="toplist_submenu">
+              <li><a href="#">Top 10 Highest Rated</a></li>
+              <li><a href="#">Top 10 Most Viewed</a></li>
+            </ul>
+          </li>
+          <li><a href="Watchlist">Watchlist</a></li>
+          <li>
+            <div class="search_btn">
+              <i class="fa-solid fa-search"></i>
+            </div>
+          </li>
         </ul>
         <a href="#" class="action_btn">Get Started</a>
         <div class="toggle_btn">
@@ -30,18 +41,24 @@
         <li><a href="hero">Home</a></li>
         <li><a href="Watchlist">Watchlist</a></li>
         <li><a href="Username">Username</a></li>
-        <li><a href="Toplist">Toplist</a></li>
+        <li>
+          <a href="toplist">Toplist</a>
+          <ul class="toplist_submenu">
+            <li><a href="#">Top 10 Highest Rated</a></li>
+            <li><a href="#">Top 10 Most Viewed</a></li>
+          </ul>
+        </li>
         <li><a href="#" class="action_btn">Get Started</a></li>
       </div>
     </header>
 
     <main>
-      <section id="hero">
+      <!-- <section id="hero">
         <h1>What'up</h1>
         <p>
           Gotta get schwifty!
         </p>
-      </section>
+      </section> -->
     </main>
 
     <script>
