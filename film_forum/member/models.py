@@ -10,11 +10,11 @@ class Movies(models.Model):
     year = models.CharField(max_length=255)
     time = models.CharField(max_length=255)
     age = models.CharField(max_length=255)
-    introduction = models.CharField(max_length=255)
+    introduction = models.TextField()
     link = models.CharField(max_length=255)
     img = models.CharField(max_length=255)
     director = models.CharField(max_length=255)
-    star = models.CharField(max_length=255)
+    star = models.TextField()
     type = models.CharField(max_length=255)
 
     class Meta:
