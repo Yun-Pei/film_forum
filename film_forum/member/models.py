@@ -1,6 +1,9 @@
 from django.db import models
 
 # Create your models here.
+from django.db import models
+
+# Create your models here.
 class Movies(models.Model):
     id = models.AutoField(primary_key=True)  # Field name made lowercase.
     name = models.CharField(max_length=255)  # Field name made lowercase.
