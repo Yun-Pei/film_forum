@@ -26,6 +26,10 @@
           </li>
           <li><a href="Watchlist">Watchlist</a></li>
           <li>
+            <form aciton="{% url 'searchbar' %}" method="get">
+                <input type="text" name="search"/>
+                <button type="submit">Search</button>
+            </form>
             <div class="search_btn">
               <i class="fa-solid fa-search"></i>
             </div>
