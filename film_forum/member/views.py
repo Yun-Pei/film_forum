@@ -12,6 +12,7 @@ def login(request):
     if request.method == "GET":
         return render(request, "login.html")
 
+
 # crawl data into database
 # @csrf_exempt
 # def login(request):

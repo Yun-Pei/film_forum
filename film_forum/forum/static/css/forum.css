@@ -1,0 +1,161 @@
+body {
+    margin: 0;
+    background-color: #e6e4e4;
+}
+
+#forum_content {
+    position: fixed;
+    float: right;
+    right: 5%;
+    /* left: 250px; */
+    top: 90px;
+    /* background-color: white; */
+    padding: 10px;
+    width: 70%;
+}
+
+#article {
+    border-radius: 8px;
+    padding: 10px;
+    background-color: white;
+    margin: 10px 10px 10px 10px;
+    border-right: 1px solid #cbd5e0;
+    border-bottom: 1px solid #cbd5e0;
+    border-top: 1px solid #cbd5e0;
+    border-left: 1px solid #cbd5e0;
+    height: 13vh;
+}
+
+#article a{
+    text-decoration: none;
+    color: black;
+}
+
+#content {
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+/* side bar star */
+.sidebar {
+    position: fixed;
+    float: left;
+    width: 20%;
+    height: 100%;
+    background: #314853; /*#063146*/
+    /* z-index: 2; */
+/* transition: all .5s ease; */
+}
+.sidebar header{
+    font-size: 22px;
+    color: white;
+    line-height: 8vh;
+    /* text-align: center; */
+    background: #2f3e45;
+    user-select: none;
+    padding-left: 2vw;
+    font-weight: bold;
+}
+
+.bar_header {
+    text-decoration: none;
+
+}
+
+.sidebar ul li{
+    color: white;
+}
+.sidebar ul a{
+    text-decoration: none;
+    display: block;
+    height: 100%;
+    width: 100%;
+    line-height: 65px;
+    font-size: 20px;
+    color: white;
+    padding-left: 40px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #314853;
+    border-top: 1px solid #314853;
+    transition: .4s;
+}
+
+ul li:hover a{
+    /* margin: 1vw;  */
+    background-color: rgba(255, 255, 255);
+    color: black;
+}
+.sidebar li {
+    position: relative;
+    /* margin: 8px 0; */
+    list-style: none;
+}
+.sidebar ul {
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar footer {
+    bottom: 0;
+    position: fixed;
+    font-size: 18px;
+    /* padding-left: 2vw; */
+    background: #2f3e45;
+    line-height: 8vh;
+    width: 20%;
+}
+
+.bar_footer {
+    color: white;
+    padding-left: 2vw; 
+    text-decoration: none;
+}
+/* side bar end */
+
+
+
+/* top bar star */
+nav {
+    background-color: white;
+    position: fixed;
+    width: 80%;
+    left: 20%;
+    height: 8vh;
+}
+
+nav li{
+    color: black;
+}
+
+.navbar {
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+    border-bottom: #bbb9b9 solid 0.3px;
+}
+
+.navbar ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar li {
+    display: inline;
+    margin-right: 3vw;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #000000;
+    font-weight: bold;
+    font-size: large;
+}
+
+.topbar {
+    display: flex;
+    height: 100%;
+}
+/* top bar end */

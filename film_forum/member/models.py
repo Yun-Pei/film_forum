@@ -20,3 +20,5 @@ class Movies(models.Model):
     class Meta:
         managed = True #代表需要Django幫你在資料庫建立這個table
         db_table = 'Movies' #資料庫內table的名字，預設會是django_space
+
+
