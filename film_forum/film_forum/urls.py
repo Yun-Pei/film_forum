@@ -24,6 +24,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("home", views.testPage),
     # path('member', m_views.login, name="member"),
-    path('forum', forum_views.forum, name="forum")
+    path('forum', forum_views.forum, name="forum"),
+    path('movie', forum_views.movie, name="movie"),
     # path("", views.index, name="home")
 ]

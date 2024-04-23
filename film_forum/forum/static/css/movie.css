@@ -1,0 +1,95 @@
+body {
+    margin: 0;
+    /* background-color: #e6e4e4; */
+}
+
+.movie_info, .comment {
+    text-align: center;
+}
+
+.forum {
+    display: flex;
+    justify-content: center;
+}
+
+#forum_content {
+    width: 70%;
+    margin-top: 10vh;
+    background-color: #c5bcbc;
+    padding: 3vh 3vh 1vh 3vh;
+}
+
+.add_forum {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.add_forum button h3 {
+    color: white;
+    margin: 5px;
+}
+
+.add_forum button {
+    background-color: #407087;
+    border: #407087;
+    /* color: white; */
+    /* padding: 0px; */
+    height: 5vh;
+}
+
+#article {
+    border-radius: 8px;
+    padding: 10px;
+    background-color: white;
+    margin: 10px 10px 10px 10px;
+    border-right: 1px solid #cbd5e0;
+    border-bottom: 1px solid #cbd5e0;
+    border-top: 1px solid #cbd5e0;
+    border-left: 1px solid #cbd5e0;
+    height: 13vh;
+}
+
+#article a{
+    text-decoration: none;
+    color: black;
+}
+
+#content {
+    overflow:hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.more_forum {
+    font-weight: bold;
+    margin: 0px;
+}
+
+.more_forum a {
+    text-decoration: none;
+    color: #2960bb;
+}
+
+.view {
+    margin: 3vh 0vh 0vh 0vh;
+    text-align: end;
+}
+
+.popup_form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form_info {
+    margin-bottom: 3vh;
+}
+
+.form_submit {
+    text-align: center;
+}
+
+.form_all h2{
+    text-align: center;
+}

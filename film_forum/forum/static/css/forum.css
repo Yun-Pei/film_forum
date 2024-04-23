@@ -4,14 +4,16 @@ body {
 }
 
 #forum_content {
-    position: fixed;
+    /* position: fixed; */
     float: right;
     right: 5%;
     /* left: 250px; */
     top: 90px;
     /* background-color: white; */
-    padding: 10px;
+    /* padding: 10px; */
     width: 70%;
+    margin-top: 10vh;
+    margin-right: 5vw;
 }
 
 #article {

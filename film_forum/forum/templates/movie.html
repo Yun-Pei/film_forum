@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+{% load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% csrf_token %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie</title>
+    <link href = '{% static "css/movie.css" %}' rel="stylesheet">
+</head>
+<body>
+    <div class="movie_info">
+        <h1>The Hunger Games: The Ballad of Songbirds & Snakes</h1>
+        <div class="photo"><img src="https://resizing.flixster.com/0CWwZumjk0f2jLSRyj3t3mvrE7E=/206x305/v2/https://resizing.flixster.com/cli2xj07iMBQ-KDgwpiVxGPlt0I=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzL2I4MDI3YjY5LTY1OGEtNDgzYi1iMzIxLWE1MWRkMTdlMzU1Ni5qcGc="></div>
+    </div>
+
+    <div class="comment">
+        <div>
+            <h4>There are som comments from member....</h4>
+            <h4>There are som comments from member....</h4>
+            <h4>There are som comments from member....</h4>
+        </div>
+    </div>
+
+    <div class="forum">
+        <div id="forum_content">
+            <div class="add_forum">
+                <h2>FORUM</h2>
+                <button>
+                    <h3>+ Create Forum</h3>
+                </button>
+
+            </div>
+            
+
+            <div id="article">
+                <a href="https://housing-osa.nsysu.edu.tw/">
+                    <div id="member">
+                        <span>YunPei Huang</span>
+                        <span>・</span>
+                        <span>2024/04/22</span>
+                    </div>
+                    <h2 id="title">TITLE</h2>
+                    <div id="content">“We Grown Now” is a Chicago-born and bred film that celebrates its characters throughout its runtime. The movie captures the essence of its setting and resonates with authenticity. As the plot unfolds, viewers are immersed in the lives of relatable individuals, making it a heartfelt and engaging experience.
+                                    For more movie reviews and ratings, you can explore Roger Ebert’s website. 🎥🍿
+                    </div>    
+                </a>
+            </div>
+
+            <div id="article">
+                <div id="member">
+                    <span>YunPei Huang</span>
+                    <span>・</span>
+                    <span>2024/04/22</span>
+                </div>
+                <h2 id="title">TITLE</h2>
+                <div id="content">“We Grown Now” is a Chicago-born and bred film that celebrates its characters throughout its runtime. The movie captures the essence of its setting and resonates with authenticity. As the plot unfolds, viewers are immersed in the lives of relatable individuals, making it a heartfelt and engaging experience.
+                    For more movie reviews and ratings, you can explore Roger Ebert’s website. 🎥🍿
+                </div>  
+            </div>
+            <div id="article">
+                <div id="member">
+                    <span>YunPei Huang</span>
+                    <span>・</span>
+                    <span>2024/04/22</span>
+                </div>
+                <h2 id="title">TITLE</h2>
+                <div id="content">“We Grown Now” is a Chicago-born and bred film that celebrates its characters throughout its runtime. The movie captures the essence of its setting and resonates with authenticity. As the plot unfolds, viewers are immersed in the lives of relatable individuals, making it a heartfelt and engaging experience.
+                    For more movie reviews and ratings, you can explore Roger Ebert’s website. 🎥🍿
+                </div>  
+            </div>
+            
+            <div class="view">
+                <h3 class="more_forum"><a href="{% url 'forum' %}">View All</a></h3>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="form_all">
+        <h2>Create a forum</h2>
+        <div class="popup_form">
+            <form action="" method="POST">
+                {% csrf_token %}
+    
+                <div class="form_info">
+                    <label>{{ form.title.label }}</label>
+                    <br>
+                    {{ form.title }}
+                </div>
+                <div class="form_info">
+                    <label>{{ form.content.label }}</label>
+                    <br>
+                    {{ form.content }}
+                </div>
+    
+                <div class="form_info form_submit">
+                    <br>
+                    <button class="cancel_button">Cancel</button>
+                    <input class="submit_button" type="submit" value="Create" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
