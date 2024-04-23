@@ -24,22 +24,31 @@
               <li><a href="#">Top 10 Most Viewed</a></li>
             </ul>
           </li>
-          <li><a href="Watchlist">Watchlist</a></li>
+          <li><a href="Watchlist">Watchlist</a></li>        
           <li>
-            <form aciton="{% url 'searchbar' %}" method="get">
-                <input type="text" name="search"/>
-                <button type="submit">Search</button>
-            </form>
-            <div class="search_btn">
+            <a href="#" class="search_btn" id="search_trigger">
               <i class="fa-solid fa-search"></i>
-            </div>
+            </a>
           </li>
         </ul>
         <a href="#" class="action_btn">Get Started</a>
+
+        <div id="smlsearch">
+          <a href="#" class="search_btn" id="search_triggersml">
+            <i class="fa-solid fa-search"></i>
+          </a>
+        </div>
+
         <div class="toggle_btn">
           <i class="fa-solid fa-bars"></i>
         </div>
       </div>
+
+      <div id="search_container" class="hidden">
+        <form id="search_form" action="{% url 'searchbar' %}" method="get">
+          <input type="search" name="search" placeholder="Search"/>
+        </form>
+      </div> 
 
       <div class="dropdown_menu">
         <li><a href="hero">Home</a></li>
@@ -78,6 +87,26 @@
           ? 'fa-solid fa-xmark'
           : 'fa-solid fa-bars';
       }
+
+      //hide searchbar
+      const searchTriggers = document.querySelectorAll('.search_btn');
+      const searchContainer = document.getElementById('search_container');
+      const searchForm = document.getElementById('search_form');
+      const searchIcon = document.querySelector('.search_btn i');
+
+      searchTriggers.forEach(trigger => {
+        trigger.onclick = function() {
+          searchContainer.classList.toggle('hidden');
+          
+          if (searchContainer.classList.contains('hidden')) {
+            searchIcon.classList.remove('fa-xmark');
+            searchIcon.classList.add('fa-search');
+          } else {
+            searchIcon.classList.remove('fa-search');
+            searchIcon.classList.add('fa-xmark');
+          }
+        };
+      });
     </script>
   </body>
 </html>

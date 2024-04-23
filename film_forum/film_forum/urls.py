@@ -22,5 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("home", views.testPage),
     # path("", views.index, name="home")
-    path('searchbar/', views.detail, name='detail'),
+    path('searchbar/', views.searchbar, name='searchbar'),
 ]

@@ -1,5 +1,6 @@
 :root{
   --backgroundcolor: #00050d;
+  --backgruondcolorlight: rgba(255,255,255,.1);
   --dropdowncolor: rgba(255,255,255,0.1);
 }
 
@@ -110,7 +111,7 @@ header {
   }
 }
 
-@media (max-width: 576px){
+@media (max-width: 380px){
   .dropdown_menu{
     left: 2.5rem;
     width: unset;
@@ -190,4 +191,70 @@ section#hero {
 
 .links li:hover .toplist_submenu {
   display: block;
+}
+
+/* searchbar */
+
+.hidden {
+  display: none;
+}
+
+#search_container {
+  position: absolute;
+  top: 100%; /* Place it below the navbar */
+  left: 22.5%;
+  width: 55%;
+  /* max-width: 400px; */
+  height: 50px; 
+  background-color: rgba(255,255,255,0.1);
+  padding: 15px;
+  backdrop-filter: blur(15px);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: height .2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+#search_form{
+  transition: all 1s;
+  box-sizing: border-box;
+}
+
+input{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 42.5px;
+  line-height: 30px;
+  outline: 0;
+  border: 0;
+  font-size: 1rem;
+  border-radius: 20px;
+  padding: 0 20px;
+}
+
+#smlsearch{
+  display: none;
+  margin-left: 70%;
+  margin-right: 20px;
+}
+
+@media (max-width: 992px){
+  #smlsearch{
+    display: block;
+  }
+}
+
+@media (max-width: 540px){
+  #smlsearch{
+    margin-left: 60%;
+    display: block;
+  }
+}
+
+@media (max-width: 484px){
+  #smlsearch{
+    margin-left: 40%;
+    display: block;
+  }
 }
