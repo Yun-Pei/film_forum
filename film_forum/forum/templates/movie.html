@@ -22,11 +22,48 @@
         </div>
     </div>
 
+    <div class="overlay" id="overlay">
+    <div class="popup" id="popupForm">
+        <div class="form_all">
+            <h2>Create a forum</h2>
+            <div class="popup_form">
+                <form action="" method="POST">
+                    {% csrf_token %}
+        
+                    <div class="form_info">
+                        <label>{{ form.title.label }}</label>
+                        <br>
+                        {{ form.title }}
+                    </div>
+                    <div class="form_info">
+                        <label>{{ form.content.label }}</label>
+                        <br>
+                        {{ form.content }}
+                    </div>
+                    <div class="form_info">
+                        <label> {{ form.m_id.label }}</label>
+                        <br>
+                        {{ form.m_id }}
+                    </div>
+        
+                    <div class="form_info form_submit">
+                        <br>
+                        <button class="cancel_button" id="closePopupButton">Cancel</button>
+                        <input class="submit_button" type="submit" value="Create" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
     <div class="forum">
         <div id="forum_content">
             <div class="add_forum">
                 <h2>FORUM</h2>
-                <button>
+                <button id="openPopupButton">
                     <h3>+ Create Forum</h3>
                 </button>
 
@@ -74,35 +111,32 @@
                 <h3 class="more_forum"><a href="{% url 'forum' %}">View All</a></h3>
             </div>
         </div>
-    </div>
 
 
 
-    <div class="form_all">
-        <h2>Create a forum</h2>
-        <div class="popup_form">
-            <form action="" method="POST">
-                {% csrf_token %}
-    
-                <div class="form_info">
-                    <label>{{ form.title.label }}</label>
-                    <br>
-                    {{ form.title }}
-                </div>
-                <div class="form_info">
-                    <label>{{ form.content.label }}</label>
-                    <br>
-                    {{ form.content }}
-                </div>
-    
-                <div class="form_info form_submit">
-                    <br>
-                    <button class="cancel_button">Cancel</button>
-                    <input class="submit_button" type="submit" value="Create" />
-                </div>
-            </form>
-        </div>
-    </div>
+
+
+</div>
 
 </body>
+
+<script>
+var openButton = document.getElementById("openPopupButton");
+var popup = document.getElementById("popupForm");
+var closeButton = document.getElementById("closePopupButton");
+var overlay = document.getElementById("overlay");
+
+// 点击按钮显示弹出窗口和遮罩层
+openButton.addEventListener("click", function() {
+    popup.style.display = "block";
+    overlay.style.display = "block";
+});
+
+// 点击关闭按钮隐藏弹出窗口和遮罩层
+closeButton.addEventListener("click", function() {
+    popup.style.display = "none";
+    overlay.style.display = "none";
+});
+</script>
+
 </html>

@@ -5,4 +5,4 @@ class ForumsForm(forms.ModelForm):
         
         class Meta:
             model = Forums
-            fields = ('title', 'content')
+            fields = ('title', 'content', 'm_id')
