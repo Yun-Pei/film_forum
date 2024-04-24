@@ -19,12 +19,13 @@ from django.urls import path
 from home import views
 from member import views as m_views
 from forum import views as forum_views
+from movie import views as movie_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("home", views.testPage),
     # path('member', m_views.login, name="member"),
     path('forum', forum_views.forum, name="forum"),
-    path('movie', forum_views.movie, name="movie"),
+    path('movie', movie_views.movie, name="movie"),
     # path("", views.index, name="home")
 ]

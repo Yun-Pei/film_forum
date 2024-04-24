@@ -10,8 +10,12 @@
 </head>
 <body>
     <div class="movie_info">
-        <h1>The Hunger Games: The Ballad of Songbirds & Snakes</h1>
-        <div class="photo"><img src="https://resizing.flixster.com/0CWwZumjk0f2jLSRyj3t3mvrE7E=/206x305/v2/https://resizing.flixster.com/cli2xj07iMBQ-KDgwpiVxGPlt0I=/ems.cHJkLWVtcy1hc3NldHMvbW92aWVzL2I4MDI3YjY5LTY1OGEtNDgzYi1iMzIxLWE1MWRkMTdlMzU1Ni5qcGc="></div>
+        <!-- <span style="display: none;" class="movie_id"> {{film.0.0}} </span> -->
+        <h1> {{film.0.1}} </h1>
+        <div class="photo">
+            <img src="{{film.0.6}}">
+            <!-- {{film.0.6}}  -->
+        </div>
     </div>
 
     <div class="comment">
@@ -21,7 +25,6 @@
             <h4>There are som comments from member....</h4>
         </div>
     </div>
-
     <div class="overlay" id="overlay">
     <div class="popup" id="popupForm">
         <div class="form_all">
@@ -40,12 +43,6 @@
                         <br>
                         {{ form.content }}
                     </div>
-                    <div class="form_info">
-                        <label> {{ form.m_id.label }}</label>
-                        <br>
-                        {{ form.m_id }}
-                    </div>
-        
                     <div class="form_info form_submit">
                         <br>
                         <button class="cancel_button" id="closePopupButton">Cancel</button>
