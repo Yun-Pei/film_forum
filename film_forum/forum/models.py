@@ -7,6 +7,7 @@ class Forums(models.Model):
     time = models.DateTimeField()
     title = models.CharField(max_length=255)
     content = models.TextField()
+    user_id = models.IntegerField(default=1)
 
     class Meta:
         managed = True #代表需要Django幫你在資料庫建立這個table
