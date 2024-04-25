@@ -67,32 +67,39 @@
     </header>
 
     <main id="videos-container">
+      <section> 
+        <img src="{{ movieup.img }}" alt="{{ movieup.name }}">
+      </section>
+    
       <div class="slider">
-        {% for video in videos1 %}
+        {% for movie in movies1 %}
         <div class="slide">
-            <img src="{{ video.cover_image.url }}" alt="{{ video.title }}">
-            <h3>{{ video.title }}</h3>
-            <a href="{{ video.url }}" target="_blank">Watch Video</a>
+            <img src="{{ movie.img }}" alt="{{ movie.name }}">
+            <h3>{{ movie.name }}</h3>
+            <p>{{ movie.introduction }}</p>
+            <a href="{{ movie.link }}" target="_blank">Watch Movie</a>
         </div>
         {% endfor %}
       </div>
 
       <div class="slider">
-        {% for video in videos2 %}
+        {% for movie in movies2 %}
         <div class="slide">
-            <img src="{{ video.cover_image.url }}" alt="{{ video.title }}">
-            <h3>{{ video.title }}</h3>
-            <a href="{{ video.url }}" target="_blank">Watch Video</a>
+            <img src="{{ movie.img }}" alt="{{ movie.name }}">
+            <h3>{{ movie.name }}</h3>
+            <p>{{ movie.introduction }}</p>
+            <a href="{{ movie.link }}" target="_blank">Watch Movie</a>
         </div>
         {% endfor %}
       </div>
 
       <div class="slider">
-        {% for video in videos3 %}
+        {% for movie in movies3 %}
         <div class="slide">
-            <img src="{{ video.cover_image.url }}" alt="{{ video.title }}">
-            <h3>{{ video.title }}</h3>
-            <a href="{{ video.url }}" target="_blank">Watch Video</a>
+            <img src="{{ movie.img }}" alt="{{ movie.name }}">
+            <h3>{{ movie.name }}</h3>
+            <p>{{ movie.introduction }}</p>
+            <a href="{{ movie.link }}" target="_blank">Watch Movie</a>
         </div>
         {% endfor %}
       </div>
