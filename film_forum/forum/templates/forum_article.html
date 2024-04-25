@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% csrf_token %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORUM ARTICLE</title>
+    <link href = '{% static "css/forum_article.css" %}' rel="stylesheet">
+</head>
+<body>
+
+    <div id="forum_content">
+        
+            <div id="article">
+                <div id="member">
+                    
+                </div>
+                <h2 id="title"></h2>
+                <div id="content"></div>    
+            </div>
+
+    </div>
+
+
+</body>
+</html>
