@@ -15,7 +15,7 @@ class Forums(models.Model):
 
 class ForumsMessage(models.Model):
     f_id = models.ForeignKey(Forums, on_delete=models.CASCADE)
-    m_id = models.ForeignKey(Forums, related_name='messages', on_delete=models.CASCADE)  # 设置 m_id 为外键
+    m_id = models.ForeignKey(Forums, related_name='messages', on_delete=models.CASCADE)  
     time = models.DateTimeField()
     message_content = models.TextField()
 

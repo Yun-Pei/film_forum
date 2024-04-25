@@ -10,18 +10,55 @@
 </head>
 <body>
 
-    <div id="forum_content">
-        
-            <div id="article">
-                <div id="member">
-                    
+    {% for article in forum_article %}
+        <div class="article_content">
+            <!-- <div class=""> -->
+                <!-- movie name -->
+                <div class="movie_name">
+                    <h1> movie name: {{ article.m_id }} </h1>
+                    <hr>
                 </div>
-                <h2 id="title"></h2>
-                <div id="content"></div>    
-            </div>
 
-    </div>
+                <div class="title">
+                    <h2> {{ article.title }} </h2>
+                </div>
+                <div class="member">
+                    <h3> {{ article.user_id }} </h3>
+                </div>
+                <div class="content">
+                    <h4>A moody noir film that immerses viewers in the shadowy world of contract killers. The cinematography is exquisite, emphasizing the play of light and darkness. The protagonist’s internal struggle adds depth, and the unexpected twists keep you guessing. A stylish and gripping watch. 
+                    </h4>
+                </div>    
 
+                <hr>
+
+                <div class="fourm_message">
+                    <h2>Message</h2>
+                    <div class="message">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                        
+                            <div class="form_info">
+                                <label>Post a comment</label>
+                                <br>
+                                {{ form.message_content }}
+                            </div>
+                            <div class="form_info form_submit">
+                                <br>
+                                <button class="cancel_button" id="closePopupButton">Cancel</button>
+                                <input class="submit_button" type="submit" value="Submit" />
+                            </div>
+                        </form>
+                    </div>
+
+                    <div class="post_message">
+
+                    </div>
+                </div>
+            <!-- </div> -->
+        </div>
+    {% endfor %}
 
 </body>
 </html>
+

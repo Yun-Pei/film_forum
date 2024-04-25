@@ -5,7 +5,6 @@ from .forms import ForumsForm
 from .models import *
 from forum.models import Forums, ForumsMessage
 from member.models import Movies
-from forum.models import Forums
 # Create your views here.
 
 
@@ -27,7 +26,7 @@ def movie(request):
         form = ForumsForm()
 
     if request.method == 'POST':
-        print("here")
+        # print("here")
         form = ForumsForm(request.POST)
         if form.is_valid():
             title = form.cleaned_data['title']

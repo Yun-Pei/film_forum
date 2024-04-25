@@ -1,0 +1,37 @@
+body {
+    margin: 0;
+    background-color: #e6e4e4;
+}
+
+.article_content {
+    width: 70%;
+    background-color: white;
+    margin-left: 15%;
+    margin-top: 100px;
+    padding: 50px;
+}
+
+.article_content > hr{
+    margin-top: 100px;
+}
+
+.form_info > textarea {
+    width: 100%;
+}
+.form_submit {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.cancel_button {
+    margin-right: 20px;
+    margin-top: 10px;
+}
+
+.submit_button {
+    margin-top: 10px;
+}
+
+/* .movie_name hr{
+    width: 70%;
+} */
