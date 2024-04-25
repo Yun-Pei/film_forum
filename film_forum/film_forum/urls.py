@@ -17,9 +17,14 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from home import views as home_views
+from member import views as m_views
+from forum import views as forum_views
+from movie import views as movie_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("home", home_views.testPage),
+    path('forum', forum_views.forum, name="forum"),
+    path('movie', movie_views.movie, name="movie"),
     # path("", views.index, name="home")
 ]
