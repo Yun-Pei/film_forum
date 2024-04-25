@@ -23,4 +23,5 @@ urlpatterns = [
     path("home", views.testPage),
     # path("", views.index, name="home")
     path('searchbar/', views.searchbar, name='searchbar'),
+    path('load-more-videos/', views.load_more_videos, name='load_more_videos'),
 ]
