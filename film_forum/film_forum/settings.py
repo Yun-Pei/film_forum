@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'home',
     'member',
+    'forum',
+    'movie',
 ]
 
 MIDDLEWARE = [
@@ -85,6 +87,9 @@ DATABASES = {
         "PASSWORD": "weloveHF",
         "HOST": "goldenrain.tw",
         "PORT": "3306",
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
 
@@ -113,11 +118,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Taipei'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_I10N = True
+
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)

@@ -16,11 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from home import views
+from home import views as home_views
+from member import views as member_views
+from forum import views as forum_views
+from movie import views as movie_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path("home", views.testPage),
+    path("", home_views.testPage, name="home"),  #"": 代表runserver後給的路徑，會直接導入到home這個page(羅做的主頁)
+    # 給一個name之後在不同分頁的bar中若有要連回主頁的功能可以直接url 回home的主頁
+    path('forum', forum_views.forum, name="forum"),
+    path('movie', movie_views.movie, name="movie"),
     # path("", views.index, name="home")
     path('searchbar/', views.searchbar, name='searchbar'),
     path('load-more-videos/', views.load_more_videos, name='load_more_videos'),
