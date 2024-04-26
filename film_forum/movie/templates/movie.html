@@ -68,7 +68,7 @@
             
         {% for article in forum_article %}
             <div id="article">
-                <a href="https://housing-osa.nsysu.edu.tw/">
+                <a href="{% url 'forum_article' %}">
                     <div id="member">
                         <!-- 應改成user NAME -->
                         <span> {{ article.title }} </span> 
@@ -100,13 +100,11 @@ var popup = document.getElementById("popupForm");
 var closeButton = document.getElementById("closePopupButton");
 var overlay = document.getElementById("overlay");
 
-// 点击按钮显示弹出窗口和遮罩层
 openButton.addEventListener("click", function() {
     popup.style.display = "block";
     overlay.style.display = "block";
 });
 
-// 点击关闭按钮隐藏弹出窗口和遮罩层
 closeButton.addEventListener("click", function() {
     popup.style.display = "none";
     overlay.style.display = "none";

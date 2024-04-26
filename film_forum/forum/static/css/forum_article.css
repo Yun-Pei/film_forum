@@ -3,10 +3,41 @@ body {
     background-color: #e6e4e4;
 }
 
+.edit {
+    float: right;
+}
+
+/* .edit_content {
+    width: 100%;
+} */
+
+.edit_title {
+    margin-bottom: 30px;
+}
+
+.edit_button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 50px;
+}
+
+.edit_cancel {
+    margin-right: 30px;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
 .article_content {
     width: 70%;
     background-color: white;
-    margin-left: 15%;
+    /* margin-left: 15%; */
     margin-top: 100px;
     padding: 50px;
 }
@@ -16,7 +47,8 @@ body {
 }
 
 .form_info > textarea {
-    width: 100%;
+    width: 99%;
+    height: 90px;
 }
 .form_submit {
     display: flex;
@@ -32,6 +64,28 @@ body {
     margin-top: 10px;
 }
 
+.fourm_message {
+    padding: 10px 20px;
+    background-color: #e3dcdc;
+}
+
+.all {
+    display: flex;
+    justify-content: center;
+}
+
+.post_message {
+    display: flex;
+    justify-content: center;
+}
+
+.post_infor {
+    width: 90%;
+}
+
+.post_content p{
+    text-align: justify;
+}
 /* .movie_name hr{
     width: 70%;
 } */

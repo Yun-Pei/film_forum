@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.http import Http404, JsonResponse, HttpResponse
 from django.utils import timezone
 # from .forms import ForumsForm
 from .models import *
@@ -16,38 +17,87 @@ def forum(request):
     
 @csrf_exempt
 def forum_article(request):
-    # if request.method == "POST":
-    forum_articles = Forums.objects.filter(f_id=10).order_by("-time").values('f_id', 'm_id', 'time', 'title', 'content', 'user_id')
-
-
+    forum_articles = None
+    forum_message = None
     form = MessageForm()
 
-    if request.method == 'POST':
-        form = MessageForm(request.POST)
-        if form.is_valid():
-            message_content = form.cleaned_data['message_content']
-            print(message_content)
+    movie_id = None
+    ur_id = None
+    forum_id = None
 
-            forum_instance = Forums.objects.get(pk=10)
-            m_id = forum_instance
+    if request.GET.get("mode") == "which_article" or request.method == 'GET' or request.method == 'POST':
+        # print("here")
+        movie_id = request.GET.get('m_id')
+        ur_id = request.GET.get('user_id')
+        forum_id = request.GET.get('f_id')
+
+        forum_articles = Forums.objects.filter(f_id=forum_id).values('f_id', 'm_id', 'time', 'title', 'content', 'user_id')
+        # print(forum_articles)
+        forum_message = ForumsMessage.objects.filter().order_by("-time").values('f_id', 'm_id', 'time', 'message_content')
+
+
+        if request.method == 'POST':
+            form = MessageForm(request.POST)
+
+            # movie_id = request.POST.get('m_id')
+            # ur_id = request.POST.get('user_id')
+            # forum_id = request.POST.get('f_id')
+            # print(forum_id)
+
+            # print("here")
+            if form.is_valid():
+                # f_id_list = list(forum_articles.values_list('f_id', flat=True))
+                # print(f_id_value)
+
+                message_content = form.cleaned_data['message_content']
+                forum_id = form.cleaned_data['f_id']
+                movie_id = form.cleaned_data['m_id']
+                print(forum_id)
+
+                forum_instance = Forums.objects.get(pk=movie_id)
+                m_id = forum_instance
+                
+                forum_instance = Forums.objects.get(pk=forum_id)
+
+                # ValueError: Cannot assign "10": "ForumsMessage.f_id" must be a "Forums" instance.
+                f_id = forum_instance
+
+                # print(film_id)
+
+                time = timezone.now()
+                # print(now_time)
+
+                forum = ForumsMessage(f_id=f_id, message_content=message_content, m_id=m_id, time=time)
+                forum.save()
+
+
+                return redirect('forum_article')  # 導入路徑
+
             
-            forum_instance = Forums.objects.get(pk=10)
 
-            # ValueError: Cannot assign "10": "ForumsMessage.f_id" must be a "Forums" instance.
-            f_id = forum_instance
+            # edit forum article
+            elif request.POST.get("mode") == "forum_article_edit":
+                movie_id = request.POST.get('m_id')
+                ur_id = request.POST.get('user_id')
+                forum_id = request.POST.get('f_id')
 
-            # print(film_id)
+                time = Forums.objects.filter(f_id=forum_id).values('time')
 
-            time = timezone.now()
-            # print(now_time)
+                edit_article = Forums(f_id=forum_id, m_id=movie_id, title=request.POST.get('title'), content=request.POST.get('content'), user_id=ur_id, time=time)
+                edit_article.save()
 
-            forum = ForumsMessage(f_id=f_id, message_content=message_content, m_id=m_id, time=time)
-            forum.save()
+                return HttpResponse('The article has been successfully modified!')
 
+            # delete forum article
+            elif request.POST.get("mode") == "forum_article_delete":
+                movie_id = request.POST.get('m_id')
+                ur_id = request.POST.get('user_id')
+                forum_id = request.POST.get('f_id')
 
-            return redirect('forum_article')  # 導入路徑
-        # jsut test
-        else:
-            return redirect('forum')
+                delete_article = Forums.objects.get(f_id=forum_id)
+                delete_article.delete()
 
-    return render(request, "forum_article.html", {'forum_article': forum_articles, 'form': form})
+                return HttpResponse('The article has been successfully deleted!')
+            
+
+        return render(request, "forum_article.html", {'forum_article': forum_articles, 'form': form, 'forum_message': forum_message})

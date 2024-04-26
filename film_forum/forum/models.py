@@ -11,7 +11,7 @@ class Forums(models.Model):
 
     class Meta:
         managed = True #代表需要Django幫你在資料庫建立這個table
-        db_table = 'Forums' #資料庫內table的名字，預設會是django_space
+        db_table = 'Forums' #資料庫內table的名字
 
 class ForumsMessage(models.Model):
     f_id = models.ForeignKey(Forums, on_delete=models.CASCADE)
@@ -21,5 +21,5 @@ class ForumsMessage(models.Model):
 
     class Meta:
         managed = True #代表需要Django幫你在資料庫建立這個table
-        db_table = 'ForumsMessage' #資料庫內table的名字，預設會是django_space
+        db_table = 'ForumsMessage' #資料庫內table的名字
         unique_together = ('f_id', 'm_id', 'time', 'message_content')

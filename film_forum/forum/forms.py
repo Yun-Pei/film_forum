@@ -5,4 +5,5 @@ class MessageForm(forms.ModelForm):
         
         class Meta:
             model = ForumsMessage
-            fields = ('message_content',)
+            fields = '__all__'
+            # fields = ('message_content', 'm_id', 'f_id',)
