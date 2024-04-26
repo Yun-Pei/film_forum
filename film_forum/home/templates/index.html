@@ -7,6 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- <link rel="stylesheet" href="style.css" /> -->
     <link href='{% static "style.css" %}' rel="stylesheet"/>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
+    />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <title>Kounel</title>
@@ -70,41 +74,44 @@
       <section> 
         <img src="{{ movieup.img }}" alt="{{ movieup.name }}">
       </section>
-    
-      <div class="slider">
-        {% for movie in movies1 %}
-        <div class="slide">
-            <img src="{{ movie.img }}" alt="{{ movie.name }}">
-            <h3>{{ movie.name }}</h3>
-            <p>{{ movie.introduction }}</p>
-            <a href="{{ movie.link }}" target="_blank">Watch Movie</a>
+     
+       <!-- Slider main container -->
+
+      <div class="ranktitle">Top 10 Most Rated</div>
+
+      <div class="swiper myswiper">
+        <div class="swiper-wrapper">
+          {% for movie in movies1 %}
+          <div class="swiper-slide">
+              <img src="{{ movie.img }}" alt="{{ movie.name }}">
+                <div class="title">
+                  <span>{{ movie.name }}</span>
+                </div>
+          </div>
+          {% endfor %}
         </div>
-        {% endfor %}
+
+        <div class="swiper-pagination"></div>
+
       </div>
 
-      <div class="slider">
-        {% for movie in movies2 %}
-        <div class="slide">
-            <img src="{{ movie.img }}" alt="{{ movie.name }}">
-            <h3>{{ movie.name }}</h3>
-            <p>{{ movie.introduction }}</p>
-            <a href="{{ movie.link }}" target="_blank">Watch Movie</a>
-        </div>
-        {% endfor %}
-      </div>
+      <div class="ranktitle">Top 10 Most Watched</div>
 
-      <div class="slider">
-        {% for movie in movies3 %}
-        <div class="slide">
-            <img src="{{ movie.img }}" alt="{{ movie.name }}">
-            <h3>{{ movie.name }}</h3>
-            <p>{{ movie.introduction }}</p>
-            <a href="{{ movie.link }}" target="_blank">Watch Movie</a>
+      <div class="swiper myswiper">
+        <div class="swiper-wrapper">
+          {% for movie in movies1 %}
+          <div class="swiper-slide">
+              <img src="{{ movie.img }}" alt="{{ movie.name }}">
+                <div class="title">
+                  <span>{{ movie.name }}</span>
+                </div>
+          </div>
+          {% endfor %}
         </div>
-        {% endfor %}
+
       </div>
     </main>
-
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script>
       const toggleBtn = document.querySelector('.toggle_btn');
@@ -154,33 +161,8 @@
         }
       };
 
-      $('.slider').each(function() {
-          $(this).slick({
-              autoplay: false, 
-              autoplaySpeed: 3000, 
-              arrows: true, 
-              dots: true, 
-              prevArrow: '<button type="button" class="slick-prev">Previous</button>', 
-              nextArrow: '<button type="button" class="slick-next">Next</button>', 
-              slidesToShow: 3, 
-              slidesToScroll: 1, 
-              responsive: [ 
-                  {
-                      breakpoint: 768, 
-                      settings: {
-                          slidesToShow: 2 
-                      }
-                  },
-                  {
-                      breakpoint: 480,
-                      settings: {
-                          slidesToShow: 1 
-                      }
-                  }
-              ]
-          });
-      });
-
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="{% static 'slider.js' %}"></script>
   </body>
 </html>

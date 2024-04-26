@@ -260,3 +260,119 @@ input{
 }
 
 /* Slider */
+/* @import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap'); */
+
+*,
+*::before,
+*::after  {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* font-family: 'Quicksand', sans-serif; */
+}
+
+/* body .swiper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+} */
+
+.swiper{
+  width: auto;
+  height: 20%;
+  padding: 50px 0;
+  margin-bottom: 20px;
+}
+
+.swiper-wrapper{
+  margin-bottom: 50px;
+}
+
+.swiper .swiper-slide{
+  height: 414px;
+  width: 280px;
+}
+.swiper-slide{
+  position: relative;
+  aspect-ratio: 3/4;
+  border-radius: 14px;
+  border: 1px solid rgba(177,177,177,.4);
+}
+
+.swiper-slide img{
+  display: block;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+  user-select: none;
+}
+
+.title{
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translate(-50%,-20%);
+  -ms-transform: translate(-50%, -20%);
+  width: max-content;
+  text-align: center;
+  padding: 10px 18px;
+  background: rgba(46,39,39,.3);
+  border-radius: 8px;
+  border: 2px solid rgba(177,177,177,.4);
+  box-shadow: 0 4px 30px rgba(0,0,0,.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all .5s linear;
+}
+
+.title span{
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.swiper-slide-active{
+  box-shadow: 0 20px 30px 6px rgba(89, 107, 113, 0.6);
+}
+
+.swiper-slide-active .title{
+  bottom: -10px;
+}
+
+@media (max-width: 1100px) {
+  .swiper-slide{
+    width: 300px;
+  }
+}
+
+@media (max-width: 900px) {
+  .swiper-slide{
+    width: 250px;
+  }
+}
+
+@media (max-width: 700px) {
+  .swiper-slide{
+    width: 230px;
+  }
+}
+
+@media (max-width: 610px) {
+  .swiper-slide{
+    width: 200px;
+  }
+}
+
+.ranktitle{
+  color: #fff;
+  position: relative;
+  text-align: center;
+  width: 50%;
+  height: 50%;
+  left: 25%;
+  margin-bottom: 40px;
+  z-index: 2;
+  background-color: rgb(56, 63, 69);
+}

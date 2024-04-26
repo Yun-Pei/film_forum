@@ -4,11 +4,12 @@ from member.models import Movies
 # from movie.models import 
 #新加入的function
 def testPage(request):
-    movies1 = Movies.objects.filter(year__gt=2020)[:4]
+    movies1 = Movies.objects.filter(year__gt=2019)[:10]
     movies2 = Movies.objects.filter(year__gt=2020)[:4]
     movies3 = Movies.objects.filter(year__gt=2020)[:4]
     movieup = Movies.objects.filter(id=89)
-    print(movieup)
+    print(len(movies1))
+    len(movies1)
     return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'movies3': movies3, 'movieup': movieup[0]}) 
 
 def searchbar(request):
