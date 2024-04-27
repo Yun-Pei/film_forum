@@ -70,20 +70,21 @@
       </div>
     </header>
 
+    <div class="banner"> 
+      <img src="{{ movieup.img }}" alt="{{ movieup.name }}">
+    </div>
+
     <main id="videos-container">
-      <section> 
-        <img src="{{ movieup.img }}" alt="{{ movieup.name }}">
-      </section>
      
        <!-- Slider main container -->
 
       <div class="ranktitle">Top 10 Most Rated</div>
 
-      <div class="swiper myswiper">
+      <div class="swiper">
         <div class="swiper-wrapper">
           {% for movie in movies1 %}
           <div class="swiper-slide">
-              <img src="{{ movie.img }}" alt="{{ movie.name }}">
+              <a href="{{ movie.link }}"><img src="{{ movie.img }}" alt="{{ movie.name }}"></a>
                 <div class="title">
                   <span>{{ movie.name }}</span>
                 </div>
@@ -95,9 +96,25 @@
 
       </div>
 
+      <div class="ranktitle">You  may also like</div>
+
+      <div class="swiper">
+        <div class="swiper-wrapper">
+          {% for movie in movies1 %}
+          <div class="swiper-slide">
+              <img src="{{ movie.img }}" alt="{{ movie.name }}">
+                <div class="title">
+                  <span>{{ movie.name }}</span>
+                </div>
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+
       <div class="ranktitle">Top 10 Most Watched</div>
 
-      <div class="swiper myswiper">
+      <div class="swiper">
         <div class="swiper-wrapper">
           {% for movie in movies1 %}
           <div class="swiper-slide">
@@ -134,6 +151,7 @@
 
       searchTriggers.forEach(trigger => {
         trigger.onclick = function() {
+          event.preventDefault(); // 阻止默認行為
           searchContainer.classList.toggle('hidden');
           
           if (searchContainer.classList.contains('hidden')) {

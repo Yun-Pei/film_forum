@@ -2,7 +2,7 @@ var swiper = new Swiper(".swiper", {
     effect:"coverflow", 
     grabCursor: true, 
     centeredSlides: true,
-    initialSlide: 2,
+    initialSlide: 4,
     speed: 600,
     preventClicks: true,
     slidesPerView: "auto",
@@ -12,7 +12,7 @@ var swiper = new Swiper(".swiper", {
         depth: 350,
         modifier: 1,
         slideShadows: true,
-        scale:  .85,
+        scale:  .99,
     },
     on:{
         click(event){
