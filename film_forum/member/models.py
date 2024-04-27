@@ -14,12 +14,18 @@ class Rank(models.Model):
 
 class Movies(models.Model):
     mid = models.AutoField(primary_key=True)
-    rid = models.ForeignKey(Rank, on_delete=models.CASCADE)
+    rid = models.ForeignKey(Rank, on_delete=models.CASCADE, default=None, null=True)
     time = models.CharField(max_length=255)
     year = models.CharField(max_length=255)
     name = models.CharField(max_length=255)
     rating = models.IntegerField(default=-1)
-    
+    age = models.CharField(max_length=255, default="R-12")
+    director = models.CharField(max_length=255, default="Frank Darabont")
+    star = models.TextField(default="Tim Robbins, Morgan Freeman, Bob Gunton")
+    introduction = models.TextField(default="Over the course of several year")
+    img = models.CharField(max_length=255, default='https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_QL75_UX140_CR0,1,140,207_.jpg')
+    tag = models.CharField(max_length=255, default="Drama")
+
     class Meta:
         managed = True #代表需要Django幫你在資料庫建立這個table
         db_table = 'Movies' #資料庫內table的名字，預設會是django_space  
