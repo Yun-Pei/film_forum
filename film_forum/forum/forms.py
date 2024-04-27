@@ -15,4 +15,4 @@ class MessageForm(forms.ModelForm):
                 'required': True, 
                 'placeholder': 'Say something...'
             }),
-        }
+            }

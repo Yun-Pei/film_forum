@@ -1,10 +1,10 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
-from .forms import ForumsForm
-from .models import *
-from forum.models import Forums, ForumsMessage
-from member.models import Movies
+# from .forms import ForumsForm
+# # from .models import *
+# from forum.models import Forums, ForumsMessage
+# from member.models import Movies
 # Create your views here.
 
 

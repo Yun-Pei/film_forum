@@ -24,24 +24,6 @@ $(document).ready(function() {
     // 將格式化後的時間填入指定的元素中
     $('.current_time').text(formattedTime);
 
-    $.ajax ({
-        type: "GET",
-        url: "forum_article",
-        data: {
-            'm_id': m_id,
-            'user_id': user_id,
-            'f_id': f_id,
-            'mode': "which_article",
-        },
-        success: function(response){
-            console.log('OK');
-        },
-        error: function(response){
-            alert("輸入失敗");
-            console.log(response);
-        }
-    });
-
 
     $('#edit').on("click", function(){
         // alert('cli');
@@ -156,9 +138,9 @@ $(document).ready(function() {
                 type: 'POST', 
                 data: {
                     'mode' : 'forum_article_delete',
-                    'm_id': m_id,
-                    'user_id': user_id,
-                    'f_id': f_id,
+                    // 'm_id': m_id,
+                    // 'user_id': user_id,
+                    // 'f_id': f_id,
                 },
                 success: function(response){
                     // alert("POST arleady")
@@ -175,32 +157,22 @@ $(document).ready(function() {
     });
 
 
-    $('.submit_button').on("click", function(event){
-        event.preventDefault();
-
-        $.ajax({
-            url: 'forum_article',
-            type: 'POST', 
-            data: {
-                'm_id': m_id,
-                'user_id': user_id,
-                'f_id': f_id,
-                'the_post' : $('#post-text').val(),
-                'mode': 'message_post',
-            },
-            success: function(response){
-                alert("Message successfully posted")
-                $('#post-text').val('');
-                console.log($('#post-text').val(''));
-                location.reload(true);
-                // $('#Message_form').submit();
-            },
-            error: function(response){
-                alert("faild");
-                console.log(response);
-            }
-        });
-    });
+    // $('.submit_button').on("click", function(event){
+    //     event.preventDefault();
+    //     $.ajax({
+    //         url: 'forum_article',
+    //         type: 'POST', 
+    //         success: function(response){
+    //             alert("Message successfully posted")
+    //             $('#Message_form').submit();
+    //             location.reload(true);
+    //         },
+    //         error: function(response){
+    //             alert("faild");
+    //             console.log(response);
+    //         }
+    //     });
+    // });
     
 
 });
