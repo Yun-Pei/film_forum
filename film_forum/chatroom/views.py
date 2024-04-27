@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from member.models import *
 #新加入的function
 def testPage(request):
     return render(request, "chatroom.html")
