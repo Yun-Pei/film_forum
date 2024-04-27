@@ -16,9 +16,7 @@
     <title>Kounel</title>
   </head>
   <body>
-    
     {% include "navbar.html" %}
-
     <div class="banner"> 
       <img src="{{ movieup.img }}" alt="{{ movieup.name }}">
     </div>
@@ -29,7 +27,7 @@
 
       <div class="ranktitle">Top 10 Most Rated</div>
 
-      <div class="swiper">
+      <div class="swiper" id="ratedlist">
         <div class="swiper-wrapper">
           {% for movie in movies1 %}
           <div class="swiper-slide">
@@ -47,7 +45,7 @@
 
       <div class="ranktitle">You  may also like</div>
 
-      <div class="swiper">
+      <div class="swiper" id="likelist">
         <div class="swiper-wrapper">
           {% for movie in movies1 %}
           <div class="swiper-slide">
@@ -63,7 +61,7 @@
 
       <div class="ranktitle">Top 10 Most Watched</div>
 
-      <div class="swiper">
+      <div class="swiper" id="watchlist">
         <div class="swiper-wrapper">
           {% for movie in movies1 %}
           <div class="swiper-slide">
