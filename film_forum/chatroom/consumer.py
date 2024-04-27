@@ -1,9 +1,12 @@
 import json
 from channels.generic.websocket import AsyncWebsocketConsumer
 from member.models import *
+from asgiref.sync import sync_to_async
+
 class ChatConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         self.roomGroupName = "group_chat"
+        
         await self.channel_layer.group_add(
             self.roomGroupName,
             self.channel_name

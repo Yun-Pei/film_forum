@@ -15,13 +15,13 @@
             justify-content: center;
             align-items: center;
             min-height: 100vh;
-            background: linear-gradient(#252525 80%, #ffa600 100%);
+            background: linear-gradient(#252525 60%, #ffa600 100%);
         }
 
         .whole-container {
             position: relative;
             top: 30px;
-            width: 1396px;
+            width: 75%;
             max-width: 100%;
             height: calc(100vh - 100px);
             background: #fff;
@@ -285,7 +285,7 @@
 
         #id_message_send_button {
             padding: 5px 10px;
-            background-color: #075e54;
+            background-color: #ffa600;
             color: #fff;
             border: none;
             border-radius: 5px;
@@ -348,7 +348,8 @@
         .title {
             position: absolute;
             top: 15px;
-            left: 40px;
+            left: 13%;
+            /* left: 20px;  選一個好看的*/ 
             color: #ffa600;
             font-size: 40px;
             font-weight: 700;
@@ -358,7 +359,7 @@
 </head>
 
 <body>
-    <p class="title">Kounel</p>
+    <a href="#"><p class="title">Kounel</p></a>
     <div class="whole-container">
         
         <div class="left-chat-container">
@@ -369,15 +370,14 @@
                 </div>
                 
                 <ul class="nav_icon">
-                    <li><ion-icon name="chatbox"></ion-icon></li>
+                    <li><a href="{% url 'add-Chat' %}"><ion-icon name="add-circle"></ion-icon></a></li>
                     <li><a href="{% url 'logout-user' %}"><ion-icon name="exit"></ion-icon></a></li>
-                    <li><ion-icon name="ellipsis-vertical"></ion-icon></li>
                 </ul>
             </div>
             <!-- search -->
             <div class="search_chat">
                 <div>
-                  <input type="text" placeholder="Search or start new chat">
+                  <input type="text" placeholder="Search chat">
                   <ion-icon name="search-outline"></ion-icon>
                 </div>
             </div>
@@ -397,26 +397,62 @@
                       </div>
                     </div>
                 </div>
+                <div class="block">
+                    <div class="imgbox">
+                      <img src="../static/pic/img1.jpeg" class="cover">
+                    </div>
+                    <div class="details">
+                      <div class="listHead">
+                        <h4>Muhammad</h4>
+                        <p class="time">10:56</p>
+                      </div>
+                      <div class="message_p">
+                        <p>How to make Whatsapp clone using html and css only</p>
+                      </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="right-chat-container">
             <div class="chat-logout">
                 {% if request.user.is_authenticated %}
-                <div style="float: left;font-weight: bold; color: #036358;">{{ request.user|title }} </div>
-                <div style="float: right;"><a href="{% url 'logout-user' %}"><i class="fas fa-sign-out-alt"></i></a></div>
+                <div style="float: left;font-weight: bold; color: #51585c;">{{ request.user|title }} </div>
+                <!-- <div style="float: right;"><a href="{% url 'logout-user' %}"><i class="fas fa-sign-out-alt"></i></a></div> -->
                 <div style="clear: both;"></div>
                 {% endif %}
             </div>
-            <div class="chat__item__container" id="id_chat_item_container"></div>
+            <div class="chat__item__container" id="id_chat_item_container">
+
+            </div>
             <div class="chat-input-container">
                 <input style="padding-left: 10px; border-radius: 20px;" type="text" id="id_message_send_input" placeholder="Aa" required/>
-                <button type="submit" id="id_message_send_button"><i class="fas fa-paper-plane"></i></button>
+                <button type="submit" id="id_message_send_button" style="border-radius: 50%; font-size: 17px;"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
         
     </div>
         
     <script>
+        // Select all blocks
+        const blocks = document.querySelectorAll('.block');
+
+        // Function to remove 'active' class from all blocks
+        function removeActiveClasses() {
+            blocks.forEach(block => {
+                block.classList.remove('active');
+            });
+        }
+
+        // Add click event listener to each block
+        blocks.forEach(block => {
+            block.addEventListener('click', function() {
+                // Remove 'active' class from all blocks
+                removeActiveClasses();
+                // Add 'active' class to the clicked block
+                block.classList.add('active');
+            });
+        });
+
         const chatSocket = new WebSocket("ws://" + window.location.host + "/");
         chatSocket.onopen = function (e) {
             console.log("The connection was set up successfully!");
