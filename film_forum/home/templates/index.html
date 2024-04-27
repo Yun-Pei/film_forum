@@ -16,59 +16,8 @@
     <title>Kounel</title>
   </head>
   <body>
-    <header>
-      <div class="navbar">
-        <div class="logo"><a href="#">Kounel</a></div>
-        <ul class="links">
-          <li><a href="hero">Home</a></li>
-          <li><a href="Username">Username</a></li>
-          <li>
-            <a href="toplist">Toplist</a>
-            <ul class="toplist_submenu">
-              <li><a href="#">Top 10 Highest Rated</a></li>
-              <li><a href="#">Top 10 Most Viewed</a></li>
-            </ul>
-          </li>
-          <li><a href="Watchlist">Watchlist</a></li>        
-          <li>
-            <a href="#" class="search_btn" id="search_trigger">
-              <i class="fa-solid fa-search"></i>
-            </a>
-          </li>
-        </ul>
-        <a href="#" class="action_btn">Get Started</a>
-
-        <div id="smlsearch">
-          <a href="#" class="search_btn" id="search_triggersml">
-            <i class="fa-solid fa-search"></i>
-          </a>
-        </div>
-
-        <div class="toggle_btn">
-          <i class="fa-solid fa-bars"></i>
-        </div>
-      </div>
-
-      <div id="search_container" class="hidden">
-        <form id="search_form" action="{% url 'searchbar' %}" method="get">
-          <input type="search" name="search" placeholder="Search"/>
-        </form>
-      </div> 
-
-      <div class="dropdown_menu">
-        <li><a href="hero">Home</a></li>
-        <li><a href="Watchlist">Watchlist</a></li>
-        <li><a href="Username">Username</a></li>
-        <li>
-          <a href="toplist">Toplist</a>
-          <ul class="toplist_submenu">
-            <li><a href="#">Top 10 Highest Rated</a></li>
-            <li><a href="#">Top 10 Most Viewed</a></li>
-          </ul>
-        </li>
-        <li><a href="#" class="action_btn">Get Started</a></li>
-      </div>
-    </header>
+    
+    {% include "navbar.html" %}
 
     <div class="banner"> 
       <img src="{{ movieup.img }}" alt="{{ movieup.name }}">
