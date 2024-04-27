@@ -66,43 +66,20 @@
 
             </div>
             
-
+        {% for article in forum_article %}
             <div id="article">
-                <a href="https://housing-osa.nsysu.edu.tw/">
+                <a href="{% url 'forum_article' %}">
                     <div id="member">
-                        <span>YunPei Huang</span>
+                        <!-- 應改成user NAME -->
+                        <span> {{ article.title }} </span> 
                         <span>・</span>
-                        <span>2024/04/22</span>
+                        <span> {{ article.time }} </span>
                     </div>
-                    <h2 id="title">TITLE</h2>
-                    <div id="content">“We Grown Now” is a Chicago-born and bred film that celebrates its characters throughout its runtime. The movie captures the essence of its setting and resonates with authenticity. As the plot unfolds, viewers are immersed in the lives of relatable individuals, making it a heartfelt and engaging experience.
-                                    For more movie reviews and ratings, you can explore Roger Ebert’s website. 🎥🍿
-                    </div>    
+                    <h2 id="title"> {{ article.title }} </h2>
+                    <div id="content"> {{ article.content }} </div>    
                 </a>
             </div>
-
-            <div id="article">
-                <div id="member">
-                    <span>YunPei Huang</span>
-                    <span>・</span>
-                    <span>2024/04/22</span>
-                </div>
-                <h2 id="title">TITLE</h2>
-                <div id="content">“We Grown Now” is a Chicago-born and bred film that celebrates its characters throughout its runtime. The movie captures the essence of its setting and resonates with authenticity. As the plot unfolds, viewers are immersed in the lives of relatable individuals, making it a heartfelt and engaging experience.
-                    For more movie reviews and ratings, you can explore Roger Ebert’s website. 🎥🍿
-                </div>  
-            </div>
-            <div id="article">
-                <div id="member">
-                    <span>YunPei Huang</span>
-                    <span>・</span>
-                    <span>2024/04/22</span>
-                </div>
-                <h2 id="title">TITLE</h2>
-                <div id="content">“We Grown Now” is a Chicago-born and bred film that celebrates its characters throughout its runtime. The movie captures the essence of its setting and resonates with authenticity. As the plot unfolds, viewers are immersed in the lives of relatable individuals, making it a heartfelt and engaging experience.
-                    For more movie reviews and ratings, you can explore Roger Ebert’s website. 🎥🍿
-                </div>  
-            </div>
+        {% endfor %}
             
             <div class="view">
                 <h3 class="more_forum"><a href="{% url 'forum' %}">View All</a></h3>
@@ -123,13 +100,11 @@ var popup = document.getElementById("popupForm");
 var closeButton = document.getElementById("closePopupButton");
 var overlay = document.getElementById("overlay");
 
-// 点击按钮显示弹出窗口和遮罩层
 openButton.addEventListener("click", function() {
     popup.style.display = "block";
     overlay.style.display = "block";
 });
 
-// 点击关闭按钮隐藏弹出窗口和遮罩层
 closeButton.addEventListener("click", function() {
     popup.style.display = "none";
     overlay.style.display = "none";

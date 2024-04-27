@@ -27,6 +27,7 @@ urlpatterns = [
     # 給一個name之後在不同分頁的bar中若有要連回主頁的功能可以直接url 回home的主頁
     path('forum', forum_views.forum, name="forum"),
     path('movie', movie_views.movie, name="movie"),
+    path('forum_article', forum_views.forum_article, name="forum_article"),
     # path("", views.index, name="home")
     # path('searchbar/', home_views.searchbar, name='searchbar'),
     # path('load-more-videos/', home_views.load_more_videos, name='load_more_videos'),
