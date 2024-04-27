@@ -15,7 +15,8 @@ class Forums(models.Model):
 
 class ForumsMessage(models.Model):
     f_id = models.ForeignKey(Forums, on_delete=models.CASCADE)
-    m_id = models.ForeignKey(Forums, related_name='messages', on_delete=models.CASCADE)  
+    # m_id = models.ForeignKey(Forums, related_name='messages', on_delete=models.CASCADE)  
+    m_id = models.IntegerField()
     time = models.DateTimeField()
     message_content = models.TextField()
 

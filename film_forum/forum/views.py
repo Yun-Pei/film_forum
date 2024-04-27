@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.http import Http404, JsonResponse, HttpResponse
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 # from .forms import ForumsForm
 from .models import *
@@ -37,44 +38,71 @@ def forum_article(request):
 
 
         if request.method == 'POST':
-            form = MessageForm(request.POST)
 
-            # movie_id = request.POST.get('m_id')
-            # ur_id = request.POST.get('user_id')
-            # forum_id = request.POST.get('f_id')
-            # print(forum_id)
+            if request.POST.get("mode") == "message_post":
+                form = MessageForm(request.POST)
 
-            # print("here")
-            if form.is_valid():
-                # f_id_list = list(forum_articles.values_list('f_id', flat=True))
-                # print(f_id_value)
+                movie_id = request.POST.get('m_id')
+                ur_id = request.POST.get('user_id')
+                forum_id = request.POST.get('f_id')
+                print(movie_id)
 
-                message_content = form.cleaned_data['message_content']
-                forum_id = form.cleaned_data['f_id']
-                movie_id = form.cleaned_data['m_id']
-                print(forum_id)
+                message_content = request.POST.get('the_post')
+                print(message_content)
 
-                forum_instance = Forums.objects.get(pk=movie_id)
-                m_id = forum_instance
+                # m_id = Forums.objects.get(m_id=movie_id)
+                #  forum_instance.m_id
+                # print(m_id)
                 
                 forum_instance = Forums.objects.get(pk=forum_id)
+                f_id = forum_instance    
+                print(f_id)      
 
-                # ValueError: Cannot assign "10": "ForumsMessage.f_id" must be a "Forums" instance.
-                f_id = forum_instance
+                forum_instance2 = Forums.objects.get(pk=forum_id, m_id=movie_id)
+                m_id = forum_instance2
+                
 
-                # print(film_id)
+                # m_id = get_object_or_404(Forums, pk=forum_id)
+                print(m_id)
 
                 time = timezone.now()
-                # print(now_time)
 
-                forum = ForumsMessage(f_id=f_id, message_content=message_content, m_id=m_id, time=time)
-                forum.save()
+                forum = ForumsMessage(f_id=f_id, message_content=message_content, m_id=m_id.m_id, time=time)
+                forum.save()  
+
+                return redirect('forum_article')
+
+            # print("here")
+            # if form.is_valid():
+            #     # f_id_list = list(forum_articles.values_list('f_id', flat=True))
+            #     # print(f_id_value)
+
+            #     message_content = form.cleaned_data['message_content']
+            #     forum_id = form.cleaned_data['f_id']
+            #     movie_id = form.cleaned_data['m_id']
+            #     print(forum_id)
+            #     print(movie_id)
+
+            #     forum_instance = Forums.objects.get(pk=movie_id)
+            #     m_id = forum_instance
+                
+            #     forum_instance = Forums.objects.get(pk=forum_id)
+
+            #     # ValueError: Cannot assign "10": "ForumsMessage.f_id" must be a "Forums" instance.
+            #     f_id = forum_instance
+
+            #     # print(film_id)
+
+            #     time = timezone.now()
+            #     # print(now_time)
+
+            #     forum = ForumsMessage(f_id=f_id, message_content=message_content, m_id=m_id, time=time)
+            #     forum.save()
 
 
-                return redirect('forum_article')  # 導入路徑
+            #     return redirect('forum_article')  # 導入路徑
 
             
-
             # edit forum article
             elif request.POST.get("mode") == "forum_article_edit":
                 movie_id = request.POST.get('m_id')

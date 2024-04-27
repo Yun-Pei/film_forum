@@ -6,8 +6,8 @@ $(document).ready(function() {
     var user_id = parseInt(urlParams.get('user_id'));
     var f_id = parseInt(urlParams.get('f_id'));
 
-    $('.forumID').text(f_id);
-    $('.movieID').text(m_id);
+    // $('.forumID').text(f_id);
+    // $('.movieID').text(m_id);
     var currentTime = new Date();
 
     // 格式化時間為 yyyy-mm-dd HH:MM:SS 格式
@@ -174,28 +174,33 @@ $(document).ready(function() {
         }
     });
 
-    // $('.submit_button').on("click", function(event){
-    //     event.preventDefault();
 
-    //     $.ajax({
-    //         url: 'forum_article',
-    //         type: 'POST', 
-    //         data: {
-    //             'm_id': m_id,
-    //             'user_id': user_id,
-    //             'f_id': f_id,
-    //         },
-    //         success: function(response){
-    //             alert("POST arleady")
-    //             console.log(response);
-    //             $('#Message_form').submit();
-    //         },
-    //         error: function(response){
-    //             alert("faild");
-    //             console.log(response);
-    //         }
-    //     });
-    // });
+    $('.submit_button').on("click", function(event){
+        event.preventDefault();
+
+        $.ajax({
+            url: 'forum_article',
+            type: 'POST', 
+            data: {
+                'm_id': m_id,
+                'user_id': user_id,
+                'f_id': f_id,
+                'the_post' : $('#post-text').val(),
+                'mode': 'message_post',
+            },
+            success: function(response){
+                alert("Message successfully posted")
+                $('#post-text').val('');
+                console.log($('#post-text').val(''));
+                location.reload(true);
+                // $('#Message_form').submit();
+            },
+            error: function(response){
+                alert("faild");
+                console.log(response);
+            }
+        });
+    });
     
 
 });

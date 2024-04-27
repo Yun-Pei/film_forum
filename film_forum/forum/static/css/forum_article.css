@@ -7,6 +7,11 @@ body {
     float: right;
 }
 
+#post-text {
+    width: 100%;
+    height: 50px;
+}
+
 /* .edit_content {
     width: 100%;
 } */
