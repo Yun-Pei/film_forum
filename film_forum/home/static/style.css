@@ -112,6 +112,10 @@ header {
   position: relative;
 }
 
+/* .banner img{
+
+} */
+
 /*  Responsive Navbar */
 @media (max-width: 992px){
   .navbar .links,
