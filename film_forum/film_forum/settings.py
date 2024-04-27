@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+# import pymysql
+# pymysql.install_as_MySQLdb()
 
 from pathlib import Path
 
@@ -39,8 +41,11 @@ INSTALLED_APPS = [
     'daphne',
     'django.contrib.staticfiles',
     'chatroom',
-    'member',
     'channels',
+    'home',
+    'member',
+    'forum',
+    'movie',
 ]
 
 MIDDLEWARE = [
@@ -58,7 +63,7 @@ ROOT_URLCONF = 'film_forum.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "templates"],
+        'DIRS': [BASE_DIR / "global_templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,6 +90,9 @@ DATABASES = {
         "PASSWORD": "weloveHF",
         "HOST": "goldenrain.tw",
         "PORT": "3306",
+        'OPTIONS': {
+            'charset': 'utf8mb4',
+        },
     }
 }
 
@@ -113,22 +121,28 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Taipei'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_I10N = True
+
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+AUTH_USER_MODEL = 'member.User'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",

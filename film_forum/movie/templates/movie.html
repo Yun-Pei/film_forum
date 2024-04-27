@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+{% load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% csrf_token %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie</title>
+    <link href = '{% static "css/movie.css" %}' rel="stylesheet">
+</head>
+<body>
+    <div class="movie_info">
+        <!-- <span style="display: none;" class="movie_id"> {{film.0.0}} </span> -->
+        <h1> {{film.0.1}} </h1>
+        <div class="photo">
+            <img src="{{film.0.6}}">
+            <!-- {{film.0.6}}  -->
+        </div>
+    </div>
+
+    <div class="comment">
+        <div>
+            <h4>There are som comments from member....</h4>
+            <h4>There are som comments from member....</h4>
+            <h4>There are som comments from member....</h4>
+        </div>
+    </div>
+    <div class="overlay" id="overlay">
+    <div class="popup" id="popupForm">
+        <div class="form_all">
+            <h2>Create a forum</h2>
+            <div class="popup_form">
+                <form action="" method="POST">
+                    {% csrf_token %}
+        
+                    <div class="form_info">
+                        <label>{{ form.title.label }}</label>
+                        <br>
+                        {{ form.title }}
+                    </div>
+                    <div class="form_info">
+                        <label>{{ form.content.label }}</label>
+                        <br>
+                        {{ form.content }}
+                    </div>
+                    <div class="form_info form_submit">
+                        <br>
+                        <button class="cancel_button" id="closePopupButton">Cancel</button>
+                        <input class="submit_button" type="submit" value="Create" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <div class="forum">
+        <div id="forum_content">
+            <div class="add_forum">
+                <h2>FORUM</h2>
+                <button id="openPopupButton">
+                    <h3>+ Create Forum</h3>
+                </button>
+
+            </div>
+            
+        {% for article in forum_article %}
+            <div id="article">
+                <a href="{% url 'forum_article' %}">
+                    <div id="member">
+                        <!-- 應改成user NAME -->
+                        <span> {{ article.title }} </span> 
+                        <span>・</span>
+                        <span> {{ article.time }} </span>
+                    </div>
+                    <h2 id="title"> {{ article.title }} </h2>
+                    <div id="content"> {{ article.content }} </div>    
+                </a>
+            </div>
+        {% endfor %}
+            
+            <div class="view">
+                <h3 class="more_forum"><a href="{% url 'forum' %}">View All</a></h3>
+            </div>
+        </div>
+
+
+
+
+
+</div>
+
+</body>
+
+<script>
+var openButton = document.getElementById("openPopupButton");
+var popup = document.getElementById("popupForm");
+var closeButton = document.getElementById("closePopupButton");
+var overlay = document.getElementById("overlay");
+
+openButton.addEventListener("click", function() {
+    popup.style.display = "block";
+    overlay.style.display = "block";
+});
+
+closeButton.addEventListener("click", function() {
+    popup.style.display = "none";
+    overlay.style.display = "none";
+});
+</script>
+
+</html>

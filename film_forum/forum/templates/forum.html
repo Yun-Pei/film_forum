@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+{% load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% csrf_token %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FORUM</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src='{% static "js/forum.js" %}'></script>
+
+    <link href = '{% static "css/forum.css" %}' rel="stylesheet">
+</head>
+<body>
+    <!-- sidebar -->
+    <div id = "bar">
+        <div class="sidebar">
+            <a href="" class="bar_header">
+                <header>
+                    HOUNEL
+                </header>
+            </a>
+            <ul>
+                <li><a>123</a></li>
+            </ul>
+            <ul>
+                <li><a>123</a></li>
+            </ul>
+            <ul>
+                <li><a>123</a></li>
+            </ul>
+            <ul>
+                <li><a>123</a></li>
+            </ul>
+            <footer>
+            </footer>
+        </div>
+    </div>
+    <!-- sidebar -->
+    <!-- nav bar -->
+    <nav>
+        <div class="topbar">
+            <div class="navbar">
+                <ul>
+                    <li><a>123</a></li>
+                    <li><a>123</a></li>
+                    <li><a>123</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- nav bar -->
+
+    <div id="forum_content">
+        {% for article in forum_article %}
+            <div id="article">
+                <!-- <a href=""> -->
+                    <div id="member">
+                        <!-- 應改成user NAME -->
+                        <span> {{ article.title }} </span> 
+                        <span>・</span>
+                        <span> {{ article.time }} </span>
+                    </div>
+                    <h2 id="title"> {{ article.title }} </h2>
+                    <div id="content"> {{ article.content }} </div>    
+                <!-- </a> -->
+                <div class="m_id" style="display: none;"> {{ article.m_id }} </div>
+                <div class="user_id" style="display: none;"> {{ article.user_id }} </div>
+                <div class="f_id" style="display: none;"> {{ article.f_id }} </div>
+            </div>
+        {% endfor %}
+    </div>
+
+
+</body>
+</html>

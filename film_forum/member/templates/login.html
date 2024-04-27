@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% csrf_token %}
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+</head>
+<body>
+    <form action="" method = "post">
+        <input type="submit" value="新增" id="add">
+    </form>
+</body>
+
+<script>
+    $("form").on("submit", function(event){
+        event.preventDefault();
+
+        $.ajax({
+            url: 'member',
+            type: 'POST', 
+
+            success: function(response){
+                alert(response);
+                if(response !== "OK!")
+                    location.reload(true);
+            },
+            error: function(response){
+                alert("輸入失敗");
+                console.log(response);
+            }
+        });
+        
+    });
+</script>
+</html>
