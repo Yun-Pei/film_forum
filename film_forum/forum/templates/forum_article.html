@@ -15,7 +15,7 @@
 </head>
 <body>
 
-    {% for article in forum_article %}
+    {% for article in articles %}
     <div class="all">
         <div class="article_content">
             <span class="edit">
@@ -29,7 +29,7 @@
             <!-- <div class=""> -->
                 <!-- movie name -->
                 <div class="movie_name">
-                    <h1> movie name: {{ article.m_id }} </h1>
+                    <h1> movie name: {{ article.mid }} </h1>
                     <hr>
                 </div>
 
@@ -39,12 +39,12 @@
                     <input type="text" class="edit_title" style="display: none;">
                 </div>
                 <div class="member">
-                    <p> {{ article.user_id }} ・ {{ article.time }}</p>
+                    <p> {{ article.uid }} ・ {{ article.time }}</p>
                     <!-- <p>  </p> -->
                 </div>
                 <div class="content">
                     <span style="display: none;"> CONTENT </span>
-                    <h4> {{ article.content }} </h4>
+                    <h4> {{ article.conent }} </h4>
                     <textarea class="edit_content" style="display: none; width: 100%;"></textarea>
                 </div>    
                 <div class="edit_button">
@@ -62,7 +62,7 @@
                             <div class="form_info">
                                 <label>Post a comment</label>
                                 <br>
-                                {{ form.message_content }}
+                                {{ form.conent }}
                             </div>
                             <div class="form_info form_submit">
                                 <br>
@@ -73,13 +73,13 @@
                     </div>
 
                     
-                {% for i in forum_message %}
+                {% for i in articlecomment %}
                     <hr>
                     <div class="post_message">
                         <div class="post_infor">
-                            <div class="post_user_name"><h3> {{i.f_id}} </h3></div>
+                            <div class="post_user_name"><h3> {{i.uid}} </h3></div>
                             <div class="post_time"><p> {{i.time}} </p></div>
-                            <div class="post_content"><p> {{i.message_content}} </p></div>
+                            <div class="post_content"><p> {{i.conent}} </p></div>
                         </div>
                     </div>
                 {% endfor %}

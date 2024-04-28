@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+{% load static%}
 <head>
     <meta charset="UTF-8">
     {% csrf_token %}
@@ -7,30 +8,28 @@
     <title>Login</title>
 </head>
 <body>
-    <form action="" method = "post">
-        <input type="submit" value="新增" id="add">
-    </form>
+
 </body>
+    <div>
+        <span class="mb-0 text-muted">
+            {% if msg %}
+                {{ msg | safe }}
+            {% else %}
+                Login page
+            {% endif %}
+        </span>
+        <form  method="post">
+            {% csrf_token %}
+            <div class="">
+                <label for="username">Username</label>
+                {{ form.username }}
+            </div>
+            <div class="">
+                <label for="username">Password</label>
+                {{ form.password }}
+            </div>
 
-<script>
-    $("form").on("submit", function(event){
-        event.preventDefault();
-
-        $.ajax({
-            url: 'member',
-            type: 'POST', 
-
-            success: function(response){
-                alert(response);
-                if(response !== "OK!")
-                    location.reload(true);
-            },
-            error: function(response){
-                alert("輸入失敗");
-                console.log(response);
-            }
-        });
-        
-    });
-</script>
+            <input type="submit" value="Log In" class="">
+        </form>
+    </div>
 </html>
