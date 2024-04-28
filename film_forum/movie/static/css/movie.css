@@ -3,6 +3,11 @@ body {
     /* background-color: #e6e4e4; */
 }
 
+a {
+    text-decoration: none;
+    color: black;
+}
+
 .movie_info, .comment {
     text-align: center;
 }

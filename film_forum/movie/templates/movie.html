@@ -9,11 +9,20 @@
     <link href = '{% static "css/movie.css" %}' rel="stylesheet">
 </head>
 <body>
+    <div class="in_out">
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'log_out' %}"><h2>LOG OUT</h2></a>
+        {% else %}
+            <h2>LOG IN</h2>
+            <h2>REGISTER</h2>
+        {% endif %}
+    </div>
     <div class="movie_info">
         <!-- <span style="display: none;" class="movie_id"> {{film.0.0}} </span> -->
-        <h1> {{film.0.1}} </h1>
-        <div class="photo">
-            <img src="{{film.0.6}}">
+        <h1> 電影名字 </h1>
+        <div class="photo">.
+            <h1>IMG</h1>
+            <!-- <img src="{{film.0.6}}"> -->
             <!-- {{film.0.6}}  -->
         </div>
     </div>
@@ -41,7 +50,7 @@
                     <div class="form_info">
                         <label>{{ form.content.label }}</label>
                         <br>
-                        {{ form.content }}
+                        {{ form.conent }}
                     </div>
                     <div class="form_info form_submit">
                         <br>
@@ -60,23 +69,27 @@
         <div id="forum_content">
             <div class="add_forum">
                 <h2>FORUM</h2>
+                {% if request.user.is_authenticated %}
                 <button id="openPopupButton">
                     <h3>+ Create Forum</h3>
                 </button>
+                {% else %}
+                <a href="{% url 'login' %}"><h2>Log in to add a new article.</h2></a>
+                {% endif %}
 
             </div>
             
         {% for article in forum_article %}
             <div id="article">
-                <a href="{% url 'forum_article' %}">
+                <a href="">
                     <div id="member">
                         <!-- 應改成user NAME -->
-                        <span> {{ article.title }} </span> 
+                        <span> {{ article.uid }} </span> 
                         <span>・</span>
                         <span> {{ article.time }} </span>
                     </div>
                     <h2 id="title"> {{ article.title }} </h2>
-                    <div id="content"> {{ article.content }} </div>    
+                    <div id="content"> {{ article.conent }} </div>    
                 </a>
             </div>
         {% endfor %}

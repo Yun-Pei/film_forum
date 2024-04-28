@@ -2,10 +2,13 @@ import csv
 from django.shortcuts import render, redirect
 from .models import *
 from django.http import Http404, JsonResponse, HttpResponse
+from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import F
 from member.models import *
 from .forms import *
+from django.contrib import auth
+from django.http import HttpResponseRedirect  #直接回到某個網址
 
 # Create your views here.
 
@@ -18,7 +21,37 @@ from .forms import *
 # crawl data into database
 # @csrf_exempt
 def login(request):
-    return render(request, "login.html")
+    form = LoginForm(request.POST or None)
+    msg = None
+
+    if request.method == 'POST':
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+
+
+            if user is not None and user.is_active:
+                auth.login(request, user)
+                return redirect('home')
+            else:
+                return render(request, 'login.html', {'form': form, 'msg': msg})            
+            # if user is not None and user.is_admin:
+            #     login(request, user)
+            #     return redirect('adminpage')
+            # elif user is not None and user.is_customer:
+            #     login(request, user)
+            #     return redirect('customer')
+            # elif user is not None and user.is_employee:
+            #     login(request, user)
+            #     return redirect('employee')
+            # else:
+            #     msg= 'invalid credentials'
+        else:
+            msg = 'error validating form'
+    
+
+    return render(request, "login.html", {'form': form, 'msg': msg})
     
 def register(request):
     msg = None
@@ -44,7 +77,10 @@ def register(request):
 
     return render(request, "register.html", context)
 
+def log_out(request):
+    auth.logout(request)
 
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
     
     # if request.method == "POST":
     #     # movie = Movies(name='The Shawshank Redemption', year='1994', time='2h 22m', age='R-12', introduction='Over the course of several years, two convicts form a friendship, seeking consolation and, eventually, redemption through basic compassion.'

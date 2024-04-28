@@ -8,7 +8,28 @@
     <title>Login</title>
 </head>
 <body>
-    
-</body>
 
+</body>
+    <div>
+        <span class="mb-0 text-muted">
+            {% if msg %}
+                {{ msg | safe }}
+            {% else %}
+                Login page
+            {% endif %}
+        </span>
+        <form  method="post">
+            {% csrf_token %}
+            <div class="">
+                <label for="username">Username</label>
+                {{ form.username }}
+            </div>
+            <div class="">
+                <label for="username">Password</label>
+                {{ form.password }}
+            </div>
+
+            <input type="submit" value="Log In" class="">
+        </form>
+    </div>
 </html>

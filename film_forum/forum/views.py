@@ -14,7 +14,7 @@ from member.models import *
 def forum(request):
     # if request.method == "POST":
     forum_articles = Article.objects.filter().order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
-
+    
     print(forum_articles)
     return render(request, "forum.html", {'forum_article': forum_articles})
     
