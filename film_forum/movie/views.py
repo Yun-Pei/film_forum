@@ -14,44 +14,19 @@ from django.http import HttpResponseRedirect  #直接回到某個網址
 
 def movie(request):
     film = Movies.objects.filter(mid=72).values_list("mid", "rid", "name", "year", "rating", "time", "age", "introduction", "img", "director", "star", "tag")
-    forum_article = Article.objects.filter().order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
+    forum_article = Article.objects.filter(mid=72).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
 
     # for article in forum_article:
     #     article.formatted_time = article.time.strftime("%Y-%m-%d %I:%M %p")
 
     print(forum_article)
 
-    form = ForumsForm()
 
-    # 拿會員ID
-    if request.user.is_authenticated:
-        user_id = request.user.id
-        print(user_id)
+    previous_url = request.META.get('HTTP_REFERER', '/')
+    
+    request.session['previous_url'] = previous_url
 
-    if request.method == 'POST':
-        # print("here")
-        form = ForumsForm(request.POST)
-        if form.is_valid():
-            title = form.cleaned_data['title']
-            # print(title)
 
-            conent = form.cleaned_data['conent']
-            # print(content)
-
-            # # m_id = form.cleaned_data['m_id']
-            film_id = Movies.objects.get(pk=72)
-            user_id = User.objects.get(pk=user_id)
-            # # print(film_id)
-
-            now_time = timezone.now()
-            # # print(now_time)
-
-            forum = Article(title=title, conent=conent, time=now_time, uid=user_id, mid=film_id)
-            forum.save()
-
-            # film = None
-
-            return redirect('movie')  # 導入路徑
             # return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         
         # jsut test
@@ -60,4 +35,4 @@ def movie(request):
     # else:
     #     form = ForumsForm()
 
-    return render(request, "movie.html", {'form': form, 'forum_article': forum_article, 'film': film})
+    return render(request, "movie.html", {'forum_article': forum_article, 'film': film})

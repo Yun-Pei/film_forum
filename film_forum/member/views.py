@@ -32,21 +32,17 @@ def login(request):
 
 
             if user is not None and user.is_active:
+                # referer_url = request.META.get('HTTP_REFERER', '/')
+                # previous_url = request.session.get('previous_url', '/')
+                # referer_url = request.META.get('HTTP_REFERER', '/')
+                previous_url = request.session.get('previous_url', '/')
+
+                
                 auth.login(request, user)
-                return redirect('home')
+                return HttpResponseRedirect(previous_url)
             else:
                 return render(request, 'login.html', {'form': form, 'msg': msg})            
-            # if user is not None and user.is_admin:
-            #     login(request, user)
-            #     return redirect('adminpage')
-            # elif user is not None and user.is_customer:
-            #     login(request, user)
-            #     return redirect('customer')
-            # elif user is not None and user.is_employee:
-            #     login(request, user)
-            #     return redirect('employee')
-            # else:
-            #     msg= 'invalid credentials'
+
         else:
             msg = 'error validating form'
     
@@ -63,7 +59,10 @@ def register(request):
         if form.is_valid():
             form.save()
             msg = 'user created'
-            return redirect('home')
+
+            previous_url = request.session.get('previous_url', '/')
+
+            return HttpResponseRedirect(previous_url)
         else:
             msg = 'form is not valid'
 

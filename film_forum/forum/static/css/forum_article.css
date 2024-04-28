@@ -5,6 +5,7 @@ body {
 
 .edit {
     float: right;
+    cursor: pointer;
 }
 
 #post-text {
