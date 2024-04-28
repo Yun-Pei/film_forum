@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <title>KounelChat</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         * {
@@ -26,7 +27,7 @@
             height: calc(100vh - 100px);
             background: #fff;
             box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.06);
-            display: flex;
+            
             border-radius: 25px;
         }
         
@@ -77,18 +78,55 @@
             font-size: 1.2em;
         }
 
+        .result {
+            position: relative;
+            margin: 0px auto;
+            width: fit-content;
+            font-size: 20px;
+            margin: 20px auto;
+        }
+        .result ul {
+            list-style: none;
+            
+        }
+        .result li {
+            display: flex;
+        }
+        .result button {
+            width: 100px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: #bbb 1px solid;
+            width: 500px;
+            padding: 10px;
+        }
+        .result button:hover {
+            background: #ffa600;
+        }
+        
     </style>
 </head>
 
 <body>
     <a href="#"><p class="title">Kounel</p></a>
     <div class="whole-container">
-        <form action="" method="get" class="search_chat">
+        <form action="{% url 'search_members' %}" method="get" class="search_chat">
+            {% csrf_token %}
             <div>
               <input type="text" placeholder="Search member" class="form-control" name="q">
               <ion-icon name="search-outline"></ion-icon>
             </div>
+            <button type="submit"></button>
         </form>
+        {% for user in users %}
+        <div class="result">
+            <ul>
+                <li>
+                    <button type="submit">{{user.username}}, {{user.email}}</button>
+                </li>
+            </ul>
+        </div>
+        {% endfor %}
     </div>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

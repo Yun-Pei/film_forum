@@ -2,6 +2,7 @@
 <html>
 
 <head>
+    <title>KounelChat</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <style>
         * {
@@ -470,22 +471,25 @@
             var messageInput = document.querySelector("#id_message_send_input").value;
             // 检查输入内容是否为空或只包含空白字符
             if (messageInput.trim() === "") {
-                e.preventDefault(); // 阻止表单提交，这里使用 e 而不是 event
+                e.preventDefault(); // 阻止表单提交
                 return; // 终止函数执行
             }
 
             var currentTime = new Date();
             var timeOptions = {
-                hour: '2-digit',   // 以两位数显示小时
-                minute: '2-digit', // 以两位数显示分钟
-                second: undefined  // 完全不显示秒
+                //year: 'numeric',  // 以四位数显示年份
+                //month: '2-digit', // 以两位数显示月份
+                //day: '2-digit',   // 以两位数显示日期
+                hour: '2-digit',  // 以两位数显示小时
+                minute: '2-digit',// 以两位数显示分钟
+                second: undefined // 不显示秒
             };
 
-            var time = currentTime.toLocaleTimeString('zh-CN', timeOptions); // 使用 'zh-CN' 来确保格式适合中文环境
+            var dateTime = currentTime.toLocaleString('zh-CN', timeOptions); // 使用 'zh-CN' 来确保格式适合中文环境
             chatSocket.send(JSON.stringify({
                 message: messageInput,
                 username: "{{request.user.username}}",
-                time: time
+                time: dateTime
             }));
         };
 
@@ -494,7 +498,8 @@
             var messageContainer = document.querySelector("#id_chat_item_container");
             var div = document.createElement("div");
             div.className = (data.username === "{{request.user.username}}") ? "chat-message right" : "chat-message left";
-            div.innerHTML = `<div class="message-content">
+            div.innerHTML = `
+            <div class="message-content">
                 <span class="message-text">${data.message}</span>
                 <span class="message-timestamp">${data.time}</span>
             </div>`;
