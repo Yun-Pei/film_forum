@@ -23,6 +23,9 @@ def dictfetchall(cursor):
 
 # @csrf_exempt
 def forum(request):
+
+    movie_id = request.GET.get('m_id')
+
     reserve_list = list()
 
     with connection.cursor() as cursor:
@@ -30,13 +33,13 @@ def forum(request):
             SELECT User.id, User.username, Article.*
             FROM User
             JOIN Article ON User.id = Article .uid_id
-            WHERE Article.mid_id = 72
+            WHERE Article.mid_id = %s
             ORDER BY Article.time DESC
-        """)
+        """, [movie_id])
         results = dictfetchall(cursor)
         reserve_list.append(results)
 
-
+    print(reserve_list)
     previous_url = request.META.get('HTTP_REFERER', '/')
     request.session['previous_url'] = previous_url
 
@@ -76,10 +79,13 @@ def forum(request):
 
             return HttpResponseRedirect(f'forum?m_id={movie_id}')  # 導入路徑
 
-    return render(request, "forum.html", {'form': form, 'results':reserve_list})
+    return render(request, "forum.html", {'form': form, 'reserve_list':reserve_list})
     
 # @csrf_exempt
 def forum_article(request):
+    previous_url = request.META.get('HTTP_REFERER', '/')
+    
+    request.session['previous_url'] = previous_url
 
     # 拿會員ID
     if request.user.is_authenticated:

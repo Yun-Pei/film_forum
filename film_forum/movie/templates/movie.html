@@ -36,7 +36,7 @@
             <span> {{i.6}} </span>
         </div>
 
-        <div class="photo">.
+        <div class="photo">
             <img src="{{i.8}}">
             <!-- {{film.0.6}}  -->
         </div>
@@ -64,26 +64,29 @@
 
             </div>
             
-        {% if forum_article %}
-            {% for article in forum_article %}
+        {% if reserve_list.0%}
+            {% for row in reserve_list %}
+                {% for i in row %}   
                 <div id="article">
                     <a href="">
                         <div id="member">
                             <!-- 應改成user NAME -->
-                            <span> {{ article.uid }} </span> 
+                            <span> {{ i.username }} </span> 
                             <span>・</span>
-                            <span> {{ article.time }} </span>
+                            <span> {{ i.time }} </span>
                         </div>
-                        <h2 id="title"> {{ article.title }} </h2>
-                        <div id="content"> {{ article.content }} </div>    
+                        <h2 id="title"> {{ i.title }} </h2>
+                        <div id="content"> {{ i.conent }} </div>    
                     </a>
                 </div>
+                {% endfor %}
             {% endfor %}
             <div class="view">
                 <h3 class="more_forum">View All</h3>
             </div>
         {% else %}
             <p class="no_article">No articles found.Let's atart to add a new article.</p>
+            <p class="more_forum" style="text-align: end;">Click here to start an article !</p>
         {% endif %}
             
 

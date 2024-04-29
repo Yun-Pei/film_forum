@@ -7,13 +7,17 @@ a {
     text-decoration: none;
 }
 
+#title {
+    margin-top: 10px;
+}
+
 .add_forum {
     margin: 20px 10px;
 }
 
 .add_forum button h3 {
     color: white;
-    margin: 5px;
+    /* margin: 5px; */
 }
 
 .add_forum button {
@@ -65,7 +69,7 @@ a {
     border-bottom: 1px solid #cbd5e0;
     border-top: 1px solid #cbd5e0;
     border-left: 1px solid #cbd5e0;
-    height: 120px;
+    height: 130px;
     cursor: pointer;
 }
 
@@ -74,10 +78,16 @@ a {
     color: black;
 }
 
+.no_article {
+    color: white;
+}
+
 #content {
     overflow:hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    margin-top: 20px;
+    margin-left: 30px;
 }
 
 /* side bar star */

@@ -17,8 +17,32 @@ body {
     width: 100%;
 } */
 
+.title {
+    margin-bottom: 10px;
+}
+
+.title h1{
+    margin-bottom: 5px;
+}
+
+.movie_name h2{
+    margin-bottom: 5px;
+}
+
+.member p {
+    margin-bottom: 20px;
+}
+
+.content h4{
+    text-align: justify;
+}
+
 .edit_title {
     margin-bottom: 30px;
+}
+
+.title h2 {
+    margin: 10px 0px 20px 0px;
 }
 
 .edit_button {
@@ -83,7 +107,7 @@ body {
 
 .post_message {
     display: flex;
-    justify-content: center;
+    /* justify-content: center; */
 }
 
 .post_time, .post_content {
@@ -92,6 +116,7 @@ body {
 
 .post_infor {
     width: 90%;
+    margin-left: 10px;
 }
 
 .post_content p{

@@ -21,29 +21,36 @@
 
     {% include 'navbar.html' %}
 
+    {% if request.user.is_authenticated %}
+        <p style="display: none;">User ID: {{ request.user.id }}</p>
+    {% endif %}
+
     {% for row  in reserve_list %}
         {% for i in row %}
         <div class="all">
             <div class="article_content">
                 <span class="edit">
-                    <span class="material-symbols-outlined" id="edit">
-                        edit
-                    </span>
-                    <span class="material-symbols-outlined" id="delete">
-                        delete
-                    </span>
+
+                    {% if request.user.id == i.id %}
+
+                        <span class="material-symbols-outlined" id="edit">
+                            edit
+                        </span>
+                        <span class="material-symbols-outlined" id="delete">
+                            delete
+                        </span>
+                    {% endif %}
                 </span>
                 <!-- <div class=""> -->
                     <!-- movie name -->
-                    <div class="movie_name">
-                        <h1> movie name: {{ i.name }} </h1>
-                        <hr>
-                    </div>
-
                     <div class="title">
-                        <h2> {{ i.title }} </h2>
+                        <h1> {{ i.title }} </h2>
                         <span style="display: none;"> TITLE </span>
                         <input type="text" class="edit_title" style="display: none;">
+                        <hr>
+                    </div>
+                    <div class="movie_name">
+                        <h2> movie name: {{ i.name }} </h1>
                     </div>
                     <div class="member">
                         <p> {{ i.username }} ・ {{ i.time }}</p>
