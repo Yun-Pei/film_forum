@@ -59,6 +59,7 @@ body {
 .form_submit {
     display: flex;
     justify-content: flex-end;
+    margin-bottom: 10px;
 }
 
 .cancel_button {
@@ -83,6 +84,10 @@ body {
 .post_message {
     display: flex;
     justify-content: center;
+}
+
+.post_time, .post_content {
+    margin-left: 10px;
 }
 
 .post_infor {

@@ -14,55 +14,17 @@
 
     <link href = '{% static "css/forum.css" %}' rel="stylesheet">
     <script src='{% static "ajax.js" %}'></script>
-
+    <link href = '{% static "navbar.css" %}' rel="stylesheet">
 
 
 </head>
 <body>
-    <!-- sidebar -->
-    <div id = "bar">
-        <div class="sidebar">
-            <a href="" class="bar_header">
-                <header>
-                    KOUNEL
-                </header>
-            </a>
-            <ul>
-                <li><a>123</a></li>
-            </ul>
-            <ul>
-                <li><a>123</a></li>
-            </ul>
-            <ul>
-                <li><a>123</a></li>
-            </ul>
-            <ul>
-                <li><a>123</a></li>
-            </ul>
-            <footer>
-            </footer>
-        </div>
-    </div>
-    <!-- sidebar -->
-    <!-- nav bar -->
-    <nav>
-        <div class="topbar">
-            <div class="navbar">
-                <ul>
-                    <li><a>123</a></li>
-                    <li><a>123</a></li>
-                    <li><a>123</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- nav bar -->
-
+    {% include 'navbar.html' %}
 
 
     <div id="forum_content">
         <!-- test 是否登入 -->
-        <div class="in_out">
+        <!-- <div class="in_out">
             {% if request.user.is_authenticated %}
                 <h1> {{user.username}} </h1>
                 <a href="{% url 'log_out' %}"><h2>LOG OUT</h2></a>
@@ -70,7 +32,7 @@
                 <a href="{% url 'login' %}"><h2>LOG IN</h2></a>
                 <a href="{% url 'register' %}"><h2>REGISTER</h2></a>
             {% endif %}
-        </div>
+        </div> -->
 
         <div>
             <div class="add_forum">
