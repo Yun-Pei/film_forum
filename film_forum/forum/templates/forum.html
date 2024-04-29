@@ -13,6 +13,10 @@
     <script src='{% static "js/forum.js" %}'></script>
 
     <link href = '{% static "css/forum.css" %}' rel="stylesheet">
+    <script src='{% static "ajax.js" %}'></script>
+
+
+
 </head>
 <body>
     <!-- sidebar -->
@@ -60,6 +64,7 @@
         <!-- test 是否登入 -->
         <div class="in_out">
             {% if request.user.is_authenticated %}
+                <h1> {{user.username}} </h1>
                 <a href="{% url 'log_out' %}"><h2>LOG OUT</h2></a>
             {% else %}
                 <a href="{% url 'login' %}"><h2>LOG IN</h2></a>
@@ -112,30 +117,43 @@
         </div>
 
 
-        {% for article in forum_article %}
-            <div id="article">
+        {% for row  in results %}
+            {% for i in row %}
+                <div id="article">
                 <!-- <a href=""> -->
                     <div id="member">
                         <!-- 應改成user NAME -->
-                        <span> {{ article.uid }} </span> 
+                        <span>   {{ i.username  }} </span> 
+                        <span>・</span>
+                        <span> {{ i.time }} </span>
+                    </div>
+                    <h2 id="title"> {{ i.title }} </h2>
+                    <div id="content"> {{ i.conent }} </div>    
+                    <div class="m_id" style="display: none;"> {{ i.mid_id }} </div>
+                    <div class="user_id" style="display: none;"> {{ i.id }} </div>
+                    <div class="art_id" style="display: none;"> {{ i.art_id }} </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+
+        <!-- {% for article in forum_article %}
+            <div id="article"> -->
+                <!-- <a href=""> -->
+                    <!-- <div id="member"> -->
+                        <!-- 應改成user NAME -->
+                        <!-- <span> {{ article.uid }} </span> 
                         <span>・</span>
                         <span> {{ article.time }} </span>
                     </div>
                     <h2 id="title"> {{ article.title }} </h2>
-                    <div id="content"> {{ article.conent }} </div>    
+                    <div id="content"> {{ article.conent }} </div>     -->
                 <!-- </a> -->
-                <div class="m_id" style="display: none;"> {{ article.mid }} </div>
+                <!-- <div class="m_id" style="display: none;"> {{ article.mid }} </div>
                 <div class="user_id" style="display: none;"> {{ article.uid }} </div>
                 <div class="art_id" style="display: none;"> {{ article.art_id }} </div>
             </div>
-        {% endfor %}
+        {% endfor %} -->
 
-        <h1>My Results</h1>
-        {% for i in results %}
-            <div>
-                {{ i.1  }} * {{ i.4 }}</li>
-            </div>
-        {% endfor %}
 
 
     </div>
