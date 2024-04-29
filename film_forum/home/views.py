@@ -6,8 +6,8 @@ from member.models import Movies
 def testPage(request):
 
     movies1 = Movies.objects.filter(year__gt=2019)[:10]
-    movies2 = Movies.objects.filter(year__gt=2020)[:4]
-    movies3 = Movies.objects.filter(year__gt=2020)[:4]
+    movies2 = Movies.objects.filter(year__gt=2019)[:10]
+    movies3 = Movies.objects.filter(year__gt=2019)[:10]
     movieup = Movies.objects.filter(mid=89)
     print(movies1)
     len(movies1)
