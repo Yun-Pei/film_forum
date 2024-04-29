@@ -8,13 +8,37 @@ from .forms import ForumsForm
 from member.models import *
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect  #直接回到某個網址
+from django.db import connection
 
 
 
+def dictfetchall(cursor):
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
 
 def movie(request):
-    film = Movies.objects.filter(mid=72).values_list("mid", "rid", "name", "year", "rating", "time", "age", "introduction", "img", "director", "star", "tag")
-    forum_article = Article.objects.filter(mid=72).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
+
+    movie_id = request.GET.get('m_id')
+    print(movie_id)
+
+    reserve_list = list()
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT User.id, User.username, Article.*
+            FROM User
+            JOIN Article ON User.id = Article .uid_id
+            WHERE Article.mid_id = %s
+            ORDER BY Article.time DESC
+        """, [movie_id])
+        results = dictfetchall(cursor)
+        reserve_list.append(results)
+
+    film = Movies.objects.filter(mid=movie_id).values_list("mid", "rid", "name", "year", "rating", "time", "age", "introduction", "img", "director", "star", "tag")
+    # forum_article = Article.objects.filter(mid=movie_id).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
 
     # for article in forum_article:
     #     article.formatted_time = article.time.strftime("%Y-%m-%d %I:%M %p")
@@ -35,4 +59,4 @@ def movie(request):
     # else:
     #     form = ForumsForm()
 
-    return render(request, "movie.html", {'forum_article': forum_article, 'film': film})
+    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': film})

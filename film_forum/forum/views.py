@@ -13,29 +13,33 @@ from django.db import connection
 # from forum.models import Forums, ForumsMessage
 # from .forms import MessageForm
 
-# Create your views here.
+
+def dictfetchall(cursor):
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
+
 # @csrf_exempt
 def forum(request):
+
+    movie_id = request.GET.get('m_id')
+
+    reserve_list = list()
 
     with connection.cursor() as cursor:
         cursor.execute("""
             SELECT User.id, User.username, Article.*
             FROM User
             JOIN Article ON User.id = Article .uid_id
-        """)
-        results = cursor.fetchall()
-        # results = [col[0] for col in cursor.description]
-        # ['id', 'username', 'art_id', 'time', 'title', 'conent', 'uid_id', 'mid_id']
+            WHERE Article.mid_id = %s
+            ORDER BY Article.time DESC
+        """, [movie_id])
+        results = dictfetchall(cursor)
+        reserve_list.append(results)
 
-    # print(results)
-
-        # results = []
-
-        # for row in rows:
-        #     user = User.objects.get(pk=row[0])  # 第一列是 User 的 id
-        #     article = Article.objects.get(pk=row[3])  # 第四列是 Article 的 id
-        #     results.append((user, article))
-
+    print(reserve_list)
     previous_url = request.META.get('HTTP_REFERER', '/')
     request.session['previous_url'] = previous_url
 
@@ -43,12 +47,12 @@ def forum(request):
 
     movie_id = request.GET.get('m_id')
 
-    forum_articles = Article.objects.filter(mid=72).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
+    # forum_articles = Article.objects.filter(mid=72).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
 
         # 拿會員ID
     if request.user.is_authenticated:
         user_id = request.user.id
-        print(user_id)
+        # print(user_id)
 
     if request.method == 'POST':
         # print("here")
@@ -75,19 +79,21 @@ def forum(request):
 
             return HttpResponseRedirect(f'forum?m_id={movie_id}')  # 導入路徑
 
-    # print(forum_articles)
-    return render(request, "forum.html", {'form': form, 'forum_article': forum_articles, 'results':results})
+    return render(request, "forum.html", {'form': form, 'reserve_list':reserve_list})
     
-@csrf_exempt
+# @csrf_exempt
 def forum_article(request):
+    previous_url = request.META.get('HTTP_REFERER', '/')
+    
+    request.session['previous_url'] = previous_url
 
     # 拿會員ID
     if request.user.is_authenticated:
         user_id = request.user.id
         # print(user_id)
 
-    articles = None
-    articlecomment = None
+    # articles = None
+    # articlecomment = None
     form = MessageForm()
 
     movie_id = request.GET.get('m_id')
@@ -95,8 +101,34 @@ def forum_article(request):
     # print(movie_id)
     # print(article_id)
 
-    articles = Article.objects.filter(art_id=article_id).values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
-    articlecomment = ArticleComment.objects.filter(art_id=article_id).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent')
+    reserve_list = list()
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT User.id, User.username, Article.*, Movies.name
+            FROM User
+            JOIN Article ON User.id = Article.uid_id
+            JOIN Movies ON Article.mid_id = Movies.mid
+            WHERE Article.art_id = %s
+        """, [article_id])
+        results = dictfetchall(cursor)
+        reserve_list.append(results)
+
+
+    # articles = Article.objects.filter(art_id=article_id).values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
+    # articlecomment = ArticleComment.objects.filter(art_id=article_id).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent')
+
+    reserve_list_comment = list()
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT User.id, User.username, ArticleComment.*
+            FROM User
+            JOIN ArticleComment ON User.id = ArticleComment.uid_id
+            WHERE ArticleComment.art_id_id = %s
+            ORDER BY ArticleComment.time DESC
+        """, [article_id])
+        results = dictfetchall(cursor)
+        reserve_list_comment.append(results)
 
  
     if request.method == 'POST':
@@ -110,7 +142,7 @@ def forum_article(request):
             film_id = Movies.objects.get(pk=movie_id)
             user_id = User.objects.get(pk=user_id)
             art_id = Article.objects.get(pk=article_id)
-            # # print(film_id)
+            # print(film_id)
 
             time = timezone.now()
             # print(now_time)
@@ -133,6 +165,8 @@ def forum_article(request):
             # print(time)
             user_id = User.objects.get(pk=user_id)
             film_id = Movies.objects.get(pk=movie_id)
+            # print(movie_id)
+            # print(article_id)
 
             # art_id = Article.objects.get(pk=article_id)
 
@@ -148,8 +182,8 @@ def forum_article(request):
 
             delete_article = Article.objects.get(art_id=article_id)
             delete_article.delete()
-
-            return redirect("forum")
+                                   
+            return redirect("forum")  
             
 # 'form': form, 
-    return render(request, "forum_article.html", {'articles': articles,'form': form,  'articlecomment': articlecomment})
+    return render(request, "forum_article.html", {'form': form, 'reserve_list': reserve_list, 'reserve_list_comment': reserve_list_comment})

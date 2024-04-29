@@ -7,13 +7,17 @@ a {
     text-decoration: none;
 }
 
+#title {
+    margin-top: 10px;
+}
+
 .add_forum {
     margin: 20px 10px;
 }
 
 .add_forum button h3 {
     color: white;
-    margin: 5px;
+    /* margin: 5px; */
 }
 
 .add_forum button {
@@ -51,16 +55,9 @@ a {
 }
 
 #forum_content {
-    /* position: fixed; */
-    float: right;
-    right: 5%;
-    /* left: 250px; */
-    top: 90px;
-    /* background-color: white; */
-    /* padding: 10px; */
     width: 70%;
-    margin-top: 10vh;
-    margin-right: 5vw;
+    margin-top: 30vh;
+    margin-left: 15%;
 }
 
 #article {
@@ -72,7 +69,8 @@ a {
     border-bottom: 1px solid #cbd5e0;
     border-top: 1px solid #cbd5e0;
     border-left: 1px solid #cbd5e0;
-    height: 120px;
+    height: 130px;
+    cursor: pointer;
 }
 
 #article a{
@@ -80,10 +78,16 @@ a {
     color: black;
 }
 
+.no_article {
+    color: white;
+}
+
 #content {
     overflow:hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    margin-top: 20px;
+    margin-left: 30px;
 }
 
 /* side bar star */
@@ -164,47 +168,4 @@ ul li:hover a{
 
 
 
-/* top bar star */
-nav {
-    background-color: white;
-    position: fixed;
-    width: 80%;
-    left: 20%;
-    height: 8vh;
-}
 
-nav li{
-    color: black;
-}
-
-.navbar {
-    display: flex;
-    width: 100%;
-    justify-content: flex-end;
-    align-items: center;
-    border-bottom: #bbb9b9 solid 0.3px;
-}
-
-.navbar ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-}
-
-.navbar li {
-    display: inline;
-    margin-right: 3vw;
-}
-
-.navbar a {
-    text-decoration: none;
-    color: #000000;
-    font-weight: bold;
-    font-size: large;
-}
-
-.topbar {
-    display: flex;
-    height: 100%;
-}
-/* top bar end */

@@ -240,7 +240,7 @@
     box-sizing: border-box;
   }
   
-  input{
+  #search_container input{
     position: absolute;
     top: 0;
     left: 0;

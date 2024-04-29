@@ -13,73 +13,46 @@
     <script src='{% static "js/forum.js" %}'></script>
 
     <link href = '{% static "css/forum.css" %}' rel="stylesheet">
+    <script src='{% static "ajax.js" %}'></script>
+    <link href = '{% static "navbar.css" %}' rel="stylesheet">
+
+
 </head>
 <body>
-    <!-- sidebar -->
-    <div id = "bar">
-        <div class="sidebar">
-            <a href="" class="bar_header">
-                <header>
-                    KOUNEL
-                </header>
-            </a>
-            <ul>
-                <li><a>123</a></li>
-            </ul>
-            <ul>
-                <li><a>123</a></li>
-            </ul>
-            <ul>
-                <li><a>123</a></li>
-            </ul>
-            <ul>
-                <li><a>123</a></li>
-            </ul>
-            <footer>
-            </footer>
-        </div>
-    </div>
-    <!-- sidebar -->
-    <!-- nav bar -->
-    <nav>
-        <div class="topbar">
-            <div class="navbar">
-                <ul>
-                    <li><a>123</a></li>
-                    <li><a>123</a></li>
-                    <li><a>123</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- nav bar -->
-
+    {% include 'navbar.html' %}
 
 
     <div id="forum_content">
         <!-- test 是否登入 -->
-        <div class="in_out">
+        <!-- <div class="in_out">
             {% if request.user.is_authenticated %}
+                <h1> {{user.username}} </h1>
                 <a href="{% url 'log_out' %}"><h2>LOG OUT</h2></a>
             {% else %}
                 <a href="{% url 'login' %}"><h2>LOG IN</h2></a>
                 <a href="{% url 'register' %}"><h2>REGISTER</h2></a>
             {% endif %}
-        </div>
+        </div> -->
 
         <div>
             <div class="add_forum">
                 {% if request.user.is_authenticated %}
+                    <a href="{% url 'log_out' %}"><h3>Log out</h3></a>
+
+                    <span style="display: none;" class="user_in">in</span>
+                {% else %}
+                <span style="display: none;" class="user_in">out</span>
+                <p>
+                    <a href="{% url 'login' %}"><h3>Log in</h3></a>
+                    <br>
+                    <br>
+                </p>
+                {% endif %}
+
                 <button id="openPopupButton">
                     <h3>+ Create Article</h3>
                 </button>
-                {% else %}
-                <button>
-                    <a href="{% url 'login' %}"><h3>Log in to add a new article.</h3></a>
-                </button>
-                {% endif %}
             </div>
-
         </div>
 
         <div class="overlay" id="overlay">
@@ -111,38 +84,54 @@
             </div>
         </div>
 
+        {% if reserve_list.0%}
+            {% for row in reserve_list %}
+                {% for i in row %}   
+                    <div id="article">
+                    <!-- <a href=""> -->
+                        <div id="member">
+                            <!-- 應改成user NAME -->
+                            <span>   {{ i.username  }} </span> 
+                            <span>・</span>
+                            <span> {{ i.time }} </span>
+                        </div>
+                        <h2 id="title"> {{ i.title }} </h2>
+                        <div id="content"> {{ i.conent }} </div>    
+                        <div class="m_id" style="display: none;"> {{ i.mid_id }} </div>
+                        <div class="user_id" style="display: none;"> {{ i.id }} </div>
+                        <div class="art_id" style="display: none;"> {{ i.art_id }} </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p class="no_article">There is no article yet...</p>
+        {% endif %}
 
-        {% for article in forum_article %}
-            <div id="article">
+        <!-- {% for article in forum_article %}
+            <div id="article"> -->
                 <!-- <a href=""> -->
-                    <div id="member">
+                    <!-- <div id="member"> -->
                         <!-- 應改成user NAME -->
-                        <span> {{ article.uid }} </span> 
+                        <!-- <span> {{ article.uid }} </span> 
                         <span>・</span>
                         <span> {{ article.time }} </span>
                     </div>
                     <h2 id="title"> {{ article.title }} </h2>
-                    <div id="content"> {{ article.conent }} </div>    
+                    <div id="content"> {{ article.conent }} </div>     -->
                 <!-- </a> -->
-                <div class="m_id" style="display: none;"> {{ article.mid }} </div>
+                <!-- <div class="m_id" style="display: none;"> {{ article.mid }} </div>
                 <div class="user_id" style="display: none;"> {{ article.uid }} </div>
                 <div class="art_id" style="display: none;"> {{ article.art_id }} </div>
             </div>
-        {% endfor %}
+        {% endfor %} -->
 
-        <h1>My Results</h1>
-        {% for i in results %}
-            <div>
-                {{ i.1  }} * {{ i.4 }}</li>
-            </div>
-        {% endfor %}
 
 
     </div>
 
 
 </body>
-<script>
+<!-- <script>
     var openButton = document.getElementById("openPopupButton");
     var popup = document.getElementById("popupForm");
     var closeButton = document.getElementById("closePopupButton");
@@ -160,5 +149,5 @@
         popup.style.display = "none";
         overlay.style.display = "none";
     });
-</script>
+</script> -->
 </html>

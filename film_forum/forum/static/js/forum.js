@@ -54,4 +54,25 @@ $(document).ready(function() {
         });
 
     });
+
+
+    $("#openPopupButton").click(function() {
+        var in_out = $('.user_in').text();
+        if(in_out == 'in'){
+            $("#popupForm").show();
+            $("#overlay").show();        
+        }
+        else{
+            alert("Log in to add a new article.")
+        }
+    });
+
+    $("#closePopupButton").click(function(event) {
+        event.preventDefault();
+        $("#id_title").val("");
+        $("#id_content").val("");
+        $("#popupForm").hide();
+        $("#overlay").hide();
+    });
+
 });
