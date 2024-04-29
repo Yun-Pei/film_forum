@@ -75,19 +75,19 @@
       };
     });
 
-    const smlSearchTrigger = document.getElementById('search_triggersml');
-    const smlSearchIcon = document.querySelector('#search_triggersml i');
+    const toplistLink = document.querySelector('a[href="toplist"]');
+    const toplistMenu = document.querySelector('.toplist_submenu');
 
-    smlSearchTrigger.onclick = function() {
-      searchContainer.classList.toggle('hidden');
-      
-      if (searchContainer.classList.contains('hidden')) {
-        smlSearchIcon.classList.remove('fa-xmark');
-        smlSearchIcon.classList.add('fa-search');
-      } else {
-        smlSearchIcon.classList.remove('fa-search');
-        smlSearchIcon.classList.add('fa-xmark');
-      }
-    };
+    // 當鼠標進入下拉菜單時，顯示菜單
+    toplistLink.addEventListener('mouseenter', function() {
+      toplistMenu.classList.add('open');
+    });
+    
+    // 當鼠標離開 Toplist 鏈接時，設置一段時間後隱藏菜單
+    toplistLink.addEventListener('mouseleave', function() {
+      setTimeout(function() {
+        toplistMenu.classList.remove('open');
+      }, 200000); // 延遲1秒後隱藏菜單
+    });
 
   </script>
