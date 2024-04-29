@@ -19,7 +19,7 @@ def movie(request):
     # for article in forum_article:
     #     article.formatted_time = article.time.strftime("%Y-%m-%d %I:%M %p")
 
-    print(forum_article)
+    # print(forum_article)
 
 
     previous_url = request.META.get('HTTP_REFERER', '/')

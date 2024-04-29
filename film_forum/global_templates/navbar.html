@@ -1,14 +1,17 @@
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
 <header>
     <div class="navbar">
       <div class="logo"><a href="#">Kounel</a></div>
       <ul class="links">
         <li><a href="hero">Home</a></li>
-        <li><a href="Username">Username</a></li>
+        <li><a href="Chatroom">Chatroom</a></li>
         <li>
           <a href="toplist">Toplist</a>
           <ul class="toplist_submenu">
-            <li><a href="#">Top 10 Highest Rated</a></li>
-            <li><a href="#">Top 10 Most Viewed</a></li>
+            <li><a href="{% url 'home'%}#ratedlist">Top 10 Highest Rated</a></li>
+            <li><a href="{% url 'home'%}#watchlist">Top 10 Most Viewed</a></li>
           </ul>
         </li>
         <li><a href="Watchlist">Watchlist</a></li>        
@@ -36,18 +39,55 @@
         <input type="search" name="search" placeholder="Search"/>
       </form>
     </div> 
-
-    <div class="dropdown_menu">
-      <li><a href="hero">Home</a></li>
-      <li><a href="Watchlist">Watchlist</a></li>
-      <li><a href="Username">Username</a></li>
-      <li>
-        <a href="toplist">Toplist</a>
-        <ul class="toplist_submenu">
-          <li><a href="#">Top 10 Highest Rated</a></li>
-          <li><a href="#">Top 10 Most Viewed</a></li>
-        </ul>
-      </li>
-      <li><a href="#" class="action_btn">Get Started</a></li>
-    </div>
   </header>
+
+  <script>
+    const toggleBtn = document.querySelector('.toggle_btn');
+    const toggleBtnIcon = document.querySelector('.toggle_btn i');
+    const dropdownMenu = document.querySelector('.dropdown_menu');
+
+    toggleBtn.onclick = function(){
+      dropdownMenu.classList.toggle('open');
+      const isOpen = dropdownMenu.classList.contains('open');
+
+      toggleBtnIcon.classList = isOpen
+        ? 'fa-solid fa-xmark'
+        : 'fa-solid fa-bars';
+    }
+    //hide searchbar
+    const searchTriggers = document.querySelectorAll('.search_btn');
+    const searchContainer = document.getElementById('search_container');
+    const searchForm = document.getElementById('search_form');
+    const searchIcon = document.querySelector('.search_btn i');
+
+    searchTriggers.forEach(trigger => {
+      trigger.onclick = function() {
+        event.preventDefault(); // 阻止默認行為
+        searchContainer.classList.toggle('hidden');
+        
+        if (searchContainer.classList.contains('hidden')) {
+          searchIcon.classList.remove('fa-xmark');
+          searchIcon.classList.add('fa-search');
+        } else {
+          searchIcon.classList.remove('fa-search');
+          searchIcon.classList.add('fa-xmark');
+        }
+      };
+    });
+
+    const smlSearchTrigger = document.getElementById('search_triggersml');
+    const smlSearchIcon = document.querySelector('#search_triggersml i');
+
+    smlSearchTrigger.onclick = function() {
+      searchContainer.classList.toggle('hidden');
+      
+      if (searchContainer.classList.contains('hidden')) {
+        smlSearchIcon.classList.remove('fa-xmark');
+        smlSearchIcon.classList.add('fa-search');
+      } else {
+        smlSearchIcon.classList.remove('fa-search');
+        smlSearchIcon.classList.add('fa-xmark');
+      }
+    };
+
+  </script>
