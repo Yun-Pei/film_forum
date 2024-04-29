@@ -13,13 +13,17 @@ from django.http import HttpResponseRedirect  #直接回到某個網址
 
 
 def movie(request):
-    film = Movies.objects.filter(mid=72).values_list("mid", "rid", "name", "year", "rating", "time", "age", "introduction", "img", "director", "star", "tag")
-    forum_article = Article.objects.filter(mid=72).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
+
+    movie_id = request.GET.get('m_id')
+    print(movie_id)
+
+    film = Movies.objects.filter(mid=movie_id).values_list("mid", "rid", "name", "year", "rating", "time", "age", "introduction", "img", "director", "star", "tag")
+    forum_article = Article.objects.filter(mid=movie_id).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
 
     # for article in forum_article:
     #     article.formatted_time = article.time.strftime("%Y-%m-%d %I:%M %p")
 
-    # print(forum_article)
+    print(film)
 
 
     previous_url = request.META.get('HTTP_REFERER', '/')

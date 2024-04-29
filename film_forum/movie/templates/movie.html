@@ -25,51 +25,26 @@
         {% endif %}
     </div>
     {% include "navbar.html" %}
+
+    {% for i in film %}
     <div class="movie_info">
-        <span style="display: none;" class="movie_id"> {{film.0.0}} </span>
-        <h1> 電影名字 </h1>
+        <span style="display: none;" class="movie_id"> {{i.0}} </span>
+        <div class="movie_detail">
+            <h1> {{i.2}} </h1>
+            <span> {{i.3}} </span>
+            <span> {{i.5}} </span>
+            <span> {{i.6}} </span>
+        </div>
+
         <div class="photo">.
-            <h1>IMG</h1>
-            <!-- <img src="{{film.0.6}}"> -->
+            <img src="{{i.8}}">
             <!-- {{film.0.6}}  -->
         </div>
+        <div class="intro"> {{i.7}} </div>
     </div>
+    {% endfor %}
 
-    <!-- <div class="comment">
-        <div>
-            <h4>There are som comments from member....</h4>
-            <h4>There are som comments from member....</h4>
-            <h4>There are som comments from member....</h4>
-        </div>
-    </div> -->
-    <div class="overlay" id="overlay">
-    <!-- <div class="popup" id="popupForm">
-        <div class="form_all">
-            <h2>Create a forum</h2>
-            <div class="popup_form">
-                <form action="" method="POST">
-                    {% csrf_token %}
-        
-                    <div class="form_info">
-                        <label>{{ form.title.label }}</label>
-                        <br>
-                        {{ form.title }}
-                    </div>
-                    <div class="form_info">
-                        <label>{{ form.content.label }}</label>
-                        <br>
-                        {{ form.conent }}
-                    </div>
-                    <div class="form_info form_submit">
-                        <br>
-                        <button class="cancel_button" id="closePopupButton">Cancel</button>
-                        <input class="submit_button" type="submit" value="Create" />
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div> -->
-</div>
+
 
 
 
@@ -89,24 +64,29 @@
 
             </div>
             
-        {% for article in forum_article %}
-            <div id="article">
-                <a href="">
-                    <div id="member">
-                        <!-- 應改成user NAME -->
-                        <span> {{ article.uid }} </span> 
-                        <span>・</span>
-                        <span> {{ article.time }} </span>
-                    </div>
-                    <h2 id="title"> {{ article.title }} </h2>
-                    <div id="content"> {{ article.conent }} </div>    
-                </a>
-            </div>
-        {% endfor %}
-            
+        {% if forum_article %}
+            {% for article in forum_article %}
+                <div id="article">
+                    <a href="">
+                        <div id="member">
+                            <!-- 應改成user NAME -->
+                            <span> {{ article.uid }} </span> 
+                            <span>・</span>
+                            <span> {{ article.time }} </span>
+                        </div>
+                        <h2 id="title"> {{ article.title }} </h2>
+                        <div id="content"> {{ article.content }} </div>    
+                    </a>
+                </div>
+            {% endfor %}
             <div class="view">
                 <h3 class="more_forum">View All</h3>
             </div>
+        {% else %}
+            <p class="no_article">No articles found.Let's atart to add a new article.</p>
+        {% endif %}
+            
+
         </div>
 
 

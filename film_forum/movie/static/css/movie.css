@@ -9,7 +9,11 @@ a {
 }
 
 .movie_info, .comment {
-    text-align: center;
+    text-align: justify;
+    margin-top: 100px;
+    color: white;
+    width: 70%;
+    margin-left: 15%;
 }
 
 .forum {
@@ -105,7 +109,9 @@ a {
 .form_all h2{
     text-align: center;
 }
-
+.no_article {
+    margin-left: 50px;
+}
 
 /* style */
 .popup {
