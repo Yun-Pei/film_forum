@@ -11,5 +11,4 @@ urlpatterns = [
     path("auth/logout/", LogoutView.as_view(), name="logout-user"),
     path('auth/addChat/', views.addChatPage, name='add-Chat'),
     path('searchMembers/', views.MemberSearchView.as_view(), name='search_members'),
-
 ]
