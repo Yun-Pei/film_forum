@@ -355,9 +355,9 @@ input{
   font-weight: 600;
 }
 
-.swiper-slide-active{
-  /* box-shadow: 0 20px 30px 6px rgba(89, 107, 113, 0.6); */
-}
+/* .swiper-slide-active{
+  box-shadow: 0 20px 30px 6px rgba(89, 107, 113, 0.6);
+} */
 
 .swiper-slide-active .title{
   bottom: -10px;

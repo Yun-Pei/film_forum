@@ -9,9 +9,17 @@ def testPage(request):
     movies2 = Movies.objects.filter(year__gt=2019)[:10]
     movies3 = Movies.objects.filter(year__gt=2019)[:10]
     movieup = Movies.objects.filter(mid=89)
-    print(movies1)
-    len(movies1)
+    
+    if request.GET.get("term"):
+        qs = Movies.objects.filter(name__icontains=request.GET.get('term')).values_list("name", flat=True)[:20]
+        titles = list(qs)
+        
+        print(titles)
+        return JsonResponse(titles, safe=False)
+    
     return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'movies3': movies3, 'movieup': movieup[0]}) 
+
+
 
 # def searchbar(request):
 #     if request.method == 'GET':
