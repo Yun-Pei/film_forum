@@ -43,7 +43,8 @@ def login(request):
                 auth.login(request, user)
                 return HttpResponseRedirect(previous_url)
             else:
-                return render(request, 'login.html', {'form': form, 'msg': msg})            
+                error_message = "Invalid username or password. Please try again."
+                return render(request, 'login.html', {'form': form, 'msg': msg, 'error_message': error_message})            
 
         else:
             msg = 'error validating form'
