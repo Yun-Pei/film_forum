@@ -8,6 +8,48 @@ a {
     color: black;
 }
 
+.content {
+    display: flex;
+    align-items: flex-end;
+}
+
+.intro {
+    /* margin-left: 30px; */
+    text-align: justify;
+}
+
+.intro h2 {
+    color: orange;
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.director h2, .stars h2{
+    color: orange;
+    font-size: 25px;
+    margin-bottom: 10px;
+}
+
+.director p, .intro p{
+    margin-bottom: 10px;
+}
+
+.movie_detail {
+    margin-left: 30px;
+}
+
+.photo img {
+    width: 190px;
+}
+
+.movie_name {
+    margin-bottom: 20px;
+}
+
+.movie_name h1 {
+    font-size: 50px;
+}
+
 .in_out {
     margin-top: 100px;
     text-align: center;
@@ -33,7 +75,8 @@ a {
 #forum_content {
     width: 70%;
     margin-top: 10vh;
-    background-color: #c5bcbc;
+    /* background-color: #c5bcbc; */
+    color: white;
     padding: 3vh 3vh 1vh 3vh;
 }
 
