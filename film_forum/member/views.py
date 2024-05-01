@@ -9,6 +9,8 @@ from member.models import *
 from .forms import *
 from django.contrib import auth
 from django.http import HttpResponseRedirect  #直接回到某個網址
+from django.db import connection
+
 
 # Create your views here.
 
@@ -41,7 +43,8 @@ def login(request):
                 auth.login(request, user)
                 return HttpResponseRedirect(previous_url)
             else:
-                return render(request, 'login.html', {'form': form, 'msg': msg})            
+                error_message = "Invalid username or password. Please try again."
+                return render(request, 'login.html', {'form': form, 'msg': msg, 'error_message': error_message})            
 
         else:
             msg = 'error validating form'
@@ -62,7 +65,7 @@ def register(request):
 
             previous_url = request.session.get('previous_url', '/')
 
-            return HttpResponseRedirect(previous_url)
+            return redirect("login")
         else:
             msg = 'form is not valid'
 

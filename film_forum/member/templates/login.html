@@ -6,30 +6,53 @@
     {% csrf_token %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src='{% static "ajax.js" %}'></script>
+    <link href = '{% static "css/login.css" %}' rel="stylesheet">
+    <link href = '{% static "navbar.css" %}' rel="stylesheet">
+
 </head>
 <body>
 
 </body>
-    <div>
-        <span class="mb-0 text-muted">
-            {% if msg %}
-                {{ msg | safe }}
-            {% else %}
-                Login page
-            {% endif %}
-        </span>
-        <form  method="post">
-            {% csrf_token %}
-            <div class="">
-                <label for="username">Username</label>
-                {{ form.username }}
+    {% include "navbar.html" %}
+    <div class="login">
+        <div class="login_form">
+            <div class="title">
+                <span class="mb-0 text-muted">
+                {% if msg %}
+                    {{ msg | safe }}
+                {% else %}
+                    <h1>Log In</h1>
+                {% endif %}
+                </span>
             </div>
-            <div class="">
-                <label for="username">Password</label>
-                {{ form.password }}
-            </div>
+            <form  method="post">
+                {% csrf_token %}
+                <div class="Username">
+                    <label for="username"><b>Username</b></label>
+                    <br>
+                    {{ form.username }}
+                </div>
+                <div class="Password">
+                    <label for="username"><b>Password</b></label>
+                <br>
+                    {{ form.password }}
+                </div>
+    
+                <input type="submit" value="LOGIN" class="submit">
+            </form>
 
-            <input type="submit" value="Log In" class="">
-        </form>
+            {% if error_message %}
+            <p class="input_error">{{ error_message }}</p>
+            {% endif %}
+
+            <div class="gotosigup">
+                <h3>Don't have an account? <a href="{% url 'register' %}" class="Signup">Signup now</a></h3>
+            </div>
+        </div>
+
     </div>
 </html>
