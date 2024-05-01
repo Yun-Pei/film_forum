@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from member.models import Movies
+from django.urls import reverse
 # from movie.models import 
 #新加入的function
 def testPage(request):
@@ -11,11 +12,11 @@ def testPage(request):
     movieup = Movies.objects.filter(mid=89)
     
     if request.GET.get("term"):
-        qs = Movies.objects.filter(name__icontains=request.GET.get('term')).values_list("name", flat=True)[:20]
-        titles = list(qs)
+        term = request.GET.get('term')
+        movies = Movies.objects.filter(name__icontains=term)[:20]
         
-        print(titles)
-        return JsonResponse(titles, safe=False)
+        data = [{'label': movie.name, 'value': movie.name, 'url': '' + str(movie.mid) + '/'} for movie in movies]
+        return JsonResponse(data, safe=False)
     
     return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'movies3': movies3, 'movieup': movieup[0]}) 
 

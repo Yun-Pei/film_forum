@@ -399,3 +399,16 @@ input{
   background-color: var(--backgroundcolor); 
   border-radius: 5px; 
 }
+
+/* jquery search ui */
+
+.highlight{
+  background-color: red;
+  border: 1px solid #ccc;
+  color: blue;
+}
+
+/* .ui-autocomplete{
+  position: relative;
+} */
+
