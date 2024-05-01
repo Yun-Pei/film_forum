@@ -98,7 +98,7 @@
               "ui-autocomplete": "highlight"
             },
             select: function(event, ui) {
-            window.location.href = ui.item.url; 
+            window.location.href = "{% url 'movie' %}"+"?m_id="+ui.item.url; 
             },
 
           });
