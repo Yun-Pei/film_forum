@@ -50,14 +50,14 @@ a {
     font-size: 50px;
 }
 
-.in_out {
+/* .in_out {
     margin-top: 100px;
     text-align: center;
 }
 
 .in_out a {
     color: white;
-}
+} */
 
 .movie_info, .comment {
     text-align: justify;
@@ -122,10 +122,14 @@ a {
     height: 120px;
 }
 
-#article a{
+#article h3 {
+    font-size: 25px;
+}
+
+/* #article a{
     text-decoration: none;
     color: white;
-}
+} */
 
 #content {
     margin-top: 21px;

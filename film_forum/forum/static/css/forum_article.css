@@ -86,18 +86,35 @@ body {
     margin-bottom: 10px;
 }
 
+.login_post {
+    text-align: end;
+    margin-top: 10px;
+    color: black;
+    text-decoration: none;
+    font-size: 16px;
+    cursor: pointer;
+}
+
 .cancel_button {
     margin-right: 20px;
-    margin-top: 10px;
+    margin-top: 12px;
+    background-color: transparent;
+    border: transparent;
+    cursor: pointer;
 }
 
 .submit_button {
     margin-top: 10px;
+    border: solid 1px;
+    background-color: #166aaf;
+    color: white;
+    padding: 3px;
+    border-radius: 3px;
 }
 
 .fourm_message {
     padding: 10px 20px;
-    background-color: #e3dcdc;
+    /* background-color: #e3dcdc; */
 }
 
 .all {
@@ -105,18 +122,25 @@ body {
     justify-content: center;
 }
 
-.post_message {
+/* .post_message {
     display: flex;
-    /* justify-content: center; */
-}
+    justify-content: center;
+} */
 
 .post_time, .post_content {
     margin-left: 10px;
 }
 
+.post_time p {
+    font-size: 14px;
+    text-align: end;
+    margin-bottom: 10px;
+}
+
 .post_infor {
-    width: 90%;
+    /* width: 90%; */
     margin-left: 10px;
+    margin: 8px 1px;
 }
 
 .post_content p{

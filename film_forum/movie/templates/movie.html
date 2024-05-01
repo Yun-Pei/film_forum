@@ -88,7 +88,7 @@
             {% for row in reserve_list %}
                 {% for i in row %}   
                 <div id="article">
-                    <a href="">
+                    <!-- <a href=""> -->
                         <h3 id="title"> {{ i.title }} </h3>
                         <div id="member">
                             <!-- 應改成user NAME -->
@@ -98,8 +98,10 @@
                                 <span> {{ i.time }} </span>
                             </p>
                         </div>
-                        <div id="content"> {{ i.conent }} </div>    
-                    </a>
+                        <div id="content"> {{ i.conent }} </div>   
+                        <div id="art_id" style="display: none;"> {{ i.art_id }} </div>  
+                        <!-- <div id="m_id" style="display: none;"> {{ i.mid }} </div>  -->
+                    <!-- </a> -->
                 </div>
                 {% endfor %}
             {% endfor %}

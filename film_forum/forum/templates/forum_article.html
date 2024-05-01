@@ -78,11 +78,15 @@
                                     <br>
                                     {{ form.conent }}
                                 </div>
+                                {% if request.user.is_authenticated %}
                                 <div class="form_info form_submit">
                                     <br>
-                                    <button class="cancel_button" id="closePopupButton">Cancel</button>
+                                    <div class="cancel_button" id="closePopupButton">Cancel</div>
                                     <input class="submit_button" type="submit" value="Submit" />
                                 </div>
+                                {% else %}
+                                    <a href="{% url 'login' %}"><p class="login_post">Log In to post a comment...</p></a>
+                                {% endif %}
                             </form>
                         </div>
 
