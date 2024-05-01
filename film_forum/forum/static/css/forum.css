@@ -7,6 +7,16 @@ a {
     text-decoration: none;
 }
 
+.movie_title {
+    color: white;
+}
+
+.movie_title h1{
+    margin-top: 100px;
+    text-align: center;
+    cursor: pointer;
+}
+
 #title {
     margin-top: 10px;
 }
@@ -16,13 +26,15 @@ a {
 }
 
 .add_forum button h3 {
-    color: white;
+    color: orange;
+    font-size: 20px;
+    cursor: pointer;
     /* margin: 5px; */
 }
 
 .add_forum button {
-    background-color: #407087;
-    border: #407087;
+    background-color: black;
+    border: black;
     /* color: white; */
     /* padding: 0px; */
     height: 28px;
@@ -36,13 +48,42 @@ a {
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: white;
-    padding: 20px;
-    border: 1px solid #ccc;
+    /* padding: 10px; */
+    /* border: 1px solid #ccc; */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     z-index: 9999;
-    max-height: 85%;
+    width: 30%;
+    height: 80%;
+    display: flex;
+    justify-content: center;
+    /* max-height: 85%; */
     /* width: 60%; */
 }
+
+.material-symbols-outlined {
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+    cursor: pointer;
+}
+
+.title_color {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.cancel_button {
+    background-color: transparent;
+    border: transparent;
+}
+
+.popup_form {
+    text-align: center;
+}
+
 .overlay {
     display: none;
     position: fixed;
@@ -54,23 +95,72 @@ a {
     z-index: 9998;
 }
 
+.title_color {
+    width: 100%;
+    background-color: #13749f;
+    height: 30px;
+}
+
+.form_all {
+    width: 100%;
+}
+
+.form_all h2{
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 20px;
+}
+
+.form_info_title {
+    margin-bottom: 20px;
+}
+
+.submit_button {
+    color: white;
+    background-color: #13749f;
+    border: #13749f solid 1px;
+    width: 20%;
+    padding: 3px;
+    margin-top: 15px;
+}
+
+#id_conent, #id_title {
+    width: 75%;
+}
+
 #forum_content {
     width: 70%;
-    margin-top: 30vh;
+    margin-top: 30px;
     margin-left: 15%;
 }
 
 #article {
-    border-radius: 8px;
+    /* border-radius: 8px; */
     padding: 10px;
-    background-color: white;
+    color: white;
+    margin: 0px 10px 0px 10px;
+    /* border-right: 1px solid #cbd5e0; */
+    border-bottom: 1px solid #cbd5e0;
+    border-top: 1px solid #cbd5e0;
+    /* border-left: 1px solid #cbd5e0; */
+    height: 130px;
+    cursor: pointer;
+    /* border-radius: 8px;
+    padding: 10px;
+    color: white;
     margin: 10px 10px 10px 10px;
     border-right: 1px solid #cbd5e0;
     border-bottom: 1px solid #cbd5e0;
     border-top: 1px solid #cbd5e0;
     border-left: 1px solid #cbd5e0;
     height: 130px;
-    cursor: pointer;
+    cursor: pointer; */
+}
+
+#member {
+    font-size: 16px;
+    text-align: end;
+    color: #9f9f9f;
 }
 
 #article a{
@@ -80,6 +170,8 @@ a {
 
 .no_article {
     color: white;
+    margin-left: 100px;
+    margin-top: 30px;
 }
 
 #content {

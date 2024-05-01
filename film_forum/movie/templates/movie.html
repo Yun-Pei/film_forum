@@ -66,11 +66,12 @@
     <!-- ・ -->
 
 
+    <hr class="separate">
 
     <div class="forum">
         <div id="forum_content">
             <div class="add_forum">
-                <h2>FORUM</h2>
+                <h1>FORUM</h1>
                 <!-- {% if request.user.is_authenticated %}
                 <button id="openPopupButton">
                     <h3>+ Create Forum</h3>
@@ -87,16 +88,20 @@
             {% for row in reserve_list %}
                 {% for i in row %}   
                 <div id="article">
-                    <a href="">
+                    <!-- <a href=""> -->
+                        <h3 id="title"> {{ i.title }} </h3>
                         <div id="member">
                             <!-- 應改成user NAME -->
-                            <span> {{ i.username }} </span> 
-                            <span>・</span>
-                            <span> {{ i.time }} </span>
+                            <p>
+                                <span> {{ i.username }} </span> 
+                                <span>・</span>
+                                <span> {{ i.time }} </span>
+                            </p>
                         </div>
-                        <h2 id="title"> {{ i.title }} </h2>
-                        <div id="content"> {{ i.conent }} </div>    
-                    </a>
+                        <div id="content"> {{ i.conent }} </div>   
+                        <div id="art_id" style="display: none;"> {{ i.art_id }} </div>  
+                        <!-- <div id="m_id" style="display: none;"> {{ i.mid }} </div>  -->
+                    <!-- </a> -->
                 </div>
                 {% endfor %}
             {% endfor %}
@@ -104,7 +109,7 @@
                 <h3 class="more_forum">View All</h3>
             </div>
         {% else %}
-            <p class="no_article">No articles found.Let's atart to add a new article.</p>
+            <p class="no_article">No articles found.Let's start to add a new article.</p>
             <p class="more_forum" style="text-align: end;">Click here to start an article !</p>
         {% endif %}
             

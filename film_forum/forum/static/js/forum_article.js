@@ -172,5 +172,8 @@ $(document).ready(function() {
     //     });
     // });
     
+    $('.cancel_button').on("click", function(event){
+        $("#post-text").val("");
+    });
 
 });

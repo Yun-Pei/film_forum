@@ -25,6 +25,8 @@ def dictfetchall(cursor):
 def forum(request):
 
     movie_id = request.GET.get('m_id')
+    film = Movies.objects.filter(mid=movie_id).values('name', 'mid')
+    print(film)
 
     reserve_list = list()
 
@@ -39,7 +41,7 @@ def forum(request):
         results = dictfetchall(cursor)
         reserve_list.append(results)
 
-    print(reserve_list)
+    # print(reserve_list)
     previous_url = request.META.get('HTTP_REFERER', '/')
     request.session['previous_url'] = previous_url
 
@@ -79,7 +81,7 @@ def forum(request):
 
             return HttpResponseRedirect(f'forum?m_id={movie_id}')  # 導入路徑
 
-    return render(request, "forum.html", {'form': form, 'reserve_list':reserve_list})
+    return render(request, "forum.html", {'form': form, 'reserve_list':reserve_list, 'film':film})
     
 # @csrf_exempt
 def forum_article(request):

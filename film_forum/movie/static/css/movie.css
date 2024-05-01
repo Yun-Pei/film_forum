@@ -10,7 +10,7 @@ a {
 
 .content {
     display: flex;
-    align-items: flex-end;
+    align-items: center;
 }
 
 .intro {
@@ -50,14 +50,14 @@ a {
     font-size: 50px;
 }
 
-.in_out {
+/* .in_out {
     margin-top: 100px;
     text-align: center;
 }
 
 .in_out a {
     color: white;
-}
+} */
 
 .movie_info, .comment {
     text-align: justify;
@@ -67,6 +67,13 @@ a {
     margin-left: 15%;
 }
 
+.separate {
+    margin: 50px 50px 0px 50px;
+    width: 72%;
+    margin-left: 14%;
+    border: 1px solid #7e7a7a;
+}
+
 .forum {
     display: flex;
     justify-content: center;
@@ -74,16 +81,18 @@ a {
 
 #forum_content {
     width: 70%;
-    margin-top: 10vh;
+    margin-top: 3vh;
     /* background-color: #c5bcbc; */
     color: white;
-    padding: 3vh 3vh 1vh 3vh;
+    padding: 3vh 3vh 1vh 0vh;
 }
 
 .add_forum {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-bottom: 20px;
+    color: orange;
 }
 
 .add_forum button h3 {
@@ -101,28 +110,41 @@ a {
 }
 
 #article {
-    border-radius: 8px;
+    /* border-radius: 8px; */
     padding: 10px;
-    background-color: white;
+    padding-left: 3vh;
+    /* background-color: white; */
     margin: 10px 10px 10px 10px;
-    border-right: 1px solid #cbd5e0;
+    /* border-right: 1px solid #cbd5e0; */
     border-bottom: 1px solid #cbd5e0;
-    border-top: 1px solid #cbd5e0;
-    border-left: 1px solid #cbd5e0;
-    height: 140px;
+    /* border-top: 1px solid #cbd5e0; */
+    /* border-left: 1px solid #cbd5e0; */
+    height: 120px;
 }
 
-#article a{
-    text-decoration: none;
-    color: black;
+#article h3 {
+    font-size: 25px;
 }
+
+/* #article a{
+    text-decoration: none;
+    color: white;
+} */
 
 #content {
+    margin-top: 21px;
     overflow:hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
     margin-left: 50px;
     margin-top: 10px;
+    font-size: 16px;
+}
+
+#member p {
+    font-size: 16px;
+    text-align: end;
+    color: #9f9f9f;
 }
 
 .more_forum {
@@ -130,6 +152,7 @@ a {
     margin: 0px;
     cursor: pointer;
     text-align: end;
+    color: #4295bd;
 }
 
 .more_forum a {
@@ -167,7 +190,7 @@ a {
     text-align: center;
 }
 .no_article {
-    margin-left: 50px;
+    margin: 30px 50px;
 }
 
 /* style */
