@@ -26,4 +26,6 @@ class MemberSearchView(ListView):
         if query:
             return User.objects.filter(username__icontains=query)
         return User.objects.none()
+    
+
  
