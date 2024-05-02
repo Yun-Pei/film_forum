@@ -55,7 +55,8 @@ h2 {
 
 .mb-4 {
     width: 100%;
-    background-color: #ffba54;
+    background-color: #FF9800;
+    /* ?#ffba54 */
     padding: 10px;
     text-align: center;
     margin-bottom: 30px;
@@ -80,3 +81,11 @@ h2 {
 
 }
 /*  */
+/* 羅修改的 */
+#registertitle{
+    color: #fff;
+}
+
+#registerbtn{
+    border-radius: 7px;
+}
