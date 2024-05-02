@@ -1,57 +1,80 @@
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
-# from .forms import ForumsForm
+from member.models import *
+from .forms import ForumsForm
 # # from .models import *
 # from forum.models import Forums, ForumsMessage
-# from member.models import Movies
-# Create your views here.
+from member.models import *
+from django.contrib.auth import authenticate, login
+from django.http import HttpResponseRedirect  #直接回到某個網址
+from django.db import connection
 
 
-@csrf_exempt
+
+def dictfetchall(cursor):
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
+
 def movie(request):
-    film = Movies.objects.filter(id=72).values_list("id", "name", "year", "time", "age", "introduction", "img", "director", "star", "type")
-    forum_article = Forums.objects.filter().order_by("-time").values('f_id', 'm_id', 'time', 'title', 'content', 'user_id')
+
+    movie_id = request.GET.get('m_id')
+    print(movie_id)
+
+    reserve_list = list()
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT User.id, User.username, Article.*
+            FROM User
+            JOIN Article ON User.id = Article .uid_id
+            WHERE Article.mid_id = %s
+            ORDER BY Article.time DESC
+        """, [movie_id])
+        results = dictfetchall(cursor)
+        reserve_list.append(results)
+
+    film = Movies.objects.filter(mid=movie_id).values_list("mid", "rid", "name", "year", "rating", "time", "age", "introduction", "img", "director", "star", "tag")
+    
+
+    processed_movie_data = []
+
+    # 遍歷資料
+    for movie in film:
+        # 將原始star欄位分割成名字列表
+        names_list = movie[10].split(',')
+        
+        # 使用'・'連接名字列表，生成新的名字字符串
+        new_names_string = '・'.join(names_list)
+        
+        # 創建一個新的元組，將修改後的star欄位放入其中
+        processed_movie_tuple = (*movie[:10], new_names_string, *movie[11:])
+        
+        # 將新的元組加入處理後的資料列表中
+        processed_movie_data.append(processed_movie_tuple)
+
+    # forum_article = Article.objects.filter(mid=movie_id).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
 
     # for article in forum_article:
     #     article.formatted_time = article.time.strftime("%Y-%m-%d %I:%M %p")
 
-    print(forum_article)
+    print(film)
 
-    if request.method == "GET":
-        # get movie information
-        # print(film[0][0])
 
-        # create a Forum
-        form = ForumsForm()
+    previous_url = request.META.get('HTTP_REFERER', '/')
+    
+    request.session['previous_url'] = previous_url
 
-    if request.method == 'POST':
-        # print("here")
-        form = ForumsForm(request.POST)
-        if form.is_valid():
-            title = form.cleaned_data['title']
-            # print(title)
 
-            content = form.cleaned_data['content']
-            # print(content)
-
-            # m_id = form.cleaned_data['m_id']
-            film_id = Movies.objects.filter(id=72).values_list("id", flat=True).first()
-            # print(film_id)
-
-            now_time = timezone.now()
-            # print(now_time)
-
-            forum = Forums(title=title, content=content, m_id=film_id, time=now_time)
-            forum.save()
-
-            film = None
-
-            return redirect('movie')  # 導入路徑
+            # return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+        
         # jsut test
-        else:
-            return redirect('forum')
+        # else:
+        #     return redirect('forum')
     # else:
     #     form = ForumsForm()
 
-    return render(request, "movie.html", {'form': form, 'film': film, 'forum_article': forum_article})
+    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data})

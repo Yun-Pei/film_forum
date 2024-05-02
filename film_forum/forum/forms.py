@@ -1,18 +1,18 @@
 from django import forms
-from forum.models import ForumsMessage
+from member.models import *
 
 class MessageForm(forms.ModelForm):
         
         class Meta:
-            model = ForumsMessage
-            fields = ('message_content', )
+            model = ArticleComment
+            fields = ('conent', )
             # fields = '__all__'
             # fields = ('message_content', 'm_id', 'f_id',)
             # exclude = ['time']
             widgets = {
-            'message_content': forms.TextInput(attrs={
-                'id': 'post-text', 
-                'required': True, 
-                'placeholder': 'Say something...'
-            }),
+                'conent': forms.TextInput(attrs={
+                    'id': 'post-text', 
+                    'required': True, 
+                    'placeholder': 'Say something...'
+                }),
             }

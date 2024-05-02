@@ -3,8 +3,7 @@ $(document).ready(function() {
     
     // get data from url
     var m_id = parseInt(urlParams.get('m_id'));
-    var user_id = parseInt(urlParams.get('user_id'));
-    var f_id = parseInt(urlParams.get('f_id'));
+    var art_id = parseInt(urlParams.get('art_id'));
 
     // $('.forumID').text(f_id);
     // $('.movieID').text(m_id);
@@ -103,6 +102,7 @@ $(document).ready(function() {
         var title = $(".edit_title").val().trim();
         var content = $(".edit_content").val().trim();
 
+        
         // alert(content);
         $.ajax({
             url: 'forum_article',
@@ -111,9 +111,8 @@ $(document).ready(function() {
                 'title': title,
                 'content': content,
                 'mode' : 'forum_article_edit',
-                'm_id': m_id,
-                'user_id': user_id,
-                'f_id': f_id,
+                'm_id' : m_id,
+                'art_id' : art_id,
             },
             success: function(response){
                 // alert("POST arleady")
@@ -138,9 +137,8 @@ $(document).ready(function() {
                 type: 'POST', 
                 data: {
                     'mode' : 'forum_article_delete',
-                    // 'm_id': m_id,
-                    // 'user_id': user_id,
-                    // 'f_id': f_id,
+                    'm_id' : m_id,
+                    'art_id' : art_id,
                 },
                 success: function(response){
                     // alert("POST arleady")
@@ -174,5 +172,8 @@ $(document).ready(function() {
     //     });
     // });
     
+    $('.cancel_button').on("click", function(event){
+        $("#post-text").val("");
+    });
 
 });

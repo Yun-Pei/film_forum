@@ -13,67 +13,151 @@
     <script src='{% static "js/forum.js" %}'></script>
 
     <link href = '{% static "css/forum.css" %}' rel="stylesheet">
+    <script src='{% static "ajax.js" %}'></script>
+    <link href = '{% static "navbar.css" %}' rel="stylesheet">
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
-    <!-- sidebar -->
-    <div id = "bar">
-        <div class="sidebar">
-            <a href="" class="bar_header">
-                <header>
-                    HOUNEL
-                </header>
-            </a>
-            <ul>
-                <li><a>123</a></li>
-            </ul>
-            <ul>
-                <li><a>123</a></li>
-            </ul>
-            <ul>
-                <li><a>123</a></li>
-            </ul>
-            <ul>
-                <li><a>123</a></li>
-            </ul>
-            <footer>
-            </footer>
-        </div>
+    {% include 'navbar.html' %}
+
+    <!-- <div class="forum_title">
+        <h1>Forum</h1>
+    </div> -->
+
+    <div class="movie_title">
+        <h1>{{film.0.name}}</h1>
+        <span class="film_id" style="display: none;">{{film.0.mid}}</span>
     </div>
-    <!-- sidebar -->
-    <!-- nav bar -->
-    <nav>
-        <div class="topbar">
-            <div class="navbar">
-                <ul>
-                    <li><a>123</a></li>
-                    <li><a>123</a></li>
-                    <li><a>123</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- nav bar -->
 
     <div id="forum_content">
-        {% for article in forum_article %}
-            <div id="article">
+        <!-- test 是否登入 -->
+        <!-- <div class="in_out">
+            {% if request.user.is_authenticated %}
+                <h1> {{user.username}} </h1>
+                <a href="{% url 'log_out' %}"><h2>LOG OUT</h2></a>
+            {% else %}
+                <a href="{% url 'login' %}"><h2>LOG IN</h2></a>
+                <a href="{% url 'register' %}"><h2>REGISTER</h2></a>
+            {% endif %}
+        </div> -->
+
+
+        <div>
+            <div class="add_forum">
+                {% if request.user.is_authenticated %}
+                    <span style="display: none;" class="user_in">in</span>
+                {% else %}
+                    <span style="display: none;" class="user_in">out</span>
+                {% endif %}
+
+                <button id="openPopupButton">
+                    <h3>+ Create Article</h3>
+                </button>
+            </div>
+        </div>
+
+        <div class="overlay" id="overlay">
+            <div class="popup" id="popupForm">
+                <div class="form_all">
+                    <div class="title_color">
+                        <!-- <p style="visibility: hidden;">lll</p> -->
+                        <button  class="cancel_button" id="closePopupButton">
+                            <span class="material-symbols-outlined">
+                                close
+                            </span>
+                        </button>
+                    </div>
+                    <h2>Create an article</h2>
+                    <div class="popup_form">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                
+                            <div class="form_info form_info_title">
+                                <label>{{ form.title.label }}</label>
+                                <br>
+                                {{ form.title }}
+                            </div>
+                            <div class="form_info">
+                                <label>{{ form.conent.label }}</label>
+                                <br>
+                                {{ form.conent }}
+                            </div>
+                            <div class="form_info form_submit">
+                                <br>
+                                <!-- <button class="cancel_button" id="closePopupButton">Cancel</button> -->
+                                <input class="submit_button" type="submit" value="Create" />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if reserve_list.0%}
+            {% for row in reserve_list %}
+                {% for i in row %}   
+                    <div id="article">
+                    <!-- <a href=""> -->
+                        <h2 id="title"> {{ i.title }} </h2>
+                        <div id="member">
+                            <!-- 應改成user NAME -->
+                            <span>   {{ i.username  }} </span> 
+                            <span>・</span>
+                            <span> {{ i.time }} </span>
+                        </div>   
+                        <div id="content"> {{ i.conent }} </div> 
+                        <div class="m_id" style="display: none;"> {{ i.mid_id }} </div>
+                        <div class="user_id" style="display: none;"> {{ i.id }} </div>
+                        <div class="art_id" style="display: none;"> {{ i.art_id }} </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p class="no_article">There is no article yet...</p>
+        {% endif %}
+
+        <!-- {% for article in forum_article %}
+            <div id="article"> -->
                 <!-- <a href=""> -->
-                    <div id="member">
+                    <!-- <div id="member"> -->
                         <!-- 應改成user NAME -->
-                        <span> {{ article.title }} </span> 
+                        <!-- <span> {{ article.uid }} </span> 
                         <span>・</span>
                         <span> {{ article.time }} </span>
                     </div>
                     <h2 id="title"> {{ article.title }} </h2>
-                    <div id="content"> {{ article.content }} </div>    
+                    <div id="content"> {{ article.conent }} </div>     -->
                 <!-- </a> -->
-                <div class="m_id" style="display: none;"> {{ article.m_id }} </div>
-                <div class="user_id" style="display: none;"> {{ article.user_id }} </div>
-                <div class="f_id" style="display: none;"> {{ article.f_id }} </div>
+                <!-- <div class="m_id" style="display: none;"> {{ article.mid }} </div>
+                <div class="user_id" style="display: none;"> {{ article.uid }} </div>
+                <div class="art_id" style="display: none;"> {{ article.art_id }} </div>
             </div>
-        {% endfor %}
+        {% endfor %} -->
+
+
+
     </div>
 
 
 </body>
+<!-- <script>
+    var openButton = document.getElementById("openPopupButton");
+    var popup = document.getElementById("popupForm");
+    var closeButton = document.getElementById("closePopupButton");
+    var overlay = document.getElementById("overlay");
+
+    openButton.addEventListener("click", function() {
+        popup.style.display = "block";
+        overlay.style.display = "block";
+    });
+
+    closeButton.addEventListener("click", function() {
+        event.preventDefault();
+        document.getElementById("id_title").value = "";
+        document.getElementById("id_conent").value = "";
+        popup.style.display = "none";
+        overlay.style.display = "none";
+    });
+</script> -->
 </html>

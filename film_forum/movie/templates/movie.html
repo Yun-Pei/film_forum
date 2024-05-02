@@ -6,84 +6,114 @@
     {% csrf_token %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie</title>
+    <link href = '{% static "navbar.css" %}' rel="stylesheet">
     <link href = '{% static "css/movie.css" %}' rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src='{% static "js/movie.js" %}'></script>
+    <script src='{% static "ajax.js" %}'></script>
+
 </head>
 <body>
+    <!-- <div class="in_out">
+        {% if request.user.is_authenticated %}
+            <a href="{% url 'log_out' %}"><h2>LOG OUT</h2></a>
+        {% else %}
+            <a href="{% url 'login' %}"><h2>LOG IN</h2></a>
+            <a href="{% url 'register' %}"><h2>REGISTER</h2></a>
+        {% endif %}
+    </div> -->
+    {% include "navbar.html" %}
+
+    {% for i in film %}
     <div class="movie_info">
-        <!-- <span style="display: none;" class="movie_id"> {{film.0.0}} </span> -->
-        <h1> {{film.0.1}} </h1>
-        <div class="photo">
-            <img src="{{film.0.6}}">
-            <!-- {{film.0.6}}  -->
+        <span style="display: none;" class="movie_id"> {{i.0}} </span>
+        <div class="movie_name">
+            <h1> {{i.2}} </h1>
+            <span> {{i.3}}・{{i.5}}・{{i.6}} </span>
         </div>
-    </div>
 
-    <div class="comment">
-        <div>
-            <h4>There are som comments from member....</h4>
-            <h4>There are som comments from member....</h4>
-            <h4>There are som comments from member....</h4>
-        </div>
-    </div>
-    <div class="overlay" id="overlay">
-    <div class="popup" id="popupForm">
-        <div class="form_all">
-            <h2>Create a forum</h2>
-            <div class="popup_form">
-                <form action="" method="POST">
-                    {% csrf_token %}
-        
-                    <div class="form_info">
-                        <label>{{ form.title.label }}</label>
-                        <br>
-                        {{ form.title }}
-                    </div>
-                    <div class="form_info">
-                        <label>{{ form.content.label }}</label>
-                        <br>
-                        {{ form.content }}
-                    </div>
-                    <div class="form_info form_submit">
-                        <br>
-                        <button class="cancel_button" id="closePopupButton">Cancel</button>
-                        <input class="submit_button" type="submit" value="Create" />
-                    </div>
-                </form>
+        <div class="content">
+            <div class="photo">
+                <img src="{{i.8}}">
+                <!-- <img src="https://m.media-amazon.com/images/M/MV5BZDkyNjE0NzMtNTgxYS00MDE4LWI0OWYtZGNmNDcxNjRhMTY3XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_QL75_UX190_CR0,0,190,281_.jpg"> -->
+                
+                <!-- {{film.0.6}}  -->
             </div>
+            <div class="movie_detail">
+                <div class="intro">
+                    <h2>Introduction</h2>
+                    <p>{{i.7}}</p>
+                </div> 
+                <!-- <hr> -->
+                <div class="director">
+                    <h2>Director</h2>
+                    <p> {{i.9}} </p>
+                </div>
+                <!-- <hr> -->
+                <div class="stars">
+                    <h2>Stars</h2>
+                    <p> {{i.10}} </p>
+                </div>
+                <!-- <hr> -->
+            </div>
+
         </div>
+
     </div>
-</div>
+    {% endfor %}
+    <!-- ・ -->
 
 
+    <hr class="separate">
 
     <div class="forum">
         <div id="forum_content">
             <div class="add_forum">
-                <h2>FORUM</h2>
+                <h1>FORUM</h1>
+                <!-- {% if request.user.is_authenticated %}
                 <button id="openPopupButton">
                     <h3>+ Create Forum</h3>
                 </button>
+                {% else %}
+                <button>
+                    <a href="{% url 'login' %}"><h3>Log in to add a new article.</h3></a>
+                </button>
+                {% endif %} -->
 
             </div>
             
-        {% for article in forum_article %}
-            <div id="article">
-                <a href="{% url 'forum_article' %}">
-                    <div id="member">
-                        <!-- 應改成user NAME -->
-                        <span> {{ article.title }} </span> 
-                        <span>・</span>
-                        <span> {{ article.time }} </span>
-                    </div>
-                    <h2 id="title"> {{ article.title }} </h2>
-                    <div id="content"> {{ article.content }} </div>    
-                </a>
-            </div>
-        {% endfor %}
-            
+        {% if reserve_list.0%}
+            {% for row in reserve_list %}
+                {% for i in row %}   
+                <div id="article">
+                    <!-- <a href=""> -->
+                        <h3 id="title"> {{ i.title }} </h3>
+                        <div id="member">
+                            <!-- 應改成user NAME -->
+                            <p>
+                                <span> {{ i.username }} </span> 
+                                <span>・</span>
+                                <span> {{ i.time }} </span>
+                            </p>
+                        </div>
+                        <div id="content"> {{ i.conent }} </div>   
+                        <div id="art_id" style="display: none;"> {{ i.art_id }} </div>  
+                        <!-- <div id="m_id" style="display: none;"> {{ i.mid }} </div>  -->
+                    <!-- </a> -->
+                </div>
+                {% endfor %}
+            {% endfor %}
             <div class="view">
-                <h3 class="more_forum"><a href="{% url 'forum' %}">View All</a></h3>
+                <h3 class="more_forum">View All</h3>
             </div>
+        {% else %}
+            <p class="no_article">No articles found.Let's start to add a new article.</p>
+            <p class="more_forum" style="text-align: end;">Click here to start an article !</p>
+        {% endif %}
+            
+
         </div>
 
 
@@ -94,21 +124,21 @@
 
 </body>
 
-<script>
-var openButton = document.getElementById("openPopupButton");
-var popup = document.getElementById("popupForm");
-var closeButton = document.getElementById("closePopupButton");
-var overlay = document.getElementById("overlay");
+<!-- <script>
+    var openButton = document.getElementById("openPopupButton");
+    var popup = document.getElementById("popupForm");
+    var closeButton = document.getElementById("closePopupButton");
+    var overlay = document.getElementById("overlay");
 
-openButton.addEventListener("click", function() {
-    popup.style.display = "block";
-    overlay.style.display = "block";
-});
+    openButton.addEventListener("click", function() {
+        popup.style.display = "block";
+        overlay.style.display = "block";
+    });
 
-closeButton.addEventListener("click", function() {
-    popup.style.display = "none";
-    overlay.style.display = "none";
-});
-</script>
+    closeButton.addEventListener("click", function() {
+        popup.style.display = "none";
+        overlay.style.display = "none";
+    });
+</script> -->
 
 </html>
