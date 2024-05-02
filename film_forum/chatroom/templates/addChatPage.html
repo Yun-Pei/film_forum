@@ -122,10 +122,9 @@
 	        text-decoration: none;
             color: #252525;
         }
-        .Uid {
+        .userId {
             display: none;
         }
-
     </style>
 </head>
 
@@ -138,17 +137,18 @@
               <input type="text" placeholder="Search member" class="form-control" name="q">
               <ion-icon name="search-outline"></ion-icon>
             </div>
-            <button type="submit"></button>
+            <button type="submit" style="display: none;"></button>
         </form>
-        <form class="resultBox" method="POST" action="{% url 'chat-page' %}">
+        <form class="resultBox" method="POST" action="">
         {% csrf_token %}
         {% for user in users %}
         <div class="result">
             <ul>
                 <li>
-                    <button class="Uid" name=""></button>
-                    <button type="submit" name="">
-                        {{user.username}}
+                    <div id="user1" style="display: none;">{{request.user.id}}</div>
+                    <button type="submit">
+                        <div id="userName" class="userName">{{user.username}}</div>
+                        <div id="userId" class="userId">{{user.id}}</div>
                     </button>
                 </li>
             </ul>
@@ -157,6 +157,10 @@
         </form>
         <button type="submit" class="Cancel"><a href="{% url 'chat-page' %}">Cancel</a></button>
     </div>
+    <script>
+        var be_uid = document.getElementById('userId');
+        var uid = document.getElementById('user1');
+    </script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </body>
