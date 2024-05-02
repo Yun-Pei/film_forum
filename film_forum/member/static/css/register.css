@@ -45,6 +45,13 @@ h2 {
     visibility: hidden;
 }
 
+.errorlist{
+    color: red;
+}
+
+.register_info{
+    margin-bottom: 10px;
+}
 
 .mb-4 {
     width: 100%;
@@ -57,7 +64,7 @@ h2 {
 .register_info input{
     width: 30vw;
     height: 5vh;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 
 .register_butt {
