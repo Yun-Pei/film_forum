@@ -59,10 +59,10 @@ $(document).ready(function() {
 
 
         // 修改標題
-        var title = $(".title > h2").text().trim();
+        var title = $(".title > h1").text().trim();
         $(".edit_title").css("display", "block");
         $(".title > span").css("display", "block");
-        $(".title > h2").css("display", "none");
+        $(".title > h1").css("display", "none");
         // alert(content);
 
         // 调整 textarea 的大小
