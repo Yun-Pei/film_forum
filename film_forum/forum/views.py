@@ -83,7 +83,7 @@ def forum(request):
 
     return render(request, "forum.html", {'form': form, 'reserve_list':reserve_list, 'film':film})
     
-# @csrf_exempt
+@csrf_exempt
 def forum_article(request):
     previous_url = request.META.get('HTTP_REFERER', '/')
     
@@ -139,7 +139,7 @@ def forum_article(request):
         if form.is_valid():
 
             conent = form.cleaned_data['conent']
-            # print(conent)
+            print(conent)
 
             film_id = Movies.objects.get(pk=movie_id)
             user_id = User.objects.get(pk=user_id)
@@ -180,12 +180,16 @@ def forum_article(request):
 
         # delete forum article
         elif request.POST.get("mode") == "forum_article_delete":
+            movie_id = request.POST.get('m_id')
+            # print("here")
+            # print(request.POST.get('m_id'))
+            # print("end")
             article_id = request.POST.get('art_id')
 
             delete_article = Article.objects.get(art_id=article_id)
             delete_article.delete()
-                                   
-            return redirect("forum")  
+            # print(f'forum?m_id={movie_id}')
+            return HttpResponseRedirect(f'forum?m_id={movie_id}')  
             
 # 'form': form, 
     return render(request, "forum_article.html", {'form': form, 'reserve_list': reserve_list, 'reserve_list_comment': reserve_list_comment})

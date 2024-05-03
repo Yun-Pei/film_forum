@@ -129,7 +129,7 @@ $(document).ready(function() {
 
     $('#delete').on("click", function(){
         let answer = confirm('Are you sure you want to delete the entire article?');
-
+        // alert(m_id)
         // delete
         if(answer){
             $.ajax({
@@ -144,7 +144,7 @@ $(document).ready(function() {
                     // alert("POST arleady")
                     alert("The article has been successfully deleted! The page will now return to the discussion board.")
                     console.log(response);
-                    window.location.href = 'forum';
+                    window.location.href = 'forum?m_id=' + m_id;
                 },
                 error: function(response){
                     alert("delete faild");
