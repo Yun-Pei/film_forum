@@ -3,10 +3,10 @@ body {
     /* background-color: #e6e4e4; */
 }
 
-a {
+/* a {
     text-decoration: none;
     color: black;
-}
+} */
 
 .content {
     display: flex;
@@ -120,6 +120,7 @@ a {
     /* border-top: 1px solid #cbd5e0; */
     /* border-left: 1px solid #cbd5e0; */
     height: 120px;
+    cursor: pointer;
 }
 
 #article h3 {

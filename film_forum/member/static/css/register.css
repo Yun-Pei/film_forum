@@ -48,10 +48,18 @@ h2 {
     visibility: hidden;
 }
 
+.errorlist{
+    color: red;
+}
+
+.register_info{
+    margin-bottom: 10px;
+}
 
 .mb-4 {
     width: 100%;
-    background-color: orange;
+    background-color: #FF9800;
+    /* ?#ffba54 */
     padding: 10px;
     text-align: center;
     margin-bottom: 30px;
@@ -62,7 +70,7 @@ h2 {
 .register_info input{
     width: 30vw;
     height: 5vh;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 
 .register_butt {
@@ -77,6 +85,7 @@ h2 {
     margin-bottom: 10px;
 
 }
+/*  */
 /* 羅修改的 */
 #registertitle{
     color: #fff;
