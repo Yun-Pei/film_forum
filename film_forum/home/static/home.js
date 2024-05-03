@@ -1,7 +1,7 @@
 $(document).ready(function() {
     $('.swiper-slide').on("click", function(){
         var m_id = $(this).find('.m_id').text(); 
-        // alert(m_id);
+        alert(m_id);
         
         $.ajax({
             type: "GET",
@@ -18,4 +18,5 @@ $(document).ready(function() {
             }
         });
     });
+    
 });
