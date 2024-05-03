@@ -24,24 +24,21 @@ def addChatPage(request):
         print(request.POST.get("be_uid"))
         return HttpResponse("sucess")
 
-# class MemberSearchView(ListView):
-#     model = User
-#     template_name = 'addChatPage.html'
-#     context_object_name = 'users'
+class MemberSearchView(ListView):
+    model = User
+    template_name = 'addChatPage.html'
+    context_object_name = 'users'
 
-#     def get_queryset(self):
-#         query = self.request.GET.get('q')
-#         if query:
-#             return User.objects.filter(username__icontains=query).exclude(id=self.request.user.id)
-#         return User.objects.none()
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return User.objects.filter(username__icontains=query).exclude(id=self.request.user.id)
+        return User.objects.none()
 
-def autocomplete(request):
-    if 'term' in request.GET:
-        qs = User.objects.filter(username__istartwith=request.GET('term'))
-        usernames = list()
-        for user in qs:
-            usernames.append(user.username)
-    return JsonResponse(usernames, safe=False)
-def search_members(request):
-    
-    return render(request, 'addChatPage.html')
+# def autocomplete(request):
+#     if 'term' in request.GET:
+#         qs = User.objects.filter(username__istartwith=request.GET('term'))
+#         usernames = list()
+#         for user in qs:
+#             usernames.append(User.username)
+#     return JsonResponse(usernames, safe=False)
