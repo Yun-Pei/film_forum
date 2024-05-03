@@ -37,20 +37,20 @@ $(document).ready(function() {
         $(".content > h4").css("display", "none");
         // alert(content);
 
-        // 调整 textarea 的大小
-        function adjustTextareaSize() {
-            // 設置為滾動大小的高度
-            $(".edit_content").css("width", "100%");
-            $(".edit_content").css("height", $(".edit_content").prop("scrollHeight") + "px");
+        // // 调整 textarea 的大小
+        // function adjustTextareaSize() {
+        //     // 設置為滾動大小的高度
+        //     $(".edit_content").css("width", "100%");
+        //     $(".edit_content").css("height", $(".edit_content").prop("scrollHeight") + "px");
 
-        }
+        // }
 
-        // 當textarea 有input資料後 實行調整大小
-        $(".edit_content").on("input", adjustTextareaSize);
+        // // 當textarea 有input資料後 實行調整大小
+        // $(".edit_content").on("input", adjustTextareaSize);
 
     
         $(".edit_content").val(content);
-        adjustTextareaSize();
+        // adjustTextareaSize();
 
 
         // 修改button出現
@@ -65,20 +65,20 @@ $(document).ready(function() {
         $(".title > h1").css("display", "none");
         // alert(content);
 
-        // 调整 textarea 的大小
-        function adjustTitleSize() {
-            // 設置為滾動大小的高度
-            $(".edit_title").css("width", "100%");
-            $(".edit_title").css("height", $(".edit_title").prop("scrollHeight") + "px");
+        // // 调整 textarea 的大小
+        // function adjustTitleSize() {
+        //     // 設置為滾動大小的高度
+        //     $(".edit_title").css("width", "100%");
+        //     $(".edit_title").css("height", $(".edit_title").prop("scrollHeight") + "px");
 
-        }
+        // }
 
-        // 當textarea 有input資料後 實行調整大小
-        $(".edit_title").on("input", adjustTitleSize);
+        // // 當textarea 有input資料後 實行調整大小
+        // $(".edit_title").on("input", adjustTitleSize);
 
     
         $(".edit_title").val(title);
-        adjustTitleSize();
+        // adjustTitleSize();
     });
 
     // 取消edit
