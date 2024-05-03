@@ -153,12 +153,7 @@ body {
     margin: 0px;
     cursor: pointer;
     text-align: end;
-    color: #4295bd;
-}
-
-.more_forum a {
-    text-decoration: none;
-    color: #2960bb;
+    color: orange;
 }
 
 .view {
