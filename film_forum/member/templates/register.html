@@ -11,7 +11,8 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
-    <script src='{% static "ajax.js" %}'></script>  <link href = '{% static "navbar.css" %}' rel="stylesheet">
+    <script src='{% static "ajax.js" %}'></script> 
+    <link href = '{% static "css/navbar.css" %}' rel="stylesheet">
 
 </head>
     {% include "navbar.html" %}
@@ -20,7 +21,7 @@
         <div class="content">
             <div class="container">
                 <div class="mb-4">  
-                    <h1>Sign Up</h1>
+                    <h1 id="registertitle">Sign Up</h1>
                 </div>
                 <!-- test form是否有效 -->
                 <!-- <span class="mb-0 text-muted">
@@ -36,38 +37,76 @@
                         <label for="username"><b>Username</b></label>
                         <br>
                         {{ form.username }}
+
+                        {% if form.username.errors %}
+                            <span class="errorlist">{{ form.username.errors }}</span>
+                        {% endif %}
                     </div>
 
                     <div class="register_info">
                         <label for="email"><b>Email</b></label>
                         <br>
                         {{ form.email}}
+
+                        {% if form.email.errors %}
+                            <span class="errorlist">{{ form.email.errors }}</span>
+                        {% endif %}
                     </div>
 
                     <div class= "register_info">
                         <label for="password"><b>Password</b></label>
                         <br>
                         {{ form.password1 }}
+
+                        <!-- {% if form.password1.errors %}
+                            <span class="errorlist">{{ form.password1.errors }}</span>
+                        {% endif %} -->
                     </div>
 
                     <div class= "register_info">
                         <label for="password"><b>Confirm Password</b></label>
                         <br>
                         {{ form.password2 }}
+
+                        <!-- {% if form.password2.errors %}
+                            <div class="errorlist">{{form.password2.errors}}</div>
+                        {% endif %} -->
                     </div>
 
-                    <div class= "register_info">
+                    {% if form.password2.errors %}
+                        {% for error in form.password2.errors %}
+                            {% if 'short' in error %}
+                                <div class="errorlist">This password must contain at least 8 characters.</div>
+                            <!-- {% elif 'characters' in error %}
+                                <div class="errorlist">This password must contain at least 8 characters.</div> -->
+                            {% elif 'match' in error %}
+                                <div class="errorlist">The two password fields didn’t match.</div>
+                            {% elif 'common' in error %}
+                                <div class="errorlist">This password is too common.</div>
+                            {% elif 'numeric' in error %}
+                                <div class="errorlist">This password is entirely numeric.</div>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class= "register_info" style="display: none;">
                         <label for="password"><b>Img</b></label>
                         <br>
                         {{ form.img }}
                     </div>
 
                     <!-- 讓使用者知道輸入是否有error -->
-                    <span class="text-error">{{ form.errors }}</span>
-                    <input type="submit"  value="Register" class="btn btn-pill text-white btn-block btn-primary register_butt">
+                    <!-- <span class="text-error">{{ form.errors }}</span> -->
+
+                    <input type="submit" id="registerbtn" value="Register" class="btn btn-pill text-white btn-block btn-primary register_butt">
                 </form>
             </div>
         </div>
 
     </body>
 </html>
+<script>
+    // $(document).ready(function() {
+    //     $("#id_img").text("1");
+    // });
+</script>

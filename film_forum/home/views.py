@@ -6,12 +6,20 @@ from member.models import Movies
 def testPage(request):
 
     movies1 = Movies.objects.filter(year__gt=2019)[:10]
-    movies2 = Movies.objects.filter(year__gt=2020)[:4]
-    movies3 = Movies.objects.filter(year__gt=2020)[:4]
+    movies2 = Movies.objects.filter(year__gt=2019)[:10]
+    movies3 = Movies.objects.filter(year__gt=2019)[:10]
     movieup = Movies.objects.filter(mid=89)
-    print(movies1)
-    len(movies1)
+    
+    if request.GET.get("term"):
+        term = request.GET.get('term')
+        movies = Movies.objects.filter(name__icontains=term)[:20]
+        
+        data = [{'label': movie.name, 'value': movie.name, 'url': str(movie.mid) } for movie in movies]
+        return JsonResponse(data, safe=False)
+    
     return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'movies3': movies3, 'movieup': movieup[0]}) 
+
+
 
 # def searchbar(request):
 #     if request.method == 'GET':

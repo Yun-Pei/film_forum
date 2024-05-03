@@ -31,7 +31,7 @@ class Movies(models.Model):
         db_table = 'Movies' #資料庫內table的名字，預設會是django_space  
 
 class User(AbstractUser):
-    img = models.CharField(max_length=255) #照片link
+    img = models.CharField(max_length=255, default=1, null=True) #照片link
     history_browse = models.ManyToManyField(Movies, through="Browse")
     class Meta:
         managed = True #代表需要Django幫你在資料庫建立這個table

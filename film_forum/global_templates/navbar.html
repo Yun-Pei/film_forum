@@ -1,4 +1,5 @@
 <head>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.3/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <header>
@@ -8,13 +9,13 @@
         <li><a href="{% url 'home' %}">Home</a></li>
         <li><a href="">Chatroom</a></li>
         <li>
-          <a href="toplist">Toplist</a>
+          <a href="{% url 'home'%}">Toplist</a>
           <ul class="toplist_submenu">
             <li><a href="{% url 'home'%}#ratedlist">Top 10 Highest Rated</a></li>
             <li><a href="{% url 'home'%}#watchlist">Top 10 Most Viewed</a></li>
           </ul>
         </li>
-        <li><a href="Watchlist">Watchlist</a></li>        
+        <li><a href="">Watchlist</a></li>        
         <li>
           <a href="#" class="search_btn" id="search_trigger">
             <i class="fa-solid fa-search"></i>
@@ -43,7 +44,7 @@
 
     <div id="search_container" class="hidden">
       <form id="search_form" action="#" method="get">
-        <input type="search" name="search" placeholder="Search"/>
+        <input type="search" name="search" placeholder="Search" id="search"/>
       </form>
     </div> 
   </header>
@@ -82,19 +83,29 @@
       };
     });
 
-    const smlSearchTrigger = document.getElementById('search_triggersml');
-    const smlSearchIcon = document.querySelector('#search_triggersml i');
+    const toplistLink = document.querySelector('a[href="toplist"]');
+    const toplistMenu = document.querySelector('.toplist_submenu');
 
-    smlSearchTrigger.onclick = function() {
-      searchContainer.classList.toggle('hidden');
-      
-      if (searchContainer.classList.contains('hidden')) {
-        smlSearchIcon.classList.remove('fa-xmark');
-        smlSearchIcon.classList.add('fa-search');
-      } else {
-        smlSearchIcon.classList.remove('fa-search');
-        smlSearchIcon.classList.add('fa-xmark');
-      }
-    };
+    // 當鼠標進入下拉菜單時，顯示菜單
+    toplistLink.addEventListener('mouseenter', function() {
+      toplistMenu.classList.add('open');
+    });
+    
+    // 當鼠標離開 Toplist 鏈接時，設置一段時間後隱藏菜單
+    toplistLink.addEventListener('mouseleave', function() {
+      setTimeout(function() {
+        toplistMenu.classList.remove('open');
+      }, 200000); // 延遲1秒後隱藏菜單
+    });
 
   </script>
+  <!-- <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+  <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+  <script>
+    $( function() {
+      var url = "{% url 'home'%}"; 
+      $( "#search" ).autocomplete({
+        source: url
+      });
+    } );
+  </script> -->

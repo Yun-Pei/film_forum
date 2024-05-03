@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <script src='{% static "ajax.js" %}'></script>
     <link href = '{% static "css/login.css" %}' rel="stylesheet">
-    <link href = '{% static "navbar.css" %}' rel="stylesheet">
+    <link href = '{% static "css/navbar.css" %}' rel="stylesheet">
 
 </head>
 <body>
@@ -25,7 +25,7 @@
                 {% if msg %}
                     {{ msg | safe }}
                 {% else %}
-                    <h1>Log In</h1>
+                    <h1 id="logintitle">Log In</h1>
                 {% endif %}
                 </span>
             </div>
@@ -50,7 +50,7 @@
             {% endif %}
 
             <div class="gotosigup">
-                <h3>Don't have an account? <a href="{% url 'register' %}" class="Signup">Signup now</a></h3>
+                <h3 id="loginwaste">Don't have an account? <a href="{% url 'register' %}" class="Signup">Signup now</a></h3>
             </div>
         </div>
 

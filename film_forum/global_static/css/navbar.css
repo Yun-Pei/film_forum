@@ -210,8 +210,12 @@
     padding: 20px 0;
   }
   
-  .links li:hover .toplist_submenu {
+  /* .links li:hover .toplist_submenu {
     display: block;
+  } */
+
+  .toplist_submenu.open {
+    display: block; 
   }
   
   /* searchbar */
@@ -279,3 +283,4 @@
       display: block;
     }
   }
+

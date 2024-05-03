@@ -60,6 +60,10 @@ def register(request):
     if request.method == "POST":
         form = RegisterForm(request.POST)
         if form.is_valid():
+            # password = form.cleaned_data['title']
+
+            # forum = User(title=title, conent=conent, time=now_time, uid=user_id, mid=film_id)
+
             form.save()
             msg = 'user created'
 

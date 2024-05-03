@@ -6,7 +6,7 @@
     {% csrf_token %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie</title>
-    <link href = '{% static "navbar.css" %}' rel="stylesheet">
+    <link href = '{% static "css/navbar.css" %}' rel="stylesheet">
     <link href = '{% static "css/movie.css" %}' rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
@@ -100,7 +100,7 @@
                         </div>
                         <div id="content"> {{ i.conent }} </div>   
                         <div id="art_id" style="display: none;"> {{ i.art_id }} </div>  
-                        <!-- <div id="m_id" style="display: none;"> {{ i.mid }} </div>  -->
+                        <div id="m_id" style="display: none;"> {{ i.mid }} </div> 
                     <!-- </a> -->
                 </div>
                 {% endfor %}
@@ -140,5 +140,21 @@
         overlay.style.display = "none";
     });
 </script> -->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script>
+        $(function() {
+        var url = "{% url 'home' %}"; 
+          $("#search").autocomplete({
+            source: url,
+            classes: {
+              "ui-autocomplete": "highlight"
+            },
+            select: function(event, ui) {
+            window.location.href = "{% url 'movie' %}"+"?m_id="+ui.item.url; 
+            },
 
+          });
+        });
+    </script>
 </html>

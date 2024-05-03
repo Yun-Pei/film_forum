@@ -39,25 +39,38 @@ h2 {
     flex-direction: column;
     align-items: center;
     width: 35%;
+    border-radius: 20px;
+    /* border-top-left-radius: 20px;
+    border-top-right-radius: 20px; */
 }
 
 .action_btn {
     visibility: hidden;
 }
 
+.errorlist{
+    color: red;
+}
+
+.register_info{
+    margin-bottom: 10px;
+}
 
 .mb-4 {
     width: 100%;
-    background-color: #ffba54;
+    background-color: #FF9800;
+    /* ?#ffba54 */
     padding: 10px;
     text-align: center;
     margin-bottom: 30px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
 
 .register_info input{
     width: 30vw;
     height: 5vh;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 
 .register_butt {
@@ -73,3 +86,11 @@ h2 {
 
 }
 /*  */
+/* 羅修改的 */
+#registertitle{
+    color: #fff;
+}
+
+#registerbtn{
+    border-radius: 7px;
+}
