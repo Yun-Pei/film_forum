@@ -1,9 +1,13 @@
+{% load static%}
 <!DOCTYPE html>
 <html>
 
 <head>
     <title>KounelChat</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'ajax.js'%}"></script>
     <style>
         * {
             margin: 0px;
@@ -145,7 +149,7 @@
         <div class="result">
             <ul>
                 <li>
-                    <div id="user1" style="display: none;">{{request.user.id}}</div>
+                    <div id="userSelf" style="display: none;">{{request.user.id}}</div>
                     <button type="submit">
                         <div id="userName" class="userName">{{user.username}}</div>
                         <div id="userId" class="userId">{{user.id}}</div>
@@ -157,9 +161,30 @@
         </form>
         <button type="submit" class="Cancel"><a href="{% url 'chat-page' %}">Cancel</a></button>
     </div>
+    
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script>
-        var be_uid = document.getElementById('userId');
-        var uid = document.getElementById('user1');
+
+        $(document).on('click', '.userName', function() {
+        // 找到click的那個的 m_id 、 user_id
+        var tempBeId = document.getElementById('userId');
+        var tempUid = document.getElementById('userSelf');
+        $.ajax({
+            type: "POST",
+            url: "",
+            data: {
+                uid_id: tempUid.innerHTML,
+                be_uid: tempBeId.innerHTML,
+            },
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error sending data: ' + error);
+            }
+        });
+
+    });
     </script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
