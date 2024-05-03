@@ -34,8 +34,14 @@ def addChatPage(request):
 #         if query:
 #             return User.objects.filter(username__icontains=query).exclude(id=self.request.user.id)
 #         return User.objects.none()
+
+def autocomplete(request):
+    if 'term' in request.GET:
+        qs = User.objects.filter(username__istartwith=request.GET('term'))
+        usernames = list()
+        for user in qs:
+            usernames.append(user.username)
+    return JsonResponse(usernames, safe=False)
 def search_members(request):
-    query = request.Get.get("q")
-    if query:
-        return User.objects.filter(username__icontains=query)
+    
     return render(request, 'addChatPage.html')

@@ -138,7 +138,7 @@
         <form action="{% url 'search_members' %}" method="get" class="search_chat">
             {% csrf_token %}
             <div>
-              <input type="text" placeholder="Search member" class="form-control" name="q">
+              <input id="Search" type="text" placeholder="Search member" class="form-control" name="q">
               <ion-icon name="search-outline"></ion-icon>
             </div>
             <button type="submit" style="display: none;"></button>
@@ -188,6 +188,13 @@
     </script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script>
+        $( function() {
+            $( "#Search" ).autocomplete({
+                source: '{% url autocomplete %}'
+            });
+        } );
+    </script>
 </body>
 
 </html>
