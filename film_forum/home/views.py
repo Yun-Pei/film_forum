@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from member.models import Movies
+from member.models import User
+from member.models import Browse
+from django.utils import timezone
 # from movie.models import 
 #新加入的function
 def testPage(request):
@@ -16,6 +19,18 @@ def testPage(request):
         
         data = [{'label': movie.name, 'value': movie.name, 'url': str(movie.mid) } for movie in movies]
         return JsonResponse(data, safe=False)
+    
+
+    movie_id = request.GET.get('m_id') 
+    print(movie_id)
+    if movie_id:
+        user = request.user
+            
+        movie = Movies.objects.get(id=movie_id)
+        
+        browse_time = timezone.now()
+            
+        Browse.objects.create(uid=user, mid=movie, browseTime=browse_time)
     
     return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'movies3': movies3, 'movieup': movieup[0]}) 
 
