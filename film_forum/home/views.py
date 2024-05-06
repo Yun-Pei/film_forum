@@ -24,13 +24,18 @@ def testPage(request):
     movie_id = request.GET.get('m_id') 
     print(movie_id)
     if movie_id:
-        user = request.user
-            
-        movie = Movies.objects.get(id=movie_id)
+        if request.user.is_authenticated:
+            user_id = request.user.id
         
+        user_id = User.objects.get(pk=user_id)
+        print(user_id)
+
+        film_id = Movies.objects.get(pk=movie_id)
+        print(film_id)
         browse_time = timezone.now()
             
-        Browse.objects.create(uid=user, mid=movie, browseTime=browse_time)
+        browse=Browse(uid=user_id, mid=film_id, browseTime=browse_time)
+        browse.save()
     
     return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'movies3': movies3, 'movieup': movieup[0]}) 
 
