@@ -4,6 +4,7 @@ from member.models import Movies
 from member.models import User
 from member.models import Browse
 from django.utils import timezone
+from django.db.models import Count
 # from movie.models import 
 #新加入的function
 def testPage(request):
@@ -12,6 +13,10 @@ def testPage(request):
     movies2 = Movies.objects.filter(year__gt=2019)[:10]
     movies3 = Movies.objects.filter(year__gt=2019)[:10]
     movieup = Movies.objects.filter(mid=89)
+
+    # top_movies = Browse.objects.values('mid').annotate(num_views=Count('mid')).order_by('-num_views')[:10]
+    # top_movie_ids = [entry['mid'] for entry in top_movies]
+    # movies1 = Movies.objects.filter(mid__in=top_movie_ids)
     
     if request.GET.get("term"):
         term = request.GET.get('term')
@@ -20,23 +25,29 @@ def testPage(request):
         data = [{'label': movie.name, 'value': movie.name, 'url': str(movie.mid) } for movie in movies]
         return JsonResponse(data, safe=False)
     
-
+    print(request.GET)
     movie_id = request.GET.get('m_id') 
+    print('below is mid')
     print(movie_id)
+    
     if movie_id:
+
         if request.user.is_authenticated:
             user_id = request.user.id
+            try:
+                user = User.objects.get(pk=user_id)
+                film = Movies.objects.get(pk=movie_id)
+                browse_time = timezone.now()
+                browse = Browse(uid=user, mid=film, browseTime=browse_time)
+                browse.save()
+                print("Browse entry saved successfully!")
+            except User.DoesNotExist:
+                print("User does not exist")
+            except Movies.DoesNotExist:
+                print("Movie does not exist")
+            except Exception as e:
+                print(f"An error occurred while saving browse entry: {e}")
         
-        user_id = User.objects.get(pk=user_id)
-        print(user_id)
-
-        film_id = Movies.objects.get(pk=movie_id)
-        print(film_id)
-        browse_time = timezone.now()
-            
-        browse=Browse(uid=user_id, mid=film_id, browseTime=browse_time)
-        browse.save()
-    
     return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'movies3': movies3, 'movieup': movieup[0]}) 
 
 
