@@ -30,7 +30,7 @@
     <div class="movie_info">
         <span style="display: none;" class="movie_id"> {{i.0}} </span>
         <div class="movie_name">
-            <h1> {{i.2}} </h1>
+            <h1 style="color: orange;"> {{i.2}} </h1>
             <span> {{i.3}}・{{i.5}}・{{i.6}} </span>
         </div>
 
@@ -67,6 +67,10 @@
 
 
     <hr class="separate">
+
+    <div class="reviewBox">
+        <id class="reviewCont"></id>
+    </div>
 
     <div class="forum">
         <div id="forum_content">
@@ -109,7 +113,7 @@
                 <h3 class="more_forum">View All</h3>
             </div>
         {% else %}
-            <p class="no_article">No articles found.Let's start to add a new article.</p>
+            <p class="no_article">No articles found. Let's start to add a new article.</p>
             <p class="more_forum" style="text-align: end;">Click here to start an article !</p>
         {% endif %}
             
