@@ -5,6 +5,7 @@ from member.models import User
 from member.models import Browse
 from django.utils import timezone
 from django.db.models import Count
+from django.db import connection
 # from movie.models import 
 #新加入的function
 def testPage(request):
@@ -13,10 +14,29 @@ def testPage(request):
     movies3 = Movies.objects.filter(year__gt=2019)[:10]
     movieup = Movies.objects.filter(mid=89)
 
-    top_movies = Browse.objects.values('mid').annotate(num_views=Count('mid')).order_by('-num_views')[:10]
-    top_movie_ids = [entry['mid'] for entry in top_movies]
+    # top_movies = Browse.objects.values('mid').annotate(num_views=Count('mid')).order_by('num_views')[:10]
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT mid_id, COUNT(mid_id) AS num_views
+            FROM Browse
+            GROUP BY mid_id
+            ORDER BY num_views
+            LIMIT 10;
+
+        """)
+        top_movies = cursor.fetchall()
+    top_movie_ids = [entry[0] for entry in top_movies]
     movies1 = Movies.objects.filter(mid__in=top_movie_ids)
-    print(movies1)
+
+    # for movie in top_movies:
+    #     print(f"Movie ID: {movie['mid']} - Views: {movie['num_views']}")
+
+    # for movie_id in top_movie_ids:
+    #     print(movie_id)
+
+    for movie in movies1:
+        print(movie.mid)
+
     if request.GET.get("term"):
         term = request.GET.get('term')
         movies = Movies.objects.filter(name__icontains=term)[:20]

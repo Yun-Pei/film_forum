@@ -55,7 +55,7 @@
 
       <div class="swiper" id="likelist">
         <div class="swiper-wrapper">
-          {% for movie in movies3 %}
+          {% for movie in movies1 %}
           <div class="swiper-slide">
               <img src="{{ movie.img }}" alt="{{ movie.name }}">
                 <div class="title">
@@ -73,9 +73,10 @@
       <div class="swiper" id="watchlist">
         <div class="swiper-wrapper">
           {% for movie in movies1 %}
-          <div class="swiper-slide">
+          <div class="swiper-slide viewslide">
               <img src="{{ movie.img }}" alt="{{ movie.name }}">
                 <div class="title">
+                  <span class="rank" id="rank"></span>
                   <span>{{ movie.name }}</span>
                   <span style="display: none;" class="m_id">{{ movie.mid }}</span>
                 </div>
@@ -105,6 +106,16 @@
 
           });
         });
+    </script>
+    <script>
+      // 獲取所有電影項目
+      const movieItems = document.querySelectorAll('.viewslide');
+    
+      // 計算並設置排名
+      movieItems.forEach((item, index) => {
+        const rankSpan = item.querySelector('.rank');
+        rankSpan.textContent = (index + 1) + '.';
+      });
     </script>
   </body>
 </html>
