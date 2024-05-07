@@ -218,3 +218,34 @@ body {
 /* .form_info input, .form_info textarea {
     width: 50vw;
 } */
+.reviewBox {
+    width: 70%;
+    margin: 0px auto;
+    margin-top: 3vh;
+}
+
+#reviewCont {
+    margin-top: 3vh;
+}
+
+ .reviewTitle {
+    color: orange;
+}
+
+.readMore {
+    display: flex;
+    justify-content: end;
+    margin: 2vh 0vh 0vh 0vh;
+    text-align: end;
+}
+
+.moreReview {
+    color: orange;
+    cursor: pointer;
+}
+
+.reviewComment {
+    border-bottom: 1px solid #cbd5e0;
+    padding: 10px;
+    margin: 10px;
+}
