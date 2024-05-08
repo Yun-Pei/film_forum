@@ -32,7 +32,7 @@ def testPage(request):
         movie_id = entry[0]
         num_views = entry[1]
         movie = Movies.objects.get(mid=movie_id)
-        print(f"Movie: {movie.name} - Views: {num_views}")
+        print(f"Movie: {movie.mid} - Views: {num_views}")
 
     for movie_id in top_movie_ids:
         print(movie_id)
