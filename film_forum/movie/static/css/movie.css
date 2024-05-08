@@ -222,6 +222,8 @@ body {
 .movieCommentBox {
     width: 70%;
     margin: 3vh auto 0px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #9f9f9f;
 }
 
 .CommemtTitleBox {
@@ -464,8 +466,9 @@ body {
     color: #ffffff;
     width: 90%;
     margin: 20px auto;
-    padding: 10px;
-    border-bottom: 1px solid #9f9f9f;
+    padding: 10px 10px 30px 30px;
+    background: rgba(194, 0, 0, 0.28);
+    border-radius: 10px;
 }
 
 .userReview_info {
@@ -500,7 +503,7 @@ body {
 }
 
 .userReview_score ion-icon {
-    margin-right: 10px;
+    margin-right: 3px;
     font-size: 28px;
     color: orange;
     position: relative;
