@@ -239,3 +239,57 @@ body {
     padding: 0px 10px;
     cursor: pointer;
 }
+
+.addComment_sideBar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 10px;
+    color: white;
+}
+
+.addComment_sideBar.active {
+    width: 25%;
+}
+
+.popupBackground {
+    position: absolute;
+    height: 100%;
+    width: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+}
+
+.popupBackground.active {
+    width: 100%;
+    top: 0;
+    right: 0;
+}
+
+.movieInfo {
+    display: flex;
+}
+
+.movieName, .movieYear {
+    color: #252525;
+}
+
+.addCommentBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.addComent_score, .addComent_title, .addComment_content {
+    margin: 20px auto 0px;
+    width: 90%;
+}
+
+.addComment_sideBar hr {
+    margin-top: 20px;
+}
