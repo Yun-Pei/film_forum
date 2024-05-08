@@ -28,11 +28,14 @@ def testPage(request):
     top_movie_ids = [entry[0] for entry in top_movies]
     movies1 = Movies.objects.filter(mid__in=top_movie_ids)
 
-    # for movie in top_movies:
-    #     print(f"Movie ID: {movie['mid']} - Views: {movie['num_views']}")
+    for entry in top_movies:
+        movie_id = entry[0]
+        num_views = entry[1]
+        movie = Movies.objects.get(mid=movie_id)
+        print(f"Movie: {movie.name} - Views: {num_views}")
 
-    # for movie_id in top_movie_ids:
-    #     print(movie_id)
+    for movie_id in top_movie_ids:
+        print(movie_id)
 
     if request.GET.get("term"):
         term = request.GET.get('term')

@@ -78,25 +78,20 @@ def movie(request):
     #     form = ForumsForm()
 
     # print(request.GET)
-    movie_id = request.GET.get('m_id') 
     # print('below is mid')
     # print(movie_id)
     
+    movie_id = request.GET.get('m_id') 
+
     if movie_id:
         if request.user.is_authenticated:
             user_id = request.user.id
-            try:
+            if user_id:
                 user = User.objects.get(pk=user_id)
                 film = Movies.objects.get(pk=movie_id)
                 browse_time = timezone.now()
                 browse = Browse(uid=user, mid=film, browseTime=browse_time)
                 browse.save()
                 print("Browse entry saved successfully!")
-            except User.DoesNotExist:
-                print("User does not exist")
-            except Movies.DoesNotExist:
-                print("Movie does not exist")
-            except Exception as e:
-                print(f"An error occurred while saving browse entry: {e}")
 
     return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data})
