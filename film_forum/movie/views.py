@@ -9,6 +9,7 @@ from member.models import *
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect  #直接回到某個網址
 from django.db import connection
+from django.views.decorators.csrf import csrf_exempt
 
 
 
@@ -78,3 +79,32 @@ def movie(request):
     #     form = ForumsForm()
 
     return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data})
+
+
+@csrf_exempt
+def movie_comment(request):
+    #拿連結
+    previous_url = request.META.get('HTTP_REFERER', '/')
+    request.session['previous_url'] = previous_url
+    # 拿會員ID
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        # print(user_id)
+
+    movie_id = request.GET.get('m_id')
+
+    reserve_list_comment = list()
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT User.id, User.username, MovieComment.*, Movies.name
+            FROM User
+            JOIN MovieComment ON User.id = MovieComment.uid_id
+            JOIN Movies ON MovieComment.mid_id = Movies.mid
+            WHERE Movies.mid = %s
+        """, [movie_id])
+        results = dictfetchall(cursor)
+        reserve_list_comment.append(results)
+
+
+    # 'form': form, 
+    return render(request, "movie.html", {'reserve_list_comment': reserve_list_comment})

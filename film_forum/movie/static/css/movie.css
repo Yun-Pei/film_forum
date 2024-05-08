@@ -218,34 +218,24 @@ body {
 /* .form_info input, .form_info textarea {
     width: 50vw;
 } */
-.reviewBox {
+
+.movieCommentBox {
     width: 70%;
-    margin: 0px auto;
-    margin-top: 3vh;
+    margin: 3vh auto 0px;
 }
 
-#reviewCont {
-    margin-top: 3vh;
-}
-
- .reviewTitle {
-    color: orange;
-}
-
-.readMore {
+.CommemtTitleBox {
     display: flex;
-    justify-content: end;
-    margin: 2vh 0vh 0vh 0vh;
-    text-align: end;
+    justify-content: space-between;
 }
 
-.moreReview {
+.addComment {
+    font-size: 18px;
     color: orange;
+    font-weight: 500;
+    background: none;
+    border: none;
+    border-radius: 10px;
+    padding: 0px 10px;
     cursor: pointer;
-}
-
-.reviewComment {
-    border-bottom: 1px solid #cbd5e0;
-    padding: 10px;
-    margin: 10px;
 }
