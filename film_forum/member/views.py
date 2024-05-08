@@ -5,7 +5,7 @@ from django.http import Http404, JsonResponse, HttpResponse
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import F
-from member.models import *
+from .models import *
 from .forms import *
 from django.contrib import auth
 from django.http import HttpResponseRedirect  #直接回到某個網址
