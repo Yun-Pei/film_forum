@@ -6,6 +6,7 @@
     {% csrf_token %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href = '{% static "css/navbar.css" %}' rel="stylesheet">
     <link href = '{% static "css/movie.css" %}' rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -74,19 +75,52 @@
             <button id="openBtn" class="addComment">+ review</button>
             {% for i in film %}
             <div class="addComment_sideBar">
-                <button id="closeBtn" class="closeSideBar"><ion-icon name="close-outline"></ion-icon></button>
+                <div class="sideBarHeader">
+                    <button id="closeBtn" class="closeSideBar"><ion-icon name="close-outline"></ion-icon></button>
+                </div>
                 <div class="movieInfo">
-                    <img src="{{i.8}}">
+                    <img class="movieIMG" src="{{i.8}}">
                     <div class="movieText">
-                        <div class="movieName"> {{i.2}} </div>
-                        <div class="movieYear"> {{i.3}} </div>
+                        <div class="movieNameYear">
+                            <p>{{i.2}} ({{i.3}})</p>
+                        </div>
+                        <div class="movieAdd">
+                            <p>Add an item</p>
+                        </div>
                     </div>
                 </div>
-                <hr>
                 <div class="addCommentBox">
-                    <input type="text" class="addComent_score">
-                    <input type="text" class="addComent_title">
-                    <input type="text" class="addComment_content">
+                    <div class="block">
+                        <p>YOUR RATING</p>
+                    </div>
+                    <div class="addComent_score">
+                        <div class="rating">
+                            <!-- 每个input后都添加一个label -->
+                            <input type="radio" id="star10" name="rating" value="10"><label for="star10" style="--c: #ff9933;" required></label>
+                            <input type="radio" id="star9" name="rating" value="9"><label for="star9" style="--c: #ff9933;"></label>
+                            <input type="radio" id="star8" name="rating" value="8"><label for="star8" style="--c: #ff9933;"></label>
+                            <input type="radio" id="star7" name="rating" value="7"><label for="star7" style="--c: #ff9933;"></label>
+                            <input type="radio" id="star6" name="rating" value="6"><label for="star6" style="--c: #ff9933;"></label>
+                            <input type="radio" id="star5" name="rating" value="5"><label for="star5" style="--c: #ff9933;"></label>
+                            <input type="radio" id="star4" name="rating" value="4"><label for="star4" style="--c: #ff9933;"></label>
+                            <input type="radio" id="star3" name="rating" value="3"><label for="star3" style="--c: #ff9933;"></label>
+                            <input type="radio" id="star2" name="rating" value="2"><label for="star2" style="--c: #ff9933;"></label>
+                            <input type="radio" id="star1" name="rating" value="1"><label for="star1" style="--c: #ff9933;"></label>
+                        </div>
+                        <div class="score-display"><span id="scoreValue">0</span>/10</div>
+                        <!-- <div class="error-message" style="color:red;"></div> -->
+                    </div>
+                    
+                    <div class="block">
+                        <p>YOUR REVIEW</p>
+                    </div>
+                    <input type="text" class="addComent_title" placeholder="Write a headline for your review here"required>
+                    <!-- <div class="error-message" style="color:red;"></div> -->
+                    <textarea type="text" class="addComment_content" placeholder="Write your review here" required></textarea>
+                    <!-- <div class="error-message" style="color:red;"></div> -->
+                </div>
+                <div class="submitBox">
+                    <button class="submitReviewBtn">Submit</button>
                 </div>
             </div>
             {% endfor %}
@@ -213,6 +247,65 @@
                 body.style.overflow = "auto";
             });
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var ratingInputs = document.querySelectorAll('.rating input');
+            var scoreDisplay = document.getElementById('scoreValue');
+
+            ratingInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    scoreDisplay.textContent = this.value; // 更新分数显示
+                });
+            });
+        });
+
+        // // 驗證是否輸入功能
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const form = document.querySelector('.submitBox');
+        //     const ratingInputs = document.querySelectorAll('[name="rating"]');
+        //     const titleInput = document.querySelector('.addComent_title');
+        //     const contentTextarea = document.querySelector('.addComment_content');
+
+        //     form.addEventListener('submit', function(event) {
+        //         let valid = true;
+        //         let firstInvalid = null;
+
+        //         // 清除所有现有的错误消息
+        //         document.querySelectorAll('.error-message').forEach(function(element) {
+        //             element.textContent = '';
+        //         });
+
+        //         // 验证评分
+        //         if (![...ratingInputs].some(input => input.checked)) {
+        //             const ratingError = document.querySelector('.addComent_score .error-message');
+        //             ratingError.textContent = 'Please select a rating.';
+        //             valid = false;
+        //             firstInvalid = firstInvalid || ratingInputs[0];
+        //         }
+
+        //         // 验证标题
+        //         if (titleInput.value.trim() === '') {
+        //             const titleError = titleInput.nextElementSibling;
+        //             titleError.textContent = 'Please enter a title for your review.';
+        //             valid = false;
+        //             firstInvalid = firstInvalid || titleInput;
+        //         }
+
+        //         // 验证评论内容
+        //         if (contentTextarea.value.trim() === '') {
+        //             const contentError = contentTextarea.nextElementSibling;
+        //             contentError.textContent = 'Please enter your review content.';
+        //             valid = false;
+        //             firstInvalid = firstInvalid || contentTextarea;
+        //         }
+
+        //         if (!valid) {
+        //             event.preventDefault();
+        //             firstInvalid.focus();  // 将焦点移至第一个未填写的输入
+        //         }
+        //     });
+        // });
+
 
         
     </script>
