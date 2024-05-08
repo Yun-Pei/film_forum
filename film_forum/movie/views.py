@@ -10,7 +10,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect  #直接回到某個網址
 from django.db import connection
 from django.views.decorators.csrf import csrf_exempt
-
+from django.http import HttpResponse
 
 
 def dictfetchall(cursor):
@@ -37,6 +37,20 @@ def movie(request):
         """, [movie_id])
         results = dictfetchall(cursor)
         reserve_list.append(results)
+
+
+    reserve_list_comment = list()
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT User.id, User.username, MovieComments.*
+            FROM User
+            JOIN MovieComments ON User.id = MovieComments .uid_id
+            WHERE MovieComments.mid_id =%s
+            ORDER BY MovieComments.time DESC
+        """, [movie_id])
+        commentResults = dictfetchall(cursor)
+        reserve_list_comment.append(commentResults)
 
     film = Movies.objects.filter(mid=movie_id).values_list("mid", "rid", "name", "year", "rating", "time", "age", "introduction", "img", "director", "star", "tag")
     
@@ -77,34 +91,67 @@ def movie(request):
         #     return redirect('forum')
     # else:
     #     form = ForumsForm()
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            user_id = request.user.id
+        rating = request.POST.get('rating')
+        # print(rating)
+        content = request.POST.get('addCommentContBox')
+        # print(content)
 
-    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data})
+        uid_id = User.objects.get(pk=user_id)
+        mid_id = Movies.objects.get(pk=movie_id)
+        existing_comment = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
+        if existing_comment:
+            return HttpResponse("You have already reviewed this movie.", status=400)
+        time = timezone.now()
 
+        review = MovieComments(score=rating, content=content, mid=mid_id, time=time, uid=uid_id)
+        review.save()
 
-@csrf_exempt
-def movie_comment(request):
-    #拿連結
-    previous_url = request.META.get('HTTP_REFERER', '/')
-    request.session['previous_url'] = previous_url
-    # 拿會員ID
-    if request.user.is_authenticated:
-        user_id = request.user.id
-        # print(user_id)
-
-    movie_id = request.GET.get('m_id')
-
-    reserve_list_comment = list()
-    with connection.cursor() as cursor:
-        cursor.execute("""
-            SELECT User.id, User.username, MovieComment.*, Movies.name
-            FROM User
-            JOIN MovieComment ON User.id = MovieComment.uid_id
-            JOIN Movies ON MovieComment.mid_id = Movies.mid
-            WHERE Movies.mid = %s
-        """, [movie_id])
-        results = dictfetchall(cursor)
-        reserve_list_comment.append(results)
+    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})
 
 
-    # 'form': form, 
-    return render(request, "movie.html", {'reserve_list_comment': reserve_list_comment})
+# @csrf_exempt
+# def movie_comment(request):
+#     #拿連結
+#     previous_url = request.META.get('HTTP_REFERER', '/')
+#     request.session['previous_url'] = previous_url
+#     # 拿會員ID
+#     if request.user.is_authenticated:
+#         user_id = request.user.id
+#         # print(user_id)
+
+#     movie_id = request.GET.get('m_id')
+
+#     reserve_list_comment = list()
+#     with connection.cursor() as cursor:
+#         cursor.execute("""
+#             SELECT User.id, User.username, MovieComment.*, Movies.name
+#             FROM User
+#             JOIN MovieComments ON User.id = MovieComment.uid_id
+#             JOIN Movies ON MovieComments.mid_id = Movies.mid
+#             WHERE Movies.mid = %s
+#         """, [movie_id])
+#         results = dictfetchall(cursor)
+#         reserve_list_comment.append(results)
+
+
+#     # 'form': form, 
+#     return render(request, "movie.html", {'reserve_list_comment': reserve_list_comment})
+
+# def submit_review(request):
+#     movie_id = request.GET.get('m_id')
+
+#     if request.method == 'POST':
+#         if request.user.is_authenticated:
+#             user_id = request.user.id
+#         rating = request.POST.get('rating')
+#         print(rating)
+#         content = request.POST.get('addComment_content')
+#         uid_id = User.objects.get(pk=user_id)
+#         mid_id = Movies.objects.get(pk=movie_id)
+#         time = timezone.now()
+
+#         review = MovieComment(score=rating, content=content, mid_id=mid_id, time=time, uid_id=uid_id)
+#         review.save()

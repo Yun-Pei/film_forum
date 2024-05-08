@@ -114,19 +114,31 @@ class ArticleComment(models.Model):
         unique_together = ('uid', 'time')
 
 
-class MovieComment(models.Model):
+# class MovieComment(models.Model):
+#     uid = models.ForeignKey(User, on_delete=models.CASCADE)
+#     mid = models.OneToOneField(Movies, on_delete=models.CASCADE)
+#     Comment_id = models.AutoField(primary_key=True)
+#     content = models.CharField(max_length=255)
+#     score = models.IntegerField()
+#     time = models.DateTimeField(default=None, null=True)
+
+#     class Meta:
+#         managed = True #代表需要Django幫你在資料庫建立這個table
+#         db_table = 'MovieComment' #資料庫內table的名字，預設會是django_space  
+#         unique_together = ('mid', 'Comment_id')
+
+class MovieComments(models.Model):
     uid = models.ForeignKey(User, on_delete=models.CASCADE)
     mid = models.OneToOneField(Movies, on_delete=models.CASCADE)
-    Comment_id = models.IntegerField()
+    Comment_id = models.AutoField(primary_key=True)
     content = models.CharField(max_length=255)
     score = models.IntegerField()
     time = models.DateTimeField(default=None, null=True)
 
     class Meta:
         managed = True #代表需要Django幫你在資料庫建立這個table
-        db_table = 'MovieComment' #資料庫內table的名字，預設會是django_space  
+        db_table = 'MovieComments' #資料庫內table的名字，預設會是django_space  
         unique_together = ('mid', 'Comment_id')
-
 
 
 

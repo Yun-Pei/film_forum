@@ -90,50 +90,59 @@
                     </div>
                 </div>
                 <div class="addCommentBox">
-                    <div class="block">
-                        <p>YOUR RATING</p>
-                    </div>
-                    <div class="addComent_score">
-                        <div class="rating">
-                            <!-- 每个input后都添加一个label -->
-                            <input type="radio" id="star10" name="rating" value="10"><label for="star10" style="--c: #ff9933;" required></label>
-                            <input type="radio" id="star9" name="rating" value="9"><label for="star9" style="--c: #ff9933;"></label>
-                            <input type="radio" id="star8" name="rating" value="8"><label for="star8" style="--c: #ff9933;"></label>
-                            <input type="radio" id="star7" name="rating" value="7"><label for="star7" style="--c: #ff9933;"></label>
-                            <input type="radio" id="star6" name="rating" value="6"><label for="star6" style="--c: #ff9933;"></label>
-                            <input type="radio" id="star5" name="rating" value="5"><label for="star5" style="--c: #ff9933;"></label>
-                            <input type="radio" id="star4" name="rating" value="4"><label for="star4" style="--c: #ff9933;"></label>
-                            <input type="radio" id="star3" name="rating" value="3"><label for="star3" style="--c: #ff9933;"></label>
-                            <input type="radio" id="star2" name="rating" value="2"><label for="star2" style="--c: #ff9933;"></label>
-                            <input type="radio" id="star1" name="rating" value="1"><label for="star1" style="--c: #ff9933;"></label>
+                    <form action="" method="POST" id="MovieCommentCont">
+                        {% csrf_token %}
+                        <div class="block">
+                            <p>YOUR RATING</p>
                         </div>
-                        <div class="score-display"><span id="scoreValue">0</span>/10</div>
-                        <!-- <div class="error-message" style="color:red;"></div> -->
-                    </div>
-                    
-                    <div class="block">
-                        <p>YOUR REVIEW</p>
-                    </div>
-                    <textarea type="text" class="addComment_content" placeholder="Write your review here" required></textarea>
-                    <!-- <div class="error-message" style="color:red;"></div> -->
-                </div>
-                <div class="submitBox">
-                    <button class="submitReviewBtn">Submit</button>
+                        <div id="errorMessage1"></div>
+                        <div class="addComent_score">
+                            <div class="rating">
+                                <input type="radio" id="star10" name="rating" value="10"><label for="star10" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star9" name="rating" value="9"><label for="star9" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star8" name="rating" value="8"><label for="star8" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star7" name="rating" value="7"><label for="star7" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star6" name="rating" value="6"><label for="star6" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star5" name="rating" value="5"><label for="star5" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star4" name="rating" value="4"><label for="star4" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star3" name="rating" value="3"><label for="star3" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star2" name="rating" value="2"><label for="star2" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star1" name="rating" value="1"><label for="star1" style="--c: #ff9933;"></label>
+                            </div>
+                            <div class="score-display"><span id="scoreValue">0</span>/10</div>
+                        </div>
+                        <div class="block">
+                            <p>YOUR REVIEW</p>
+                        </div>
+                        <div id="errorMessage2"></div>
+                        <div class="addCommentContBox">
+                            <textarea type="text" name="addCommentContBox" class="addComment_content" placeholder="Write your review here"></textarea>
+                        </div>
+                        <div class="submitBox">
+                            <button class="submitReviewBtn">Submit</button>
+                        </div>
+                    </form>
                 </div>
             </div>
             {% endfor %}
             <div class="popupBackground"></div>
         </div>
-        {% for row in reserve_list_comment %}
-            {% for comment in row %}
-                <div class="userReview">
-                    <div class="userReview_username"><h3>{{comment.username}}</h3></div>
-                    <div class="userReview_time">{{comment.time}}</div>
-                    <div class="userReivew_cont">{{comment.content}}</div>
-                    <div class="userReview_score">{{comment.score}}</div>
-                </div>
+        {% if reserve_list_comment.0 %}
+            {% for row in reserve_list_comment %}
+                {% for j in row %}
+                    <div id="userReview">
+                        <div class="userReview_score"><ion-icon name="star"></ion-icon><span>{{ j.score }}</span>/10</div>
+                        <div class="userReview_info">
+                            <div class="userReview_username"><p>{{ j.username }}</p></div>
+                            <div class="userReview_time">{{ j.time }}</div>
+                        </div>
+                        <div class="userReivew_cont">{{ j.content }}</div>
+                    </div>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
+        {% else %}
+            <p id="no_article">No comment found. Press the "+ review" button in the top right corner to add a comment</p>
+        {% endif %}
 
     </div>
 
@@ -302,7 +311,47 @@
         //         }
         //     });
         // });
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('MovieCommentCont'); // 确保这是您表单的 ID
+            form.addEventListener('submit', function(e) {
+                var isChecked = false;
+                var isTextFilled = false;
+                var radios = document.getElementsByName('rating');
+                var textArea = document.querySelector('.addComment_content');
+        
+                // 检查是否有选择评分
+                for (var i = 0; i < radios.length; i++) {
+                    if (radios[i].checked) {
+                        isChecked = true;
+                        break;
+                    }
+                }
 
+                // 检查文本区域是否已填写
+                if (textArea.value.trim() !== "") {
+                    isTextFilled = true;
+                }
+
+                var errorMessageDiv1 = document.getElementById('errorMessage1');
+                var errorMessageDiv2 = document.getElementById('errorMessage2');
+                if (!isChecked || !isTextFilled) {
+                    e.preventDefault(); // 阻止表单提交
+                    if (!isChecked && !isTextFilled) {
+                        errorMessageDiv1.textContent = 'Please select a rating.';
+                        errorMessageDiv2.textContent = 'Please fill in the review.';
+                    } else if (!isChecked) {
+                        errorMessageDiv1.textContent = 'Please select a rating.';
+                    } else if (!isTextFilled) {
+                        errorMessageDiv2.textContent = 'Please fill in the review.';
+                    }
+                    errorMessageDiv1.style.color = 'red'; // 设置错误信息的颜色为红色
+                    errorMessageDiv2.style.color = 'red'; // 设置错误信息的颜色为红色
+                } else {
+                    errorMessageDiv1.textContent = ''; // 确保在条件满足后清除错误消息
+                    errorMessageDiv2.textContent = ''; // 确保在条件满足后清除错误消息
+                }
+            });
+        });
 
         
     </script>

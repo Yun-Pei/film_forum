@@ -259,7 +259,7 @@ body {
 
 .popupBackground {
     position: absolute;
-    height: 100%;
+    height: 200%;
     width: 0;
     background: rgba(0, 0, 0, 0.6);
     z-index: 2;
@@ -299,9 +299,14 @@ body {
     flex-direction: column;
 }
 
+.addCommentContBox {
+    width: 100%;
+    text-align: center;
+}
+
 .addComment_content {
-    margin: 20px auto 0px;
-    width: 90%;
+    margin: 10px auto 0px;
+    width: 95%;
 }
 
 .addCommentBox textarea {
@@ -380,8 +385,9 @@ body {
 }
 
 .block p {
+    position: relative;
     padding-left: 10px;
-    margin: 5px 0px;
+    top: 5px;
     font-size: 14px;
 }
 
@@ -442,3 +448,61 @@ body {
     color: #ff9933;  /* 你可以根据需要调整颜色 */
 }
 
+#errorMessage1 {
+    position: relative;
+    margin: 0px 0px 0px 10px;
+    top: 10px;
+}
+
+#errorMessage2 {
+    position: relative;
+    margin-left: 10px;
+    top: 5px;
+}
+
+#userReview {
+    color: #ffffff;
+    width: 90%;
+    margin: 20px auto;
+    padding: 10px;
+    border-bottom: 1px solid #9f9f9f;
+}
+
+.userReview_info {
+    display: flex;
+    margin: 10px 0;
+    line-height: 33px;
+}
+
+.userReview_score {
+    margin: 5px 0px;
+}
+
+.userReview_score span {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.userReview_username {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0px 20px 0px 0px;
+}
+
+.userReivew_cont {
+    font-size: 18px;
+}
+
+#no_article {
+    color: #ffffff;
+    margin: 20px 30px;
+    font-size: 20px;
+}
+
+.userReview_score ion-icon {
+    margin-right: 10px;
+    font-size: 28px;
+    color: orange;
+    position: relative;
+    top: 10px;
+}
