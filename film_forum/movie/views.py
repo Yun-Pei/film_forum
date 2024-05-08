@@ -83,7 +83,6 @@ def movie(request):
     # print(movie_id)
     
     if movie_id:
-
         if request.user.is_authenticated:
             user_id = request.user.id
             try:

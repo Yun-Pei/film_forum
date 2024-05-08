@@ -34,9 +34,6 @@ def testPage(request):
     # for movie_id in top_movie_ids:
     #     print(movie_id)
 
-    for movie in movies1:
-        print(movie.mid)
-
     if request.GET.get("term"):
         term = request.GET.get('term')
         movies = Movies.objects.filter(name__icontains=term)[:20]
