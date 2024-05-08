@@ -299,14 +299,9 @@ body {
     flex-direction: column;
 }
 
-.addComent_title, .addComment_content {
+.addComment_content {
     margin: 20px auto 0px;
     width: 90%;
-}
-
-.addComent_title {
-    padding: 10px;
-    border: 1px solid #cbd5e0;
 }
 
 .addCommentBox textarea {
