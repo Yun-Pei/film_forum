@@ -151,14 +151,14 @@ def log_out(request):
 
 #             csv_reader = csv.reader(file)
 
-    #         for row in csv_reader:
+#             for row in csv_reader:
 
-    #             movie = Movies(name=row[0], year=row[1], time=row[2], age=row[3], introduction=row[4], img=row[5],director=row[6], star=row[7],tag=row[8], rating='0')
+#                 movie = Movies(name=row[0], year=row[1], time=row[2], age=row[3], introduction=row[4], img=row[5],director=row[6], star=row[7],tag=row[8], rating='0')
 
-    #             movie.save()
+#                 movie.save()
                         
 
-    #     return HttpResponse('Movies imported successfully from CSV!')
+#         return HttpResponse('Movies imported successfully from CSV!')
     
-    # # return render("crwal.html")
-    # return render(request, "crawl.html")
+#     # return render("crwal.html")
+#     return render(request, "crawl.html")
