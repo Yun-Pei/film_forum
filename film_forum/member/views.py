@@ -5,11 +5,29 @@ from django.http import Http404, JsonResponse, HttpResponse
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import F
-from member.models import *
+from .models import *
 from .forms import *
 from django.contrib import auth
 from django.http import HttpResponseRedirect  #直接回到某個網址
 from django.db import connection
+
+
+from urllib.request import urlopen as uReq
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException
+from time import sleep
+import time
+# import requests
+from bs4 import BeautifulSoup
+import re
+import pandas as pd
+import csv
+from datetime import datetime, timedelta
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 
 
 # Create your views here.
@@ -125,6 +143,22 @@ def log_out(request):
     #             movie.save()
 
     #     return HttpResponse('Movies imported successfully from CSV!')
+@csrf_exempt
+def crawl(request):
+    if request.method == "POST":
 
-# def login(request):
+        with open('member/all_2023-06-17_1.csv', 'r', encoding='utf-8') as file:
+
+            csv_reader = csv.reader(file)
+
+            for row in csv_reader:
+
+                movie = Movies(name=row[0], year=row[1], time=row[2], age=row[3], introduction=row[4], img=row[5],director=row[6], star=row[7],tag=row[8], rating='0')
+
+                movie.save()
+                        
+
+        return HttpResponse('Movies imported successfully from CSV!')
     
+    # return render("crwal.html")
+    return render(request, "crawl.html")

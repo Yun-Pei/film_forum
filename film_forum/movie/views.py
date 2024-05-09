@@ -47,13 +47,11 @@ def movie(request):
         # 將原始star欄位分割成名字列表
         names_list = movie[10].split(',')
         
-        # 使用'・'連接名字列表，生成新的名字字符串
+        # 使用'・'連接名字列表
         new_names_string = '・'.join(names_list)
         
-        # 創建一個新的元組，將修改後的star欄位放入其中
         processed_movie_tuple = (*movie[:10], new_names_string, *movie[11:])
         
-        # 將新的元組加入處理後的資料列表中
         processed_movie_data.append(processed_movie_tuple)
 
     # forum_article = Article.objects.filter(mid=movie_id).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
