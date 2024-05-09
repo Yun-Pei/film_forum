@@ -129,9 +129,9 @@ class ArticleComment(models.Model):
 
 class MovieComments(models.Model):
     uid = models.ForeignKey(User, on_delete=models.CASCADE)
-    mid = models.OneToOneField(Movies, on_delete=models.CASCADE)
+    mid = models.ForeignKey(Movies, on_delete=models.CASCADE, default=300)
     Comment_id = models.AutoField(primary_key=True)
-    content = models.CharField(max_length=255)
+    content = models.TextField(default="test") 
     score = models.IntegerField()
     time = models.DateTimeField(default=None, null=True)
 

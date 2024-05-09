@@ -72,7 +72,9 @@
     <div class="movieCommentBox">
         <div class="CommemtTitleBox">
             <h1 style="color: orange;">User reviews</h1>
-            <button id="openBtn" class="addComment">+ review</button>
+            <!-- {% if not user_has_commented %} -->
+                <button id="openBtn" class="addComment">+ review</button>
+            <!-- {% endif %} -->
             {% for i in film %}
             <div class="addComment_sideBar">
                 <div class="sideBarHeader">
@@ -127,9 +129,11 @@
             {% endfor %}
             <div class="popupBackground"></div>
         </div>
+        <div class="allReviewBox">
         {% if reserve_list_comment.0 %}
             {% for row in reserve_list_comment %}
                 {% for j in row %}
+                <div class="userReviewBox">
                     <div id="userReview">
                         <div class="userReview_score"><ion-icon name="star"></ion-icon><span>{{ j.score }}</span>/10</div>
                         <div class="userReview_info">
@@ -138,11 +142,15 @@
                         </div>
                         <div class="userReivew_cont">{{ j.content }}</div>
                     </div>
+                </div>
+                    
                 {% endfor %}
             {% endfor %}
         {% else %}
             <p id="no_article">No comment found. Press the "+ review" button in the top right corner to add a comment</p>
         {% endif %}
+        </div>
+        
 
     </div>
 

@@ -226,6 +226,11 @@ body {
     border-bottom: 1px solid #9f9f9f;
 }
 
+.allReviewBox {
+    max-height: 400px;
+    overflow-x: hidden;
+}
+
 .CommemtTitleBox {
     display: flex;
     justify-content: space-between;
@@ -462,13 +467,22 @@ body {
     top: 5px;
 }
 
+.userReviewBox {
+    height: fit-content;
+    max-height: 250px;
+}
+
+
 #userReview {
     color: #ffffff;
     width: 90%;
     margin: 20px auto;
-    padding: 10px 10px 30px 30px;
+    padding: 10px 30px 30px 30px;
     background: rgba(194, 0, 0, 0.28);
     border-radius: 10px;
+    overflow-x: hidden;
+    height: fit-content;
+    max-height: 250px;
 }
 
 .userReview_info {
