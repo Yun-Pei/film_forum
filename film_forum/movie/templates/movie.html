@@ -12,6 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src='{% static "js/movie.js" %}'></script>
     <script src='{% static "ajax.js" %}'></script>
 
@@ -135,7 +136,21 @@
                 {% for j in row %}
                 <div class="userReviewBox">
                     <div id="userReview">
-                        <div class="userReview_score"><ion-icon name="star"></ion-icon><span>{{ j.score }}</span>/10</div>
+                        <div class="userReview_score">
+                            <div>
+                                <ion-icon name="star"></ion-icon><span>{{ j.score }}</span>/10
+                            </div>
+                            {% if request.user.id == j.uid_id %}
+                            <span class="edit_message">
+                                <span class="material-symbols-outlined" id="mess_edit">
+                                    edit
+                                </span>
+                                <span class="material-symbols-outlined" id="mess_delete">
+                                    delete
+                                </span>
+                            </span>
+                            {% endif %}
+                        </div>
                         <div class="userReview_info">
                             <div class="userReview_username"><p>{{ j.username }}</p></div>
                             <div class="userReview_time">{{ j.time }}</div>

@@ -493,6 +493,9 @@ body {
 
 .userReview_score {
     margin: 5px 0px;
+    display: flex;
+    justify-content: space-between;
+    line-height: 35px;
 }
 
 .userReview_score span {
@@ -522,4 +525,9 @@ body {
     color: orange;
     position: relative;
     top: 10px;
+}
+
+.edit_message .material-symbols-outlined {
+    font-size: 20px;
+    line-height: 35px;
 }
