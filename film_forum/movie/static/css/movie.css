@@ -234,6 +234,7 @@ body {
 .CommemtTitleBox {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 20px;
 }
 
 .addComment {
@@ -476,7 +477,7 @@ body {
 #userReview {
     color: #ffffff;
     width: 90%;
-    margin: 20px auto;
+    margin: 0px auto 20px;
     padding: 10px 30px 30px 30px;
     background: rgba(194, 0, 0, 0.28);
     border-radius: 10px;
@@ -530,4 +531,9 @@ body {
 .edit_message .material-symbols-outlined {
     font-size: 20px;
     line-height: 35px;
+    cursor: pointer;
+}
+
+.edit_message .material-symbols-outlined:hover {
+    color: orange;
 }

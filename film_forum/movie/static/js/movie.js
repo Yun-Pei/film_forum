@@ -69,6 +69,35 @@ $(document).ready(function() {
         });
 
     });
+
+    $('#movie_comment_delete').on("click", function(){
+        let answer = confirm('Are you sure you want to delete the review?');
+        // var Comment_id = $(this).find('#Comment_id').text();
+        var Comment_id = $('#Comment_id').text().trim();
+        // alert(m_id)
+        // delete
+        if(answer){
+            $.ajax({
+                url: 'movie',
+                type: 'GET', 
+                data: {
+                    'mode' : 'movie_comment_delete',
+                    'm_id' : m_id,
+                    'Comment_id' : Comment_id,
+                },
+                success: function(response){
+                    // alert("POST arleady")
+                    alert("The comment has been successfully deleted!")
+                    console.log(response);
+                    location.reload();
+                },
+                error: function(response){
+                    alert("delete faild");
+                    console.log(response);
+                }
+            });
+        }
+    });
 });
 
 

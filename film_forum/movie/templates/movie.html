@@ -145,7 +145,7 @@
                                 <span class="material-symbols-outlined" id="mess_edit">
                                     edit
                                 </span>
-                                <span class="material-symbols-outlined" id="mess_delete">
+                                <span class="material-symbols-outlined" id="movie_comment_delete">
                                     delete
                                 </span>
                             </span>
@@ -156,6 +156,7 @@
                             <div class="userReview_time">{{ j.time }}</div>
                         </div>
                         <div class="userReivew_cont">{{ j.content }}</div>
+                        <div id="Comment_id" style="display: none;"> {{ j.Comment_id }} </div>
                     </div>
                 </div>
                     
@@ -213,34 +214,10 @@
             <p class="no_article">No articles found. Let's start to add a new article.</p>
             <p class="more_forum" style="text-align: end;">Click here to start an article !</p>
         {% endif %}
-            
-
         </div>
-
-
-
-
-
     </div>
-
 </body>
 
-<!-- <script>
-    var openButton = document.getElementById("openPopupButton");
-    var popup = document.getElementById("popupForm");
-    var closeButton = document.getElementById("closePopupButton");
-    var overlay = document.getElementById("overlay");
-
-    openButton.addEventListener("click", function() {
-        popup.style.display = "block";
-        overlay.style.display = "block";
-    });
-
-    closeButton.addEventListener("click", function() {
-        popup.style.display = "none";
-        overlay.style.display = "none";
-    });
-</script> -->
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script>

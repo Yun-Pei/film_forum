@@ -105,6 +105,14 @@ def movie(request):
 
         return HttpResponseRedirect(f'movie?m_id={movie_id}')
     
+    if request.GET.get("mode") == "movie_comment_delete" and request.method == 'GET':
+        movie_id = request.GET.get('m_id')
+        Comment_id = request.GET.get('Comment_id')
+        print(movie_id, Comment_id)
+        delete_comment = MovieComments.objects.get(Comment_id=Comment_id)
+        delete_comment.delete()
+        return HttpResponseRedirect(f'movie?m_id={movie_id}')
+
     reserve_list_comment = list()
 
     with connection.cursor() as cursor:
