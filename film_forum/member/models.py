@@ -101,7 +101,8 @@ class Article(models.Model):
         unique_together = ('mid', 'art_id')
 
 
-class ArticleComment(models.Model):
+class ArticleComments(models.Model):
+    ac_id = models.AutoField(primary_key=True)
     uid = models.ForeignKey(User, on_delete=models.CASCADE) #留言人
     mid = models.ForeignKey(Movies, on_delete=models.CASCADE)
     art_id = models.ForeignKey(Article, on_delete=models.CASCADE)
@@ -110,7 +111,7 @@ class ArticleComment(models.Model):
 
     class Meta:
         managed = True #代表需要Django幫你在資料庫建立這個table
-        db_table = 'ArticleComment' #資料庫內table的名字，預設會是django_space  
+        db_table = 'ArticleComments' #資料庫內table的名字，預設會是django_space  
         unique_together = ('uid', 'time')
 
 

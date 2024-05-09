@@ -95,7 +95,7 @@ def forum_article(request):
         # print(user_id)
 
     # articles = None
-    # articlecomment = None
+    # ArticleComments = None
     form = MessageForm()
 
     movie_id = request.GET.get('m_id')
@@ -118,16 +118,16 @@ def forum_article(request):
 
 
     # articles = Article.objects.filter(art_id=article_id).values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
-    # articlecomment = ArticleComment.objects.filter(art_id=article_id).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent')
+    # ArticleComments = ArticleComments.objects.filter(art_id=article_id).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent')
 
     reserve_list_comment = list()
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT User.id, User.username, ArticleComment.*
+            SELECT User.id, User.username, ArticleComments.*
             FROM User
-            JOIN ArticleComment ON User.id = ArticleComment.uid_id
-            WHERE ArticleComment.art_id_id = %s
-            ORDER BY ArticleComment.time DESC
+            JOIN ArticleComments ON User.id = ArticleComments.uid_id
+            WHERE ArticleComments.art_id_id = %s
+            ORDER BY ArticleComments.time DESC
         """, [article_id])
         results = dictfetchall(cursor)
         reserve_list_comment.append(results)
@@ -149,7 +149,7 @@ def forum_article(request):
             time = timezone.now()
             # print(now_time)
 
-            forum = ArticleComment(art_id=art_id, conent=conent, mid=film_id, time=time, uid=user_id)
+            forum = ArticleComments(art_id=art_id, conent=conent, mid=film_id, time=time, uid=user_id)
             forum.save()
 
 
@@ -188,8 +188,35 @@ def forum_article(request):
 
             delete_article = Article.objects.get(art_id=article_id)
             delete_article.delete()
-            # print(f'forum?m_id={movie_id}')
             return HttpResponseRedirect(f'forum?m_id={movie_id}')  
+        
+        elif request.POST.get("mode") == "forum_message_edit":
+            article_id = request.POST.get('art_id')
+            movie_id = request.POST.get('m_id')
+            acom_id = request.POST.get('acom_id')
+            print(acom_id)
+            content = request.POST.get('content')
+            time = ArticleComments.objects.filter(ac_id=acom_id).values('time')
+
+            user_id = User.objects.get(pk=user_id)
+            film_id = Movies.objects.get(pk=movie_id)
+            art_id = Article.objects.get(pk=article_id)
+
+            art_edit = ArticleComments.objects.get(pk=acom_id)
+            print(art_edit)
+            art_edit.conent = content
+            art_edit.save()
+            print(content)
+
+            return HttpResponse('The comment has been successfully modified!')
+        
+        elif request.POST.get("mode") == "forum_message_delete":
+            ac_id = request.POST.get('ac_id')
+
+            delete_article_comment = ArticleComments.objects.get(ac_id=ac_id)
+            delete_article_comment.delete()
+            return HttpResponse(status=200)
+
             
 # 'form': form, 
     return render(request, "forum_article.html", {'form': form, 'reserve_list': reserve_list, 'reserve_list_comment': reserve_list_comment})
