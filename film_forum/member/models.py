@@ -121,6 +121,7 @@ class MovieComment(models.Model):
     Comment_id = models.IntegerField()
     content = models.CharField(max_length=255)
     score = models.IntegerField()
+    time = models.DateTimeField(default=None, null=True)
 
     class Meta:
         managed = True #代表需要Django幫你在資料庫建立這個table
