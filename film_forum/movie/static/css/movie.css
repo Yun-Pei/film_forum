@@ -218,3 +218,316 @@ body {
 /* .form_info input, .form_info textarea {
     width: 50vw;
 } */
+
+.movieCommentBox {
+    width: 70%;
+    margin: 3vh auto 0px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #9f9f9f;
+}
+
+.allReviewBox {
+    max-height: 400px;
+    overflow-x: hidden;
+}
+
+.CommemtTitleBox {
+    display: flex;
+    justify-content: space-between;
+}
+
+.addComment {
+    font-size: 18px;
+    color: orange;
+    font-weight: 500;
+    background: none;
+    border: none;
+    border-radius: 10px;
+    padding: 0px 10px;
+    cursor: pointer;
+}
+
+.addComment_sideBar {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    color: white;
+}
+
+.addComment_sideBar.active {
+    width: 30%;
+}
+
+.popupBackground {
+    position: absolute;
+    height: 200%;
+    width: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 2;
+}
+
+.popupBackground.active {
+    width: 100%;
+    top: 0;
+    right: 0;
+    height: 100%;
+}
+
+.movieInfo {
+    display: flex;
+}
+
+.movieText {
+    display: flex;
+    flex-direction: column;
+    flex: 3;
+}
+
+.movieNameYear {
+    color: #252525;
+    font-size: 20px;
+    flex: 1;
+    border-bottom: 1px solid gray;
+}
+
+.movieNameYear p {
+    position: relative;
+    top: 35%;
+}
+
+.addCommentBox {
+    display: flex;
+    flex-direction: column;
+}
+
+.addCommentContBox {
+    width: 100%;
+    text-align: center;
+}
+
+.addComment_content {
+    margin: 10px auto 0px;
+    width: 95%;
+}
+
+.addCommentBox textarea {
+    padding: 10px;
+    border: 1px solid #cbd5e0;
+    height: 250px;
+}
+
+.addComment_sideBar hr {
+    margin-top: 10px;
+}
+
+.movieInfo {
+    margin: 10px;
+}
+
+.movieIMG {
+    width: 100px;
+    flex: 1;
+    margin: 10px;
+}
+
+.movieAdd {
+    color: #252525;
+    flex: 1;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.movieAdd p {
+    position: relative;
+    top: 25%;
+}
+
+.sideBarHeader {
+    margin: 0px auto;
+    background: orange;
+    height: 50px;
+    text-align: right;
+}
+
+.sideBarHeader .closeSideBar {
+    position: relative;
+    background: none;
+    border: none;
+    font-size: 28px;
+    height: 55px;
+    right: 10px;
+    cursor: pointer;
+}
+
+.submitBox {
+    width: 90%;
+    margin: 20px auto 0px;
+}
+
+.submitReviewBtn {
+    width: 100%;
+    height: 40px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e0;
+    font-size: 14px;
+    background: #fff;
+    cursor: pointer;
+}
+
+.submitReviewBtn:hover {
+    box-shadow: 0px 0px 5px orange;
+    transition: 0.2s;
+}
+
+.block {
+    background: #9f9f9f;
+    height: 30px;
+    width: 100%;
+}
+
+.block p {
+    position: relative;
+    padding-left: 10px;
+    top: 5px;
+    font-size: 14px;
+}
+
+.sideBarFooter {
+    position: relative;
+    bottom: 0;
+    background: orange;
+    height: 50px;
+}
+
+.addComent_score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.rating {
+    position: relative;
+    display: flex;
+    padding: 30px 10px 30px 0px;
+    flex-direction: row-reverse;
+}
+
+.rating input {
+    display: none;
+}
+
+.rating label {
+    position: relative;
+    width: 30px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.rating label::before {
+    content: '\f005';
+    font-family: 'FontAwesome';
+    font-size: 20px;
+    color: #252525;
+    /* transition: 0.5s; */
+}
+
+.rating label:hover::before,
+.rating label:hover ~ label::before,
+.rating input:checked + label::before,
+.rating input:checked + label ~ label::before {
+    color: var(--c);
+}
+
+.score-display {
+    font-size: 16px;
+    color: #ff9933;  /* 你可以根据需要调整颜色 */
+}
+
+#errorMessage1 {
+    position: relative;
+    margin: 0px 0px 0px 10px;
+    top: 10px;
+}
+
+#errorMessage2 {
+    position: relative;
+    margin-left: 10px;
+    top: 5px;
+}
+
+.userReviewBox {
+    height: fit-content;
+    max-height: 250px;
+}
+
+
+#userReview {
+    color: #ffffff;
+    width: 90%;
+    margin: 20px auto;
+    padding: 10px 30px 30px 30px;
+    background: rgba(194, 0, 0, 0.28);
+    border-radius: 10px;
+    overflow-x: hidden;
+    height: fit-content;
+    max-height: 250px;
+}
+
+.userReview_info {
+    display: flex;
+    margin: 10px 0;
+    line-height: 33px;
+}
+
+.userReview_score {
+    margin: 5px 0px;
+    display: flex;
+    justify-content: space-between;
+    line-height: 35px;
+}
+
+.userReview_score span {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.userReview_username {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0px 20px 0px 0px;
+}
+
+.userReivew_cont {
+    font-size: 18px;
+}
+
+#no_article {
+    color: #ffffff;
+    margin: 20px 30px;
+    font-size: 20px;
+}
+
+.userReview_score ion-icon {
+    margin-right: 3px;
+    font-size: 28px;
+    color: orange;
+    position: relative;
+    top: 10px;
+}
+
+.edit_message .material-symbols-outlined {
+    font-size: 20px;
+    line-height: 35px;
+}
