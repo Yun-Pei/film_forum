@@ -32,6 +32,7 @@ urlpatterns = [
     path('forum_article', forum_views.forum_article, name="forum_article"),
     path('login', member_views.login, name="login"),
     path('log_out', member_views.log_out, name="log_out"),
+    # path('crawl', member_views.crawl, name="crawl"),
     # path("", views.index, name="home")
     # path('searchbar/', home_views.searchbar, name='searchbar'),
     # path('load-more-videos/', home_views.load_more_videos, name='load_more_videos'),
