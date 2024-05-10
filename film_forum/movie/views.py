@@ -118,7 +118,6 @@ def movie(request):
         commentResults = dictfetchall(cursor)
         reserve_list_comment.append(commentResults)
 
-    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})
     # print(request.GET)
     # print('below is mid')
     # print(movie_id)
@@ -136,4 +135,4 @@ def movie(request):
                 browse.save()
                 print("Browse entry saved successfully!")
 
-    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data})
+    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})
