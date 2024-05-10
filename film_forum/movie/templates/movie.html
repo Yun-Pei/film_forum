@@ -142,12 +142,14 @@
                             </div>
                             {% if request.user.id == j.uid_id %}
                             <span class="edit_message">
-                                <span class="material-symbols-outlined" id="mess_edit">
+                                <span class="material-symbols-outlined mess_edit" id="">
                                     edit
                                 </span>
-                                <span class="material-symbols-outlined" id="movie_comment_delete">
+                                <span class="material-symbols-outlined movie_comment_delete" id="">
                                     delete
+                                    <p class="Comment_id" style="display: none;"> {{ j.Comment_id }} </p>
                                 </span>
+
                             </span>
                             {% endif %}
                         </div>
@@ -156,7 +158,6 @@
                             <div class="userReview_time">{{ j.time }}</div>
                         </div>
                         <div class="userReivew_cont">{{ j.content }}</div>
-                        <div id="Comment_id" style="display: none;"> {{ j.Comment_id }} </div>
                     </div>
                 </div>
                     

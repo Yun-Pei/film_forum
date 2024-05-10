@@ -70,11 +70,13 @@ $(document).ready(function() {
 
     });
 
-    $('#movie_comment_delete').on("click", function(){
+    $('.movie_comment_delete').on("click", function(){
+        // alert("123");
         let answer = confirm('Are you sure you want to delete the review?');
         // var Comment_id = $(this).find('#Comment_id').text();
-        var Comment_id = $('#Comment_id').text().trim();
-        // alert(m_id)
+        var Comment_id = $(this).find('.Comment_id').text().trim();
+
+        // alert(Comment_id)
         // delete
         if(answer){
             $.ajax({
