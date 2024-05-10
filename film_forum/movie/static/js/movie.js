@@ -43,7 +43,7 @@ $(document).ready(function() {
         });
 
     });
-
+    
     $('#forum_content').on("click", "#article", function(){
         // 找到click的那個的 m_id 、 user_id
         var m_id = $('.movie_id').text();
@@ -69,37 +69,73 @@ $(document).ready(function() {
         });
 
     });
-
+    
+    const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+            confirmButton: "btn btn-success",
+            cancelButton: "btn btn-danger"
+        },
+        buttonsStyling: false
+    });
+    
     $('.movie_comment_delete').on("click", function(){
         // alert("123");
-        let answer = confirm('Are you sure you want to delete the review?');
+        // let answer = confirm('Are you sure you want to delete the review?');
         // var Comment_id = $(this).find('#Comment_id').text();
         var Comment_id = $(this).find('.Comment_id').text().trim();
-
+        swalWithBootstrapButtons.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Yes, delete it!",
+            cancelButtonText: "No, cancel!",
+            reverseButtons: true
+        }).then((result) => {
+            if(result.isConfirmed) {
+                $.ajax({
+                    url: 'movie',
+                    type: 'GET', 
+                    data: {
+                        'mode' : 'movie_comment_delete',
+                        'm_id' : m_id,
+                        'Comment_id' : Comment_id,
+                    },
+                    success: function(response){
+                            // alert("POST arleady")
+                        swalWithBootstrapButtons.fire({
+                            title: "Deleted!",
+                            text: "Your file has been deleted.",
+                            icon: "success"
+                        }).then((result) => {
+                            // 弹窗关闭后刷新页面，无论是通过点击OK还是其他方式关闭弹窗
+                            location.reload();
+                        });
+                        console.log(response);
+                    },
+                    error: function(response){
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: 'Something went wrong!',
+                        });
+                        console.log(response);
+                    }
+                });
+            }else if (
+                /* Read more about handling dismissals below */
+            result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire({
+                    title: "Cancelled",
+                    text: "Your imaginary file is safe :)",
+                    icon: "error"
+                });
+            }
         // alert(Comment_id)
         // delete
-        if(answer){
-            $.ajax({
-                url: 'movie',
-                type: 'GET', 
-                data: {
-                    'mode' : 'movie_comment_delete',
-                    'm_id' : m_id,
-                    'Comment_id' : Comment_id,
-                },
-                success: function(response){
-                    // alert("POST arleady")
-                    alert("The comment has been successfully deleted!")
-                    console.log(response);
-                    location.reload();
-                },
-                error: function(response){
-                    alert("delete faild");
-                    console.log(response);
-                }
-            });
-        }
+        
+        });
     });
-});
 
-
+})
