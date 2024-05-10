@@ -3,11 +3,13 @@ from django.http import JsonResponse
 from member.models import Movies
 from member.models import User
 from member.models import Browse
+from member.models import MovieComments
 from django.utils import timezone
 from django.db.models import Count
 from django.db import connection
 from itertools import permutations
 import pandas as pd
+from django.db.models import Avg
 # from movie.models import 
 #新加入的function
 
@@ -27,15 +29,22 @@ def get_top_ten_movies():
     
     return top_movies_objects
 
+def get_top_ten_movies_by_avg_score():
+    top_movies = MovieComments.objects.values('mid').annotate(avg_score=Avg('score')).order_by('-avg_score')[:10]
+    top_movie_ids = [entry['mid'] for entry in top_movies]
+    top_movies_objects = Movies.objects.filter(mid__in=top_movie_ids)
+    return top_movies_objects
+
 def testPage(request):
 
-    movies2 = Movies.objects.filter(year__gt=2019)[:10]
     movies3 = Movies.objects.filter(year__gt=2019)[:10]
     movieup = Movies.objects.filter(mid=89)
 
     # top_movies = Browse.objects.values('mid').annotate(num_views=Count('mid')).order_by('num_views')[:10]
     movies1 = get_top_ten_movies()
 
+    movies2 = get_top_ten_movies_by_avg_score()
+    
     # for entry in top_movies:
     #     movie_id = entry[0]
     #     num_views = entry[1]

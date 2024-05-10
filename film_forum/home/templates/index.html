@@ -36,9 +36,10 @@
       <div class="swiper" id="ratedlist">
         <div class="swiper-wrapper">
           {% for movie in movies2 %}
-          <div class="swiper-slide">
+          <div class="swiper-slide viewslide">
               <img src="{{ movie.img }}" alt="{{ movie.name }}">
                 <div class="title">
+                  <span class="rank" id="rank"></span>
                   <span>{{ movie.name }}</span>
                   <span style="display: none;" class="m_id">{{ movie.mid }}</span>
                 </div>
@@ -54,7 +55,7 @@
 
       <div class="swiper" id="likelist">
         <div class="swiper-wrapper">
-          {% for movie in movies2 %}
+          {% for movie in movies3 %}
           <div class="swiper-slide">
               <img src="{{ movie.img }}" alt="{{ movie.name }}">
                 <div class="title">
