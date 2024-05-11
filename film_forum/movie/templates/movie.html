@@ -138,7 +138,7 @@
                     <div id="userReview">
                         <div class="userReview_score">
                             <div>
-                                <ion-icon name="star"></ion-icon><span>{{ j.score }}</span>/10
+                                <ion-icon name="star"></ion-icon><span class="score">{{ j.score }}</span>/10
                             </div>
                             {% if request.user.id == j.uid_id %}
                             <span class="edit_message">
@@ -157,10 +157,22 @@
                             <div class="userReview_username"><p>{{ j.username }}</p></div>
                             <div class="userReview_time">{{ j.time }}</div>
                         </div>
-                        <div class="userReivew_cont">{{ j.content }}</div>
+                        <div class="userReview_cont">
+                            <p class="original_content">{{ j.content }}</p>
+                            <textarea class="edit_review_content" style="display: none;" required></textarea>
+                        </div>
+                        {% if request.user.id == j.uid_id %}
+                            <div class="review_buttons form_submit" style="display: none;">
+                                <br>
+                                <ion-icon class="review_cancel_edit" id="close_review_edit" name="close-outline"></ion-icon>
+                                <ion-icon class="review_submit_edit" name="checkmark-outline">
+                                    <p class="Comment_id" style="display: none;"> {{ j.Comment_id }} </p>
+                                    <p class="original_content" style="display: none;">{{ j.content }}</p>
+                                </ion-icon>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
-                    
                 {% endfor %}
             {% endfor %}
         {% else %}

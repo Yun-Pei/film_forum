@@ -499,7 +499,7 @@ body {
     line-height: 35px;
 }
 
-.userReview_score span {
+.userReview_score .score {
     font-weight: 700;
     font-size: 20px;
 }
@@ -525,15 +525,39 @@ body {
     font-size: 28px;
     color: orange;
     position: relative;
-    top: 10px;
+    top: 5px;
 }
 
 .edit_message .material-symbols-outlined {
-    font-size: 20px;
-    line-height: 35px;
+    font-size: 25px;
+    line-height: 40px;
     cursor: pointer;
+    margin: 0px 7px;
 }
 
 .edit_message .material-symbols-outlined:hover {
     color: orange;
+}
+
+.edit_review_content {
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 10px;
+    height: fit-content;
+}
+
+.review_buttons {
+    float: right;
+    gap: 10px;
+    font-size: 35px;
+}
+
+.review_cancel_edit {
+    color: red;
+    cursor: pointer;
+}
+
+.review_submit_edit {
+    color: greenyellow;
+    cursor: pointer;
 }

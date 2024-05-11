@@ -104,7 +104,9 @@ def movie(request):
         review.save()
 
         return HttpResponseRedirect(f'movie?m_id={movie_id}')
-    
+    if request.user.is_authenticated:
+            user_id = request.user.id
+
     if request.GET.get("mode") == "movie_comment_delete" and request.method == 'GET':
         movie_id = request.GET.get('m_id')
         Comment_id = request.GET.get('Comment_id')
@@ -112,6 +114,25 @@ def movie(request):
         delete_comment = MovieComments.objects.get(Comment_id=Comment_id)
         delete_comment.delete()
         return HttpResponseRedirect(f'movie?m_id={movie_id}')
+    
+    elif request.GET.get('mode') == "movie_comment_edit" and request.method == 'GET':
+        print('5555555')
+        Comment_id = request.GET.get('Comment_id')
+        movie_id = request.GET.get('m_id')
+        content = request.GET.get('content')
+        time = MovieComments.objects.filter(Comment_id=Comment_id).values('time')
+        print(Comment_id, movie_id, content, time)
+
+        # user_id = User.objects.get(pk=user_id)
+        # movie_id = Movies.objects.get(pk=movie_id)
+        # Comment_id = MovieComments.objects.get(pk=Comment_id)
+
+        comment_edit = MovieComments.objects.filter(pk=Comment_id)
+        print(comment_edit)
+        comment_edit.content = content
+        comment_edit.save()
+
+        return HttpResponse('The review has been successfully modified!')
 
     reserve_list_comment = list()
 

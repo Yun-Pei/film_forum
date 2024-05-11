@@ -138,4 +138,55 @@ $(document).ready(function() {
         });
     });
 
+    $('.movie_comment_edit').on('click', function(event){
+        event.preventDefault();
+        // var content = $(".userReivew_cont > p").text().trim();
+        var content = $(this).closest('.userReview_score').nextAll('.userReview_cont').first().find('.original_content').text().trim();
+        // console.log('123', content);
+
+        var specificCom = $('.userReviewBox').filter(function() {
+            return $(this).attr('data-id') === '123';
+        }).text();
+
+        $('.original_content').css('display', 'none');
+        $('.edit_review_content').css('display', 'block');
+        $('.edit_review_content').val(content);
+        $('.review_buttons').css('display', 'flex');
+    });
+
+    $('.review_cancel_edit').on("click", function(event){
+        $(".original_content").css("display", "block");
+        $(".edit_review_content").css("display", "none");       
+        $(".review_buttons").css("display", "none");       
+    });
+
+    $('.review_submit_edit').on('click', function() {
+        var content = $(this).find(".original_content").text().trim();
+        var Comment_id = $(this).find('.Comment_id').text().trim();
+        // alert(content);
+        if (content == ''){
+            alert("Can't be empty");
+        }else {
+            $.ajax({
+                url: 'movie',
+                type: 'GET', 
+                data: {
+                    'content': content,
+                    'mode' : 'movie_comment_edit',
+                    'm_id' : m_id,
+                    'Comment_id' : Comment_id,
+                },
+                success: function(response){
+                    // alert("POST arleady")
+                    alert("The review has been successfully edited!");
+                    console.log(response);
+                    location.reload(true);
+                },
+                error: function(response){
+                    alert("edit faild");
+                    console.log(response);
+                }
+            });
+        }
+    });
 })
