@@ -36,11 +36,13 @@
         <div class="movie_name">
             <div class="tilteNButton">
                 <h1 style="color: orange;"> {{i.2}} </h1>
-                <div class="followBox">
-                    <p>Favorite</p>
+                {% if request.user.is_authenticated %}
+                <div class="followBox" data-movie-id="{{ i.0 }}">
+                    <p>Add to Favorite</p>
                     <ion-icon name="bookmark-outline" id="notFav"></ion-icon>
-                    <ion-icon name="bookmark" id="Fav" style="display: none;"></ion-icon>
                 </div>
+                <ion-icon name="bookmark" id="Fav" style="display: none;" class="FavoriteBtn"></ion-icon>
+                {% endif %}
             </div>
             <span> {{i.3}}・{{i.5}}・{{i.6}} </span>
         </div>
@@ -258,22 +260,27 @@
           });
         });
 
+        var followBox = document.querySelector('.followBox');
+        var bookmarkNotFav = document.getElementById('notFav');
+        var bookmarkFav = document.getElementById('Fav');
+
+        followBox.addEventListener('click', function() {
+            // 切換 followBox 和 bookmark 圖標的顯示狀態
+            followBox.style.display = 'none'; // 隱藏 followBox
+            bookmarkFav.style.display = 'block'; // 顯示 bookmark 圖標
+        });
+
+        bookmarkFav.addEventListener('click', function() {
+            followBox.style.display = 'flex'; // 隱藏 followBox
+            bookmarkFav.style.display = 'none'; // 顯示 bookmark 圖標
+        });
+
         document.addEventListener('DOMContentLoaded', function() {
             var openBtn = document.getElementById('openBtn');
             var closeBtn = document.getElementById('closeBtn');
             var sidebar = document.querySelector('.addComment_sideBar');
             var popupBackground = document.querySelector('.popupBackground');
             var body = document.body;
-            var notFav = document.getElementById('notFav');
-            var Fav = document.getElementById('Fav');
-
-            Fav.addEventListener('click', function() {
-                followBox.classList.add('active');
-            });
-
-            notFav.addEventListener('click', function() {
-                followBox.classList.remove('active');
-            });
 
             openBtn.addEventListener('click', function() {
                 sidebar.classList.add('active'); // 添加active
