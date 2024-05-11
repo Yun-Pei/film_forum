@@ -9,7 +9,8 @@ from member.models import *
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect  #直接回到某個網址
 from django.db import connection
-
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse
 
 
 def dictfetchall(cursor):
@@ -36,6 +37,8 @@ def movie(request):
         """, [movie_id])
         results = dictfetchall(cursor)
         reserve_list.append(results)
+
+
 
     film = Movies.objects.filter(mid=movie_id).values_list("mid", "rid", "name", "year", "rating", "time", "age", "introduction", "img", "director", "star", "tag")
     
@@ -75,4 +78,44 @@ def movie(request):
     # else:
     #     form = ForumsForm()
 
-    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data})
+    # user_has_commented = False
+    # if user_id:
+    #     user_has_commented = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
+
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            user_id = request.user.id
+            # print(user_id)
+        rating = request.POST.get('rating')
+        # print(rating)
+        content = request.POST.get('addCommentContBox')
+        # print(content)
+
+        uid_id = User.objects.get(pk=user_id)
+        mid_id = Movies.objects.get(pk=movie_id)
+        existing_comment = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
+        if existing_comment:
+            return HttpResponseRedirect(f'movie?m_id={movie_id}') #這個要處理一下
+        time = timezone.now()
+
+        print(uid_id)
+
+        review = MovieComments(score=rating, content=content, mid=mid_id, time=time, uid=uid_id)
+        review.save()
+
+        return HttpResponseRedirect(f'movie?m_id={movie_id}')
+    
+    reserve_list_comment = list()
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT User.id, User.username, MovieComments.*
+            FROM User
+            JOIN MovieComments ON User.id = MovieComments .uid_id
+            WHERE MovieComments.mid_id =%s
+            ORDER BY MovieComments.time DESC
+        """, [movie_id])
+        commentResults = dictfetchall(cursor)
+        reserve_list_comment.append(commentResults)
+
+    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})

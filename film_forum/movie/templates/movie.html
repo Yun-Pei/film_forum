@@ -6,11 +6,13 @@
     {% csrf_token %}
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href = '{% static "css/navbar.css" %}' rel="stylesheet">
     <link href = '{% static "css/movie.css" %}' rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src='{% static "js/movie.js" %}'></script>
     <script src='{% static "ajax.js" %}'></script>
 
@@ -30,7 +32,7 @@
     <div class="movie_info">
         <span style="display: none;" class="movie_id"> {{i.0}} </span>
         <div class="movie_name">
-            <h1> {{i.2}} </h1>
+            <h1 style="color: orange;"> {{i.2}} </h1>
             <span> {{i.3}}・{{i.5}}・{{i.6}} </span>
         </div>
 
@@ -68,6 +70,105 @@
 
     <hr class="separate">
 
+    <div class="movieCommentBox">
+        <div class="CommemtTitleBox">
+            <h1 style="color: orange;">User reviews</h1>
+            <!-- {% if not user_has_commented %} -->
+                <button id="openBtn" class="addComment">+ review</button>
+            <!-- {% endif %} -->
+            {% for i in film %}
+            <div class="addComment_sideBar">
+                <div class="sideBarHeader">
+                    <button id="closeBtn" class="closeSideBar"><ion-icon name="close-outline"></ion-icon></button>
+                </div>
+                <div class="movieInfo">
+                    <img class="movieIMG" src="{{i.8}}">
+                    <div class="movieText">
+                        <div class="movieNameYear">
+                            <p>{{i.2}} ({{i.3}})</p>
+                        </div>
+                        <div class="movieAdd">
+                            <p>Add an item</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="addCommentBox">
+                    <form action="" method="POST" id="MovieCommentCont">
+                        {% csrf_token %}
+                        <div class="block">
+                            <p>YOUR RATING</p>
+                        </div>
+                        <div id="errorMessage1"></div>
+                        <div class="addComent_score">
+                            <div class="rating">
+                                <input type="radio" id="star10" name="rating" value="10"><label for="star10" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star9" name="rating" value="9"><label for="star9" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star8" name="rating" value="8"><label for="star8" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star7" name="rating" value="7"><label for="star7" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star6" name="rating" value="6"><label for="star6" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star5" name="rating" value="5"><label for="star5" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star4" name="rating" value="4"><label for="star4" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star3" name="rating" value="3"><label for="star3" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star2" name="rating" value="2"><label for="star2" style="--c: #ff9933;"></label>
+                                <input type="radio" id="star1" name="rating" value="1"><label for="star1" style="--c: #ff9933;"></label>
+                            </div>
+                            <div class="score-display"><span id="scoreValue">0</span>/10</div>
+                        </div>
+                        <div class="block">
+                            <p>YOUR REVIEW</p>
+                        </div>
+                        <div id="errorMessage2"></div>
+                        <div class="addCommentContBox">
+                            <textarea type="text" name="addCommentContBox" class="addComment_content" placeholder="Write your review here"></textarea>
+                        </div>
+                        <div class="submitBox">
+                            <button class="submitReviewBtn">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+            <div class="popupBackground"></div>
+        </div>
+        <div class="allReviewBox">
+        {% if reserve_list_comment.0 %}
+            {% for row in reserve_list_comment %}
+                {% for j in row %}
+                <div class="userReviewBox">
+                    <div id="userReview">
+                        <div class="userReview_score">
+                            <div>
+                                <ion-icon name="star"></ion-icon><span>{{ j.score }}</span>/10
+                            </div>
+                            {% if request.user.id == j.uid_id %}
+                            <span class="edit_message">
+                                <span class="material-symbols-outlined" id="mess_edit">
+                                    edit
+                                </span>
+                                <span class="material-symbols-outlined" id="mess_delete">
+                                    delete
+                                </span>
+                            </span>
+                            {% endif %}
+                        </div>
+                        <div class="userReview_info">
+                            <div class="userReview_username"><p>{{ j.username }}</p></div>
+                            <div class="userReview_time">{{ j.time }}</div>
+                        </div>
+                        <div class="userReivew_cont">{{ j.content }}</div>
+                    </div>
+                </div>
+                    
+                {% endfor %}
+            {% endfor %}
+        {% else %}
+            <p id="no_article">No comment found. Press the "+ review" button in the top right corner to add a comment</p>
+        {% endif %}
+        </div>
+        
+
+    </div>
+
     <div class="forum">
         <div id="forum_content">
             <div class="add_forum">
@@ -84,7 +185,7 @@
 
             </div>
             
-        {% if reserve_list.0%}
+        {% if reserve_list.0 %}
             {% for row in reserve_list %}
                 {% for i in row %}   
                 <div id="article">
@@ -109,7 +210,7 @@
                 <h3 class="more_forum">View All</h3>
             </div>
         {% else %}
-            <p class="no_article">No articles found.Let's start to add a new article.</p>
+            <p class="no_article">No articles found. Let's start to add a new article.</p>
             <p class="more_forum" style="text-align: end;">Click here to start an article !</p>
         {% endif %}
             
@@ -120,7 +221,7 @@
 
 
 
-</div>
+    </div>
 
 </body>
 
@@ -156,5 +257,127 @@
 
           });
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var openBtn = document.getElementById('openBtn');
+            var closeBtn = document.getElementById('closeBtn');
+            var sidebar = document.querySelector('.addComment_sideBar');
+            var popupBackground = document.querySelector('.popupBackground');
+            var body = document.body;
+
+            openBtn.addEventListener('click', function() {
+                sidebar.classList.add('active'); // 添加active
+                popupBackground.classList.add('active');
+                body.style.overflow = "hidden";
+            });
+
+            closeBtn.addEventListener('click', function() {
+                sidebar.classList.remove('active'); // 移除active
+                popupBackground.classList.remove('active');
+                body.style.overflow = "auto";
+            });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var ratingInputs = document.querySelectorAll('.rating input');
+            var scoreDisplay = document.getElementById('scoreValue');
+
+            ratingInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    scoreDisplay.textContent = this.value; // 更新分数显示
+                });
+            });
+        });
+
+        // // 驗證是否輸入功能
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     const form = document.querySelector('.submitBox');
+        //     const ratingInputs = document.querySelectorAll('[name="rating"]');
+        //     const contentTextarea = document.querySelector('.addComment_content');
+
+        //     form.addEventListener('submit', function(event) {
+        //         let valid = true;
+        //         let firstInvalid = null;
+
+        //         // 清除所有现有的错误消息
+        //         document.querySelectorAll('.error-message').forEach(function(element) {
+        //             element.textContent = '';
+        //         });
+
+        //         // 验证评分
+        //         if (![...ratingInputs].some(input => input.checked)) {
+        //             const ratingError = document.querySelector('.addComent_score .error-message');
+        //             ratingError.textContent = 'Please select a rating.';
+        //             valid = false;
+        //             firstInvalid = firstInvalid || ratingInputs[0];
+        //         }
+
+        //         // 验证标题
+        //         if (titleInput.value.trim() === '') {
+        //             const titleError = titleInput.nextElementSibling;
+        //             titleError.textContent = 'Please enter a title for your review.';
+        //             valid = false;
+        //             firstInvalid = firstInvalid || titleInput;
+        //         }
+
+        //         // 验证评论内容
+        //         if (contentTextarea.value.trim() === '') {
+        //             const contentError = contentTextarea.nextElementSibling;
+        //             contentError.textContent = 'Please enter your review content.';
+        //             valid = false;
+        //             firstInvalid = firstInvalid || contentTextarea;
+        //         }
+
+        //         if (!valid) {
+        //             event.preventDefault();
+        //             firstInvalid.focus();  // 将焦点移至第一个未填写的输入
+        //         }
+        //     });
+        // });
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('MovieCommentCont'); // 确保这是您表单的 ID
+            form.addEventListener('submit', function(e) {
+                var isChecked = false;
+                var isTextFilled = false;
+                var radios = document.getElementsByName('rating');
+                var textArea = document.querySelector('.addComment_content');
+        
+                // 检查是否有选择评分
+                for (var i = 0; i < radios.length; i++) {
+                    if (radios[i].checked) {
+                        isChecked = true;
+                        break;
+                    }
+                }
+
+                // 检查文本区域是否已填写
+                if (textArea.value.trim() !== "") {
+                    isTextFilled = true;
+                }
+
+                var errorMessageDiv1 = document.getElementById('errorMessage1');
+                var errorMessageDiv2 = document.getElementById('errorMessage2');
+                if (!isChecked || !isTextFilled) {
+                    e.preventDefault(); // 阻止表单提交
+                    if (!isChecked && !isTextFilled) {
+                        errorMessageDiv1.textContent = 'Please select a rating.';
+                        errorMessageDiv2.textContent = 'Please fill in the review.';
+                    } else if (!isChecked) {
+                        errorMessageDiv1.textContent = 'Please select a rating.';
+                    } else if (!isTextFilled) {
+                        errorMessageDiv2.textContent = 'Please fill in the review.';
+                    }
+                    errorMessageDiv1.style.color = 'red'; // 设置错误信息的颜色为红色
+                    errorMessageDiv2.style.color = 'red'; // 设置错误信息的颜色为红色
+                } else {
+                    errorMessageDiv1.textContent = ''; // 确保在条件满足后清除错误消息
+                    errorMessageDiv2.textContent = ''; // 确保在条件满足后清除错误消息
+                }
+            });
+        });
+
+        
     </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 </html>
