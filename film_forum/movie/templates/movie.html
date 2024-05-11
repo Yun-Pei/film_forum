@@ -36,7 +36,11 @@
         <div class="movie_name">
             <div class="tilteNButton">
                 <h1 style="color: orange;"> {{i.2}} </h1>
-                
+                <div class="followBox">
+                    <p>Favorite</p>
+                    <ion-icon name="bookmark-outline" id="notFav"></ion-icon>
+                    <ion-icon name="bookmark" id="Fav" style="display: none;"></ion-icon>
+                </div>
             </div>
             <span> {{i.3}}・{{i.5}}・{{i.6}} </span>
         </div>
@@ -260,6 +264,16 @@
             var sidebar = document.querySelector('.addComment_sideBar');
             var popupBackground = document.querySelector('.popupBackground');
             var body = document.body;
+            var notFav = document.getElementById('notFav');
+            var Fav = document.getElementById('Fav');
+
+            Fav.addEventListener('click', function() {
+                followBox.classList.add('active');
+            });
+
+            notFav.addEventListener('click', function() {
+                followBox.classList.remove('active');
+            });
 
             openBtn.addEventListener('click', function() {
                 sidebar.classList.add('active'); // 添加active
