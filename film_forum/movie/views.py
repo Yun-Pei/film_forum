@@ -127,7 +127,8 @@ def movie(request):
         # movie_id = Movies.objects.get(pk=movie_id)
         # Comment_id = MovieComments.objects.get(pk=Comment_id)
 
-        comment_edit = MovieComments.objects.filter(pk=Comment_id)
+        comment_edit = MovieComments.objects.get(Comment_id=Comment_id)
+        # .objects.filter(pk=Comment_id)
         print(comment_edit)
         comment_edit.content = content
         comment_edit.save()

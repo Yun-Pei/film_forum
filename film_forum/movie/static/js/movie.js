@@ -144,13 +144,16 @@ $(document).ready(function() {
         var content = $(this).closest('.userReview_score').nextAll('.userReview_cont').first().find('.original_content').text().trim();
         // console.log('123', content);
 
-        var specificCom = $('.userReviewBox').filter(function() {
-            return $(this).attr('data-id') === '123';
-        }).text();
-
-        $('.original_content').css('display', 'none');
-        $('.edit_review_content').css('display', 'block');
-        $('.edit_review_content').val(content);
+        
+        // $('.original_content').css('display', 'none');
+        // $('.edit_review_content').css('display', 'block');
+        // $('.edit_review_content').val(content);
+        // $('.review_buttons').css('display', 'flex');
+        var commentId = $(this).data('id');
+        // console.log(commentId);
+        $('.original_content[data-id="' + commentId + '"]').css('display', 'none');
+        $('textarea.edit_review_content[data-id="' + commentId + '"]').css('display', 'block');
+        $('textarea.edit_review_content[data-id="' + commentId + '"]').val(content);
         $('.review_buttons').css('display', 'flex');
     });
 
@@ -161,7 +164,10 @@ $(document).ready(function() {
     });
 
     $('.review_submit_edit').on('click', function() {
-        var content = $(this).find(".original_content").text().trim();
+        // var content = ("textarea.edit_review_content").val();
+        // var content = $(this).closest('.review_buttons').nextAll('.userReview_cont').first().find('.edit_review_content').val();
+        var content = $(this).closest('.userReviewBox').find('.edit_review_content').val();
+
         var Comment_id = $(this).find('.Comment_id').text().trim();
         // alert(content);
         if (content == ''){
@@ -178,12 +184,12 @@ $(document).ready(function() {
                 },
                 success: function(response){
                     // alert("POST arleady")
-                    alert("The review has been successfully edited!");
+                    // alert("The review has been successfully edited!");
                     console.log(response);
                     location.reload(true);
                 },
                 error: function(response){
-                    alert("edit faild");
+                    // alert("edit faild");
                     console.log(response);
                 }
             });

@@ -142,10 +142,10 @@
                             </div>
                             {% if request.user.id == j.uid_id %}
                             <span class="edit_message">
-                                <span class="material-symbols-outlined movie_comment_edit">
+                                <span class="material-symbols-outlined movie_comment_edit" data-id="{{ j.Comment_id }}">
                                     edit
                                 </span>
-                                <span class="material-symbols-outlined movie_comment_delete" id="deleteButton">
+                                <span class="material-symbols-outlined movie_comment_delete" id="deleteButton" data-id="{{ j.Comment_id }}">
                                     delete
                                     <p class="Comment_id" style="display: none;"> {{ j.Comment_id }} </p>
                                 </span>
@@ -158,18 +158,18 @@
                             <div class="userReview_time">{{ j.time }}</div>
                         </div>
                         <div class="userReview_cont">
-                            <p class="original_content">{{ j.content }}</p>
-                            <textarea class="edit_review_content" style="display: none;" required></textarea>
+                            <p class="original_content" data-id="{{ j.Comment_id }}">{{ j.content }}</p>
+                            <textarea name="edit_review_content" class="edit_review_content" style="display: none;" data-id="{{ j.Comment_id }}" required></textarea>
                         </div>
                         {% if request.user.id == j.uid_id %}
-                            <div class="review_buttons form_submit" style="display: none;">
-                                <br>
-                                <ion-icon class="review_cancel_edit" id="close_review_edit" name="close-outline"></ion-icon>
-                                <ion-icon class="review_submit_edit" name="checkmark-outline">
-                                    <p class="Comment_id" style="display: none;"> {{ j.Comment_id }} </p>
-                                    <p class="original_content" style="display: none;">{{ j.content }}</p>
-                                </ion-icon>
-                            </div>
+                        <div class="review_buttons form_submit" style="display: none;">
+                            <br>
+                            <ion-icon class="review_cancel_edit" id="close_review_edit" name="close-outline"></ion-icon>
+                            <ion-icon class="review_submit_edit" name="checkmark-outline" data-id="{{ j.Comment_id }}">
+                                <p class="Comment_id" style="display: none;"> {{ j.Comment_id }} </p>
+                                <p class="original_content" style="display: none;">{{ j.content }}</p>
+                            </ion-icon>
+                        </div>
                         {% endif %}
                     </div>
                 </div>
