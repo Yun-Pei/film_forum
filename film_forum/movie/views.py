@@ -118,4 +118,21 @@ def movie(request):
         commentResults = dictfetchall(cursor)
         reserve_list_comment.append(commentResults)
 
+    # print(request.GET)
+    # print('below is mid')
+    # print(movie_id)
+    
+    movie_id = request.GET.get('m_id') 
+
+    if movie_id:
+        if request.user.is_authenticated:
+            user_id = request.user.id
+            if user_id:
+                user = User.objects.get(pk=user_id)
+                film = Movies.objects.get(pk=movie_id)
+                browse_time = timezone.now()
+                browse = Browse(uid=user, mid=film, browseTime=browse_time)
+                browse.save()
+                print("Browse entry saved successfully!")
+
     return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})
