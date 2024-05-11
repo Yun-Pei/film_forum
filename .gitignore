@@ -1,3 +1,5 @@
 *.pyc
 */__pycache__/
 .DS_Store
+
+film_forum/member/all_2020-03-23_5.csv
