@@ -45,9 +45,15 @@ def get_top_ten_movies_by_avg_score():
     top_movies_objects = Movies.objects.filter(mid__in=top_movie_ids)
     return top_movies_objects
 
+def create_pairs(movies):
+    movie_ids = [movie.mid for movie in movies]  # 提取每部電影的mid屬性
+    pairs = permutations(movie_ids, 2)  # 使用電影ID的排列
+    pairs = list(pairs)
+    pairs = pd.DataFrame(pairs, columns=["movie_A", "movie_B"])
+    return pairs
+
 def testPage(request):
 
-    movies3 = Movies.objects.filter(year__gt=2019)[:10]
     movieup = Movies.objects.filter(mid=89)
 
     # top_movies = Browse.objects.values('mid').annotate(num_views=Count('mid')).order_by('num_views')[:10]
@@ -74,29 +80,35 @@ def testPage(request):
 
     # below is algorithm
 
-    # def create_pairs(Browse):
-    #     pairs = permutations(mid.values, 2) # 從所有的物品裡面隨機不放回抽取 2 個物品
-    #     pairs = list(pairs) # 可以直接和上面的程式碼整合在一起，但因為這裡的 permutation 實際上是疊代器，因此需要使用 list 來實例化
-    #     pairs = pd.DataFrame(pairs, columns=["movie_A", "movie_B"])
-    #     return pairs
+    browses = Browse.objects.all()
 
-    # # 將資料進行轉換
-    # book_pairs = books_record.groupby('UserId')['Book_title'].apply(create_pairs)
+    user_movies = {}
+    for browse in browses:
+        user_id = browse.uid.id
+        movie_id = browse.mid.mid
+        if user_id in user_movies:
+            user_movies[user_id].append(movie_id)
+        else:
+            user_movies[user_id] = [movie_id]
 
-    # # 因為以 Groupby 來聚合資料後，index 就會變成 UserId，因此為了要直接刪除掉故使用 reset_index(drop=True)
-    # book_pairs = book_pairs.reset_index(drop=True)
+    all_pairs = []
+    for user_id, movies in user_movies.items():
+        pairs = permutations(movies, 2)
+        all_pairs.extend(pairs)
 
-    # # 計算 items_A 對應到 items_B 的個別總數
-    # pair_counts = book_pairs.groupby(['book_a', 'book_b']).size()  # size() 和 count() 的差異在於 size 會將 NaN 計算進去。
+    pair_counts = pd.Series(all_pairs).value_counts()
 
-    # # 將原先計算出來的欄位命名為 Size，並重置 index
-    # pair_counts = pair_counts.to_frame(name = 'size').reset_index() 
+    top_10_pairs = pair_counts.head(10)
 
-    # # 根據 size 從大到小進行排序
-    # pair_counts_sorted = pair_counts_df.sort_values('size', ascending=False)
-    #above is algorithn    
+    top_10_movie_objects = []
+    for pair, count in top_10_pairs.items():
+        movie_A = Movies.objects.get(mid=pair[0])
+        movie_B = Movies.objects.get(mid=pair[1])
+        top_10_movie_objects.append((movie_A, movie_B, count))
 
-    return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'movies3': movies3, 'movieup': movieup[0]}) 
+    print(top_10_movie_objects)
+
+    return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'moviesalgo': top_10_movie_objects, 'movieup': movieup[0]}) 
 
 
 
