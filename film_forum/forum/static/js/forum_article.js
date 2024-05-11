@@ -134,30 +134,37 @@ $(document).ready(function() {
         $("#post-text").val("");
     });
 
-    $('#mess_edit').on("click", function(event){
+    $('.mess_edit').on("click", function(event){
         event.preventDefault();
-        var content = $(".post_content > p").text().trim();
+        var postMessage = $(this).closest('.one_mess').find('.post_message');
+        var content = postMessage.find('.orignal_contnet').text().trim();
+        // alert(content);
         // var id = $(".com_id").text().trim();
         // alert(content)
-        $(".orignal_contnet").css("display", "none");
-        $(".edit_mess_content").css("display", "block");
-        $(".edit_mess_content").val(content);
+        postMessage.find(".orignal_contnet").css("display", "none");
+        postMessage.find(".edit_mess_content").css("display", "block");
+        postMessage.find(".edit_mess_content").val(content);
 
-        $(".mess_button").css("display", "flex");
+        postMessage.find(".mess_button").css("display", "flex");
 
     });
 
     $('.mess_cancel_button').on("click", function(event){
-        $(".orignal_contnet").css("display", "block");
-        $(".edit_mess_content").css("display", "none");       
+        var postMessage = $(this).closest('.one_mess').find('.post_message');
 
-        $(".mess_button").css("display", "none");       
+        postMessage.find(".orignal_contnet").css("display", "block");
+        postMessage.find(".edit_mess_content").css("display", "none");       
+
+        postMessage.find(".mess_button").css("display", "none");       
 
     });
 
     $('.mess_submit_button').on("click", function(event){
-        var content = $(".edit_mess_content").val().trim();
-        var id = $(".com_id").text().trim();
+        var content = $(this).closest('.post_message').find('.edit_mess_content').val();
+        var id = $(this).closest('.post_message').find('.com_id').text().trim();
+
+        // alert(content);
+        // alert(id);
 
         if (content == ''){
             alert("Can't empty");
@@ -189,10 +196,12 @@ $(document).ready(function() {
     });
 
     // mess_delete
-    $('#mess_delete').on("click", function(event){
-        var ac_id = $(".com_id").text().trim();
-        let answer = confirm('Are you sure you want to delete the entire article?');
-
+    $('.mess_delete').on("click", function(event){
+        var postMessage = $(this).closest('.one_mess').find('.post_message');
+        
+        var ac_id = postMessage.find(".com_id").text().trim();
+        let answer = confirm('Delete the comment?');
+        // alert(ac_id);
         // delete
         if(answer){
             $.ajax({
