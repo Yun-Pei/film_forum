@@ -3,6 +3,12 @@ body {
     background-color: #e6e4e4;
 }
 
+/* SWEET ALERT */
+.swal2-actions {
+    flex-direction: row-reverse;
+}
+/* SWEET ALERT */
+
 .edit {
     float: right;
     cursor: pointer;

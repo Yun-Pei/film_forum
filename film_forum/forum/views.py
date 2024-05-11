@@ -188,7 +188,8 @@ def forum_article(request):
 
             delete_article = Article.objects.get(art_id=article_id)
             delete_article.delete()
-            return HttpResponseRedirect(f'forum?m_id={movie_id}')  
+
+            return HttpResponse(status=200) 
         
         elif request.POST.get("mode") == "forum_message_edit":
             article_id = request.POST.get('art_id')

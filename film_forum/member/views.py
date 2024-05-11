@@ -147,7 +147,7 @@ def log_out(request):
 # def crawl(request):
 #     if request.method == "POST":
 
-#         with open('member/all_2020-03-23_3.csv', 'r', encoding='utf-8') as file:
+#         with open('C:/Users/Ariel/OneDrive/桌面/imdb/all_2020-12-21_1_700.csv', 'r', encoding='utf-8') as file:
 
 #             csv_reader = csv.reader(file)
 
