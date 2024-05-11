@@ -70,27 +70,27 @@ $(document).ready(function() {
 
     });
     
-    const swalWithBootstrapButtons = Swal.mixin({
-        customClass: {
-            confirmButton: "btn btn-success",
-            cancelButton: "btn btn-danger"
-        },
-        buttonsStyling: false
-    });
+    // const swalWithBootstrapButtons = Swal.mixin({
+    //     customClass: {
+    //         confirmButton: "btn btn-success",
+    //         cancelButton: "btn btn-danger"
+    //     },
+    //     buttonsStyling: false
+    // });
     
     $('.movie_comment_delete').on("click", function(){
         // alert("123");
         // let answer = confirm('Are you sure you want to delete the review?');
         // var Comment_id = $(this).find('#Comment_id').text();
         var Comment_id = $(this).find('.Comment_id').text().trim();
-        swalWithBootstrapButtons.fire({
+        Swal.fire({
             title: "Are you sure?",
             text: "You won't be able to revert this!",
             icon: "warning",
             showCancelButton: true,
-            confirmButtonText: "Yes, delete it!",
-            cancelButtonText: "No, cancel!",
-            reverseButtons: true
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
         }).then((result) => {
             if(result.isConfirmed) {
                 $.ajax({
@@ -103,9 +103,9 @@ $(document).ready(function() {
                     },
                     success: function(response){
                             // alert("POST arleady")
-                        swalWithBootstrapButtons.fire({
+                        Swal.fire({
                             title: "Deleted!",
-                            text: "Your file has been deleted.",
+                            text: "Your review has been deleted.",
                             icon: "success"
                         }).then((result) => {
                             // 弹窗关闭后刷新页面，无论是通过点击OK还是其他方式关闭弹窗
@@ -126,9 +126,9 @@ $(document).ready(function() {
                 /* Read more about handling dismissals below */
             result.dismiss === Swal.DismissReason.cancel
             ) {
-                swalWithBootstrapButtons.fire({
+                Swal.fire({
                     title: "Cancelled",
-                    text: "Your imaginary file is safe :)",
+                    text: "Your review is safe :)",
                     icon: "error"
                 });
             }
