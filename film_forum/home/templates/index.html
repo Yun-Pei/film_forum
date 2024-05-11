@@ -36,7 +36,7 @@
       <div class="swiper" id="ratedlist">
         <div class="swiper-wrapper">
           {% for movie in movies2 %}
-          <div class="swiper-slide viewslide">
+          <div class="swiper-slide viewslide1">
               <img src="{{ movie.img }}" alt="{{ movie.name }}">
                 <div class="title">
                   <span class="rank" id="rank"></span>
@@ -73,7 +73,7 @@
       <div class="swiper" id="watchlist">
         <div class="swiper-wrapper">
           {% for movie in movies1 %}
-          <div class="swiper-slide viewslide">
+          <div class="swiper-slide viewslide2">
               <img src="{{ movie.img }}" alt="{{ movie.name }}">
                 <div class="title">
                   <span class="rank" id="rank"></span>
@@ -109,10 +109,19 @@
     </script>
     <script>
       // 獲取所有電影項目
-      const movieItems = document.querySelectorAll('.viewslide');
+      const movieItems1 = document.querySelectorAll('.viewslide1');
     
       // 計算並設置排名
-      movieItems.forEach((item, index) => {
+      movieItems1.forEach((item, index) => {
+        const rankSpan = item.querySelector('.rank');
+        rankSpan.textContent = (index + 1) + '.';
+      });
+
+      // 獲取所有電影項目
+      const movieItems2 = document.querySelectorAll('.viewslide2');
+    
+      // 計算並設置排名
+      movieItems2.forEach((item, index) => {
         const rankSpan = item.querySelector('.rank');
         rankSpan.textContent = (index + 1) + '.';
       });
