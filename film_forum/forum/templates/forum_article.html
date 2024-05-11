@@ -8,6 +8,7 @@
     <title>FORUM ARTICLE</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <script src='{% static "js/forum_article.js" %}'></script>
     <link href = '{% static "css/forum_article.css" %}' rel="stylesheet">
@@ -81,7 +82,7 @@
                                 {% if request.user.is_authenticated %}
                                 <div class="form_info form_submit">
                                     <br>
-                                    <div class="cancel_button" id="closePopupButton">Cancel</div>
+                                    <div class="mess_cancel_button" id="closePopupButton">Cancel</div>
                                     <input class="submit_button" type="submit" value="Submit" />
                                 </div>
                                 {% else %}

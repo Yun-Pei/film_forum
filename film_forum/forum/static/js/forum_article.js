@@ -104,34 +104,82 @@ $(document).ready(function() {
     });
 
     $('#delete').on("click", function(){
-        let answer = confirm('Are you sure you want to delete the entire article?');
+        // let answer = confirm('Are you sure you want to delete the entire article?');
         // alert(m_id)
         // delete
-        if(answer){
-            $.ajax({
-                url: 'forum_article',
-                type: 'POST', 
-                data: {
-                    'mode' : 'forum_article_delete',
-                    'm_id' : m_id,
-                    'art_id' : art_id,
-                },
-                success: function(response){
-                    // alert("POST arleady")
-                    alert("The article has been successfully deleted! The page will now return to the discussion board.")
-                    console.log(response);
-                    // window.location.href = 'forum';
-                },
-                error: function(response){
-                    alert("delete faild");
-                    console.log(response);
-                }
-            });            
-        }
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will delete the entire article!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: 'forum_article',
+                    type: 'POST', 
+                    data: {
+                        'mode' : 'forum_article_delete',
+                        'm_id' : m_id,
+                        'art_id' : art_id,
+                    },
+                    success: function(response){
+                        Swal.fire({
+                            title: "Deleted!",
+                            text: "Your article has been deleted.",
+                            icon: "success"
+                        });
+                    },
+                    error: function(response){
+                        alert("delete faild");
+                        console.log(response);
+                    }
+                });        
+            }
+          });
+
+        // if(answer){
+        //     $.ajax({
+        //         url: 'forum_article',
+        //         type: 'POST', 
+        //         data: {
+        //             'mode' : 'forum_article_delete',
+        //             'm_id' : m_id,
+        //             'art_id' : art_id,
+        //         },
+        //         success: function(response){
+        //             // alert("POST arleady")
+        //             alert("The article has been successfully deleted! The page will now return to the discussion board.")
+        //             console.log(response);
+        //             // window.location.href = 'forum';
+        //         },
+        //         error: function(response){
+        //             alert("delete faild");
+        //             console.log(response);
+        //         }
+        //     });            
+        // }
     });
     
     $('.cancel_button').on("click", function(event){
         $("#post-text").val("");
+    });
+
+    $('.submit_button').on("click", function(){
+        if (response.status === 200) {
+            Swal.fire({
+                icon: 'success',
+                title: 'Your work has been saved',
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }        
+    });
+    $('.mess_cancel_button').on("click", function(event){
+        $("#id_conent").val("");
     });
 
     $('.mess_edit').on("click", function(event){
@@ -181,10 +229,12 @@ $(document).ready(function() {
                     'acom_id' : id,
                 },
                 success: function(response){
-                    // alert("POST arleady")
-                    alert("The message has been successfully modified!");
-                    console.log(response);
-                    location.reload(true);
+                    Swal.fire({
+                        icon: "success",
+                        title: "Your message has been saved",
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
                 },
                 error: function(response){
                     alert("edit faild");

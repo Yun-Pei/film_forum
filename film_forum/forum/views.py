@@ -152,7 +152,7 @@ def forum_article(request):
             forum = ArticleComments(art_id=art_id, conent=conent, mid=film_id, time=time, uid=user_id)
             forum.save()
 
-
+            # return HttpResponse(status=200)
             return HttpResponseRedirect(f'forum_article?m_id={movie_id}&art_id={article_id}')
 
         
@@ -176,7 +176,7 @@ def forum_article(request):
             edit_article = Article(art_id=article_id, mid=film_id, title=request.POST.get('title'), conent=request.POST.get('content'), uid=user_id, time=time)
             edit_article.save()
 
-            return HttpResponse('The article has been successfully modified!')
+            return HttpResponse(status=200)
 
         # delete forum article
         elif request.POST.get("mode") == "forum_article_delete":
