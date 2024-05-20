@@ -81,7 +81,17 @@ def movie(request):
     # user_has_commented = False
     # if user_id:
     #     user_has_commented = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
-
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            user_id = request.user.id
+        movie_id = request.POST.get('movie_id')
+        # 检查是否已经存在该收藏记录
+        if not LikeMovies.objects.filter(uid_id=user_id, mid_id=movie_id).exists():
+            like = LikeMovies(uid_id=user_id, mid_id=movie_id)
+            like.save()
+        
+        return HttpResponseRedirect(f'movie?m_id={movie_id}')
+    
     if request.method == 'POST':
         if request.user.is_authenticated:
             user_id = request.user.id
@@ -105,14 +115,15 @@ def movie(request):
 
         return HttpResponseRedirect(f'movie?m_id={movie_id}')
     
-    if request.method == 'GET':
+    if request.method == 'POST':
         if request.user.is_authenticated:
             user_id = request.user.id
-        uid_id = User.objects.get(pk=user_id)
-        mid_id = Movies.objects.get(pk=movie_id)
-        like = LikeMovies(uid_id=user_id, mid_id=movie_id)
-        print(movie_id)
-        like.save()
+        movie_id = request.POST.get('movie_id')
+        # 检查是否已经存在该收藏记录
+        if not LikeMovies.objects.filter(uid_id=user_id, mid_id=movie_id).exists():
+            like = LikeMovies(uid_id=user_id, mid_id=movie_id)
+            like.save()
+        
         return HttpResponseRedirect(f'movie?m_id={movie_id}')
 
     if request.user.is_authenticated:

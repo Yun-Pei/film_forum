@@ -581,6 +581,7 @@ body {
     height: 35px;
     cursor: pointer;
     color: orange;
+    background: none;
 }
 
 .followBox p {
@@ -598,7 +599,7 @@ body {
 }
 
 .FavoriteBtn {
-    font-size: 30px;
+    font-size: 20px;
     color: #ffffff;
     cursor: pointer;
 }

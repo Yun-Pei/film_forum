@@ -37,11 +37,20 @@
             <div class="tilteNButton">
                 <h1 style="color: orange;"> {{i.2}} </h1>
                 {% if request.user.is_authenticated %}
-                <div class="followBox" data-movie-id="{{ i.0 }}">
-                    <p>Add to Favorite</p>
-                    <ion-icon name="bookmark-outline" id="notFav"></ion-icon>
+                <div>
+                    <form action="" method='POST'>
+                        {% csrf_token %}
+                        <input type="hidden" name="movie_id" value="{{ i.0 }}">
+                        <button name="addWatch" class="followBox" type="submit">
+                            <p>Add to Favorite</p>
+                            <ion-icon name="bookmark-outline" id="notFav"></ion-icon>
+                        </button>
+                    </form>
+                    <div>
+                        <ion-icon name="bookmark" id="Fav" style="display: none;" class="FavoriteBtn"></ion-icon>
+                    </div>
                 </div>
-                <ion-icon name="bookmark" id="Fav" style="display: none;" class="FavoriteBtn"></ion-icon>
+                
                 {% endif %}
             </div>
             <span> {{i.3}}・{{i.5}}・{{i.6}} </span>
