@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from member.models import Movies
+import time
 # from movie.models import 
 #新加入的function
 def testPage(request):
@@ -10,12 +11,25 @@ def testPage(request):
     movies3 = Movies.objects.filter(year__gt=2019)[:10]
     movieup = Movies.objects.filter(mid=89)
     
-    if request.GET.get("term"):
-        term = request.GET.get('term')
-        movies = Movies.objects.filter(name__icontains=term)[:20]
+    # if request.GET.get("term"):
+    #     # Before search
+    #     start_time = time.time()
+
+    #     term = request.GET.get('term')
+
+    #     movies = Movies.objects.filter(name__icontains=term)[:20]
         
-        data = [{'label': movie.name, 'value': movie.name, 'url': str(movie.mid) } for movie in movies]
-        return JsonResponse(data, safe=False)
+
+    #     # After search
+    #     end_time = time.time()
+
+    #     search_time = (end_time - start_time)
+    #     # print(f"start {start_time} seconds")
+    #     # print(f"end {end_time} seconds")
+    #     print(f"Orignal search time need {search_time} milliseconds")
+        
+    #     data = [{'label': movie.name, 'value': movie.name, 'url': str(movie.mid) } for movie in movies]
+    #     return JsonResponse(data, safe=False)
     
     return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'movies3': movies3, 'movieup': movieup[0]}) 
 
