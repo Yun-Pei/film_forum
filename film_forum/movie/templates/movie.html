@@ -38,17 +38,23 @@
                 <h1 style="color: orange;"> {{i.2}} </h1>
                 {% if request.user.is_authenticated %}
                 <div>
-                    <form action="" method='POST'>
+                    {% if user_has_favorite %}
+                    <form method="POST">
                         {% csrf_token %}
-                        <input type="hidden" name="movie_id" value="{{ i.0 }}">
-                        <button name="addWatch" class="followBox" type="submit">
-                            <p>Add to Favorite</p>
-                            <ion-icon name="bookmark-outline" id="notFav"></ion-icon>
-                        </button>
+                        <button><ion-icon name="bookmark" id="Fav" class="FavoriteBtn"></ion-icon></button>
                     </form>
+                    {% else %}
                     <div>
-                        <ion-icon name="bookmark" id="Fav" style="display: none;" class="FavoriteBtn"></ion-icon>
+                        <form action="" method='POST'>
+                            {% csrf_token %}
+                            <input type="hidden" name="movie_id" value="{{ i.0 }}">
+                            <button name="addWatch" class="followBox" type="submit">
+                                <p>Add to Favorite</p>
+                                <ion-icon name="bookmark-outline" id="notFav"></ion-icon>
+                            </button>
+                        </form>
                     </div>
+                    {% endif %}
                 </div>
                 
                 {% endif %}

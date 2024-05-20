@@ -195,4 +195,23 @@ $(document).ready(function() {
             });
         }
     });
+
+    $('.FavoriteBtn').on('click', function(event) {
+        console.log('1111111')
+        $.ajax({
+            url: 'movie',
+            type: 'POST',
+            data: {
+                'mode': 'unfollow',
+                'm_id' : m_id,
+            },
+            success: function(response) {
+                console.log(response)
+            },
+            error: function(reaponse) {
+                console.log(reaponse)
+            }
+        });
+        // alert(m_id);
+    });
 })

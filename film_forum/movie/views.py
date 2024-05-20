@@ -81,6 +81,13 @@ def movie(request):
     # user_has_commented = False
     # if user_id:
     #     user_has_commented = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        movie_id = request.GET.get('m_id')
+        user_has_favorite = LikeMovies.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
+    else:
+        user_has_favorite = False
+
     if request.method == 'POST':
         if request.user.is_authenticated:
             user_id = request.user.id
@@ -126,6 +133,16 @@ def movie(request):
         
         return HttpResponseRedirect(f'movie?m_id={movie_id}')
 
+    if request.POST.get('mode') == 'unfollow' and request.method == 'POST':
+        print('1111111')
+        movie_id = request.POST.get('m_id')
+        print('\n\n1111111')
+        if request.user.is_authenticated:
+            user_id = request.user.id
+        unfollow = LikeMovies.objects.get(mid_id = movie_id, uid_id = user_id)
+        unfollow.delete()
+        return HttpResponseRedirect(f'movie?m_id={movie_id}')
+
     if request.user.is_authenticated:
             user_id = request.user.id
 
@@ -169,4 +186,4 @@ def movie(request):
         commentResults = dictfetchall(cursor)
         reserve_list_comment.append(commentResults)
 
-    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})
+    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment, 'user_has_favorite': user_has_favorite})
