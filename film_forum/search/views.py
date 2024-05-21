@@ -4,9 +4,10 @@ from .utils import Trie
 from django.shortcuts import render
 import time
 
+
 def save_trie_to_db(trie, name):
     serialized_trie = trie.serialize()
-    trie_record, created = TrieTree.objects.update_or_create(
+    TrieTree.objects.update_or_create(
         movie_name=name,
         defaults={'data': serialized_trie}
     )
@@ -23,17 +24,23 @@ def search_trie(request):
     trie = load_trie_from_db(trie_name)
     if not trie:
         trie = Trie()
-        movies = Movies.objects.filter(mid__lt=100)
+        movies = Movies.objects.filter(mid__lt=100)  #目前暫時用id <= 100
         for movie in movies:
-            trie.insert(movie.name)
+            trie.insert(movie.name, movie.mid)
         save_trie_to_db(trie, trie_name)
     
-    prefix = request.GET.get('term')
+    prefix = request.GET.get('term', '').strip()
+    
+    # 防止沒有任何輸入依舊會search data
+    if not prefix:
+        return render(request, 'search_tree.html')
+    
     movie_names = trie.search(prefix)
-    print(movie_names)
+    data = [{'label': movie['name'], 'value': movie['name'], 'url': str(movie['mid'])} for movie in movie_names]
+    print(data)
     #     data = [{'label': movie.name, 'value': movie.name, 'url': str(movie.mid) } for movie in movies]
     #     return JsonResponse(data, safe=False)
-    return render(request, 'search_tree.html', {'movie_names': movie_names})
+    return render(request, 'search_tree.html', {'movie_names': data})
 
 # Create your views here.
 # def search_trie(request):
