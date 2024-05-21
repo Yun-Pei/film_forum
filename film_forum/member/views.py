@@ -162,3 +162,6 @@ def log_out(request):
     
 #     # return render("crwal.html")
 #     return render(request, "crawl.html")
+
+def watchlist(request):
+    return render(request, 'watchlist.html')
