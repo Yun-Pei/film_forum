@@ -36,23 +36,43 @@
             <div class="tilteNButton">
                 <h1 style="color: orange;"> {{i.2}} </h1>
                 {% if request.user.is_authenticated %}
-                <div>
-                    <form method="post" style="display: none;" id="favorite">
-                        {% csrf_token %}
-                        <button type="button"><ion-icon name="bookmark" class="FavoriteBtn"></ion-icon></button>
-                    </form>
-                    <div>
-                        <form action="" method='POST'>
-                            {% csrf_token %}
-                            <input type="hidden" name="movie_id" value="{{ i.0 }}">
-                            <button name="addWatch" id="Follow" class="followBox" type="button">
-                                <p>Add to Favorite</p>
-                                <p style="display: none;" class="movie_id"> {{i.0}} </p>
-                                <ion-icon name="bookmark-outline" id="notFav"></ion-icon>
-                            </button>
-                        </form>
-                    </div>
-                </div>
+                    {% if user_has_favorite %}
+                        <div>
+                            <form method="post" id="favorite">
+                                {% csrf_token %}
+                                <button type="button"><ion-icon name="bookmark" class="FavoriteBtn"></ion-icon></button>
+                            </form>
+                            <div>
+                                <form action="" method='POST'>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="movie_id" value="{{ i.0 }}">
+                                    <button name="addWatch" id="Follow" class="followBox" type="button" style="display: none;">
+                                        <p>Add to Favorite</p>
+                                        <p style="display: none;" class="movie_id"> {{i.0}} </p>
+                                        <ion-icon name="bookmark-outline" id="notFav"></ion-icon>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    {% else %}
+                        <div>
+                            <form method="post" style="display: none;" id="favorite">
+                                {% csrf_token %}
+                                <button type="button"><ion-icon name="bookmark" class="FavoriteBtn"></ion-icon></button>
+                            </form>
+                            <div>
+                                <form action="" method='POST'>
+                                    {% csrf_token %}
+                                    <input type="hidden" name="movie_id" value="{{ i.0 }}">
+                                    <button name="addWatch" id="Follow" class="followBox" type="button">
+                                        <p>Add to Favorite</p>
+                                        <p style="display: none;" class="movie_id"> {{i.0}} </p>
+                                        <ion-icon name="bookmark-outline" id="notFav"></ion-icon>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    {% endif %}
                 
                 {% endif %}
             </div>

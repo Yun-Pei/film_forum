@@ -81,12 +81,12 @@ def movie(request):
     # user_has_commented = False
     # if user_id:
     #     user_has_commented = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
-    # if request.user.is_authenticated:
-    #     user_id = request.user.id
-    #     movie_id = request.GET.get('m_id')
-    #     user_has_favorite = LikeMovies.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
-    # else:
-    #     user_has_favorite = False
+    if request.user.is_authenticated:
+        user_id = request.user.id
+        movie_id = request.GET.get('m_id')
+        user_has_favorite = LikeMovies.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
+    else:
+        user_has_favorite = False
 
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -129,49 +129,6 @@ def movie(request):
 
                 return HttpResponseRedirect(f'movie?m_id={movie_id}')
 
-    # if request.method == 'POST':
-    #     if request.user.is_authenticated:
-    #         user_id = request.user.id
-    #     movie_id = request.POST.get('movie_id')
-    #     # 检查是否已经存在该收藏记录
-    #     if not LikeMovies.objects.filter(uid_id=user_id, mid_id=movie_id).exists():
-    #         like = LikeMovies(uid_id=user_id, mid_id=movie_id)
-    #         like.save()
-        
-    #     return HttpResponseRedirect(f'movie?m_id={movie_id}')
-    
-    # if request.method == 'POST':
-    #     if request.user.is_authenticated:
-    #         user_id = request.user.id
-            # print(user_id)
-        # rating = request.POST.get('rating')
-        # # print(rating)
-        # content = request.POST.get('addCommentContBox')
-        # # print(content)
-
-        # uid_id = User.objects.get(pk=user_id)
-        # mid_id = Movies.objects.get(pk=movie_id)
-        # existing_comment = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
-        # if existing_comment:
-        #     return HttpResponseRedirect(f'movie?m_id={movie_id}') #這個要處理一下
-        # time = timezone.now()
-
-        # print(uid_id)
-
-        # review = MovieComments(score=rating, content=content, mid=mid_id, time=time, uid=uid_id)
-        # review.save()
-
-        # return HttpResponseRedirect(f'movie?m_id={movie_id}')
-
-    # if request.POST.get('mode') == 'unfollow' and request.method == 'POST':
-    #     print('1111111')
-    #     movie_id = request.POST.get('m_id')
-    #     print(movie_id)
-    #     if request.user.is_authenticated:
-    #         user_id = request.user.id
-    #     unfollow = LikeMovies.objects.get(mid_id = movie_id, uid_id = user_id)
-    #     unfollow.delete()
-    #     return HttpResponseRedirect(f'movie?m_id={movie_id}')
 
     if request.GET.get("mode") == "movie_comment_delete" and request.method == 'GET':
         movie_id = request.GET.get('m_id')
@@ -213,5 +170,5 @@ def movie(request):
         commentResults = dictfetchall(cursor)
         reserve_list_comment.append(commentResults)
 
-    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})
-    # return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment, 'user_has_favorite': user_has_favorite})
+    # return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})
+    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment, 'user_has_favorite': user_has_favorite})
