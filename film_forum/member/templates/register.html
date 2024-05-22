@@ -73,6 +73,23 @@
                         {% endif %} -->
                     </div>
 
+                    <label><b>Please choose an avatar</b></label>
+                    <div class="register_info member_pic" style="margin-top: 10px;">
+                        <span>
+                            <input type="radio" name="picture" value="1" checked/>
+                            <img src="static/picture/pc_1.png" style="height: 20vh;">
+                        </span>
+                        <span>
+                            <input type="radio" name="picture"/>
+                            <img src="static/picture/pc_2.png" value="2" style="height: 20vh;">
+                        </span>
+                        <span>
+                            <input type="radio" name="picture"/>
+                            <img src="static/picture/pc_3.png" value="3" style="height: 20vh;">
+                        </span>
+                    </div>
+                    
+
                     {% if form.password2.errors %}
                         {% for error in form.password2.errors %}
                             {% if 'short' in error %}
@@ -123,7 +140,19 @@
     </script>
 </html>
 <script>
-    // $(document).ready(function() {
-    //     $("#id_img").text("1");
-    // });
+    $(document).ready(function() {
+        // 初始化选中状态
+        $('input[type="radio"]:checked').next('img').css('opacity', '1');
+
+        $('.register_info img').on('click', function() {
+            // 移除所有图片的暗化效果
+            $('.register_info img').css('opacity', '0.3');
+            
+            // 设置当前图片的不透明度为1
+            $(this).css('opacity', '1');
+            
+            // 选中对应的 radio input
+            $(this).prev('input[type="radio"]').prop('checked', true);
+        });
+    });
 </script>
