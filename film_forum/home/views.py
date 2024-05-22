@@ -47,12 +47,32 @@ def get_top_ten_movies_by_avg_score():
     top_movies_objects = Movies.objects.filter(mid__in=top_movie_ids)
     return top_movies_objects
 
-def create_pairs(movies):
-    movie_ids = [movie.mid for movie in movies]  # 提取每部電影的mid屬性
-    pairs = permutations(movie_ids, 2)  # 使用電影ID的排列
-    pairs = list(pairs)
-    pairs = pd.DataFrame(pairs, columns=["movie_A", "movie_B"])
-    return pairs
+def create_user_item_matrix():
+    # 獲取所有瀏覽數據
+    browses = Browse.objects.all().select_related('uid', 'mid')
+
+    # 創建用戶-電影評分字典
+    user_movie_dict = {}
+    for browse in browses:
+        user_id = browse.uid.id
+        movie_id = browse.mid.mid
+        if user_id not in user_movie_dict:
+            user_movie_dict[user_id] = {}
+        user_movie_dict[user_id][movie_id] = 1  # 假設瀏覽過的電影評分為1
+
+    # 創建用戶-電影評分矩陣
+    user_item_matrix = pd.DataFrame(user_movie_dict).fillna(0).T
+
+    return user_item_matrix
+
+def train_knn_model(user_item_matrix):
+    # 定義基於餘弦相似度的 KNN 模型
+    cf_knn_model = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=10, n_jobs=-1)
+
+    # 訓練 KNN 模型
+    cf_knn_model.fit(user_item_matrix)
+
+    return cf_knn_model
 
 def movie_recommender_engine(movie_name, matrix, cf_model, n_recs):
     # Fit model on matrix
@@ -65,7 +85,7 @@ def movie_recommender_engine(movie_name, matrix, cf_model, n_recs):
     # List to store recommendations
     cf_recs = []
     for i in movie_rec_ids:
-        cf_recs.append({'Title': movie_names['title'][i[0]], 'Distance': i[1]})
+        cf_recs.append({'Title': movie_name['title'][i[0]], 'Distance': i[1]})
     
     # Select top number of recommendations needed
     df = pd.DataFrame(cf_recs, index=range(1, n_recs))
@@ -100,24 +120,30 @@ def testPage(request):
 
     # below is algorithm
 
-    # Retrieve the most recent movie that each user has browsed
-    recent_browses = Browse.objects.order_by('uid', '-browseTime')
+    # # Retrieve the most recent movie that each user has browsed
+    # recent_browses = Browse.objects.order_by('uid', '-browseTime')
     
-    # Extract movie IDs from the recent browses
-    recent_movie_ids = [browse.mid_id for browse in recent_browses]
+    # # Extract movie IDs from the recent browses
+    # recent_movie_ids = [browse.mid_id for browse in recent_browses]
     
-    # Define user_item_matrix using the recent browses
-    user_item_matrix = pd.DataFrame(0, index=[1], columns=recent_movie_ids)
-    print(user_item_matrix)
-    # Define a KNN model on cosine similarity
-    cf_knn_model = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=10, n_jobs=-1)
+    # # Define user_item_matrix using the recent browses
+    # user_item_matrix = pd.DataFrame(0, index=[1], columns=recent_movie_ids)
+    # print(user_item_matrix)
+    # # Define a KNN model on cosine similarity
+    # cf_knn_model = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=10, n_jobs=-1)
     
-    # Call movie_recommender_engine function to get recommendations
-    recommendations = movie_recommender_engine(movie_name=recent_movie_ids[0], matrix=user_item_matrix, cf_model=cf_knn_model, n_recs=10)
-    print('recom')
-    print(recommendations)
+    # # Call movie_recommender_engine function to get recommendations
+    # recommendations = movie_recommender_engine(movie_name=recent_movie_ids[0], matrix=user_item_matrix, cf_model=cf_knn_model, n_recs=10)
+    user_item_matrix = create_user_item_matrix()
+    cf_knn_model = train_knn_model(user_item_matrix)
 
-    return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'moviesalgo': movies1, 'movieup': movieup[0]}) 
+    recent_browses = Browse.objects.order_by('uid', '-browseTime').distinct('uid')
+    recent_movie_id = recent_browses[0].mid.mid
+    recommendations = movie_recommender_engine(recent_movie_id, user_item_matrix, cf_knn_model, n_recs=10)
+
+    recommended_movies = Movies.objects.filter(mid__in=[rec['movie_id'] for rec in recommendations])
+
+    return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'moviesalgo': recommended_movies, 'movieup': movieup[0]}) 
 
 
 
