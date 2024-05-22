@@ -163,5 +163,29 @@ def log_out(request):
 #     # return render("crwal.html")
 #     return render(request, "crawl.html")
 
+def dictfetchall(cursor):
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
+
 def watchlist(request):
-    return render(request, 'watchlist.html')
+
+    if request.user.is_authenticated:
+        user_id = request.user.id
+
+    favo_movie = list()
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT Movies.*
+            FROM Movies
+            JOIN LikeMovies ON LikeMovies.mid_id = Movies.mid
+            WHERE LikeMovies.uid_id = %s
+            ORDER BY Movies.mid ASC
+        """, [user_id])
+        watchlistResults = dictfetchall(cursor)
+        favo_movie.append(watchlistResults)
+
+    print(favo_movie)
+    return render(request, 'watchlist.html', {'favo_movie': favo_movie})
