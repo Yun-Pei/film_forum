@@ -234,6 +234,7 @@ body {
 .CommemtTitleBox {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 20px;
 }
 
 .addComment {
@@ -476,7 +477,7 @@ body {
 #userReview {
     color: #ffffff;
     width: 90%;
-    margin: 20px auto;
+    margin: 0px auto 20px;
     padding: 10px 30px 30px 30px;
     background: rgba(194, 0, 0, 0.28);
     border-radius: 10px;
@@ -498,7 +499,7 @@ body {
     line-height: 35px;
 }
 
-.userReview_score span {
+.userReview_score .score {
     font-weight: 700;
     font-size: 20px;
 }
@@ -524,10 +525,84 @@ body {
     font-size: 28px;
     color: orange;
     position: relative;
-    top: 10px;
+    top: 5px;
 }
 
 .edit_message .material-symbols-outlined {
-    font-size: 20px;
-    line-height: 35px;
+    font-size: 25px;
+    line-height: 40px;
+    cursor: pointer;
+    margin: 0px 7px;
+}
+
+.edit_message .material-symbols-outlined:hover {
+    color: orange;
+}
+
+.edit_review_content {
+    width: 100%;
+    font-size: 16px;
+    margin-bottom: 10px;
+    height: fit-content;
+}
+
+.review_buttons {
+    float: right;
+    gap: 10px;
+    font-size: 35px;
+}
+
+.review_cancel_edit {
+    color: red;
+    cursor: pointer;
+}
+
+.review_submit_edit {
+    color: greenyellow;
+    cursor: pointer;
+}
+
+.tilteNButton {
+    display: flex;
+    justify-content: left;
+    gap: 20px;
+    /* line-height: 70px; */
+    align-items: center;
+}
+
+.followBox {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    font-size: 16px;
+    padding: 5px 8px;
+    border: 1px solid orange;
+    border-radius: 10px;
+    height: 35px;
+    cursor: pointer;
+    color: orange;
+}
+
+.followBox p {
+    color: #ffffff;
+}
+
+.followBox ion-icon {
+    position: relative;
+    top: 4px;
+}
+
+.followBox:hover {
+    background: orange;
+    color: #ffffff;
+}
+
+.FavoriteBtn {
+    font-size: 30px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.FavoriteBtn:hover {
+    color: orange;
 }
