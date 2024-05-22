@@ -10,6 +10,8 @@ from django.db import connection
 from itertools import permutations
 import pandas as pd
 from django.db.models import Avg
+from sklearn.neighbors import NearestNeighbors
+from fuzzywuzzy import process
 # from movie.models import 
 #新加入的function
 
@@ -52,6 +54,24 @@ def create_pairs(movies):
     pairs = pd.DataFrame(pairs, columns=["movie_A", "movie_B"])
     return pairs
 
+def movie_recommender_engine(movie_name, matrix, cf_model, n_recs):
+    # Fit model on matrix
+    cf_model.fit(matrix)
+    
+    # Calculate neighbour distances
+    distances, indices = cf_model.kneighbors(matrix[movie_name], n_neighbors=n_recs)
+    movie_rec_ids = sorted(list(zip(indices.squeeze().tolist(), distances.squeeze().tolist())), key=lambda x: x[1])[:0:-1]
+    
+    # List to store recommendations
+    cf_recs = []
+    for i in movie_rec_ids:
+        cf_recs.append({'Title': movie_names['title'][i[0]], 'Distance': i[1]})
+    
+    # Select top number of recommendations needed
+    df = pd.DataFrame(cf_recs, index=range(1, n_recs))
+    
+    return df
+
 def testPage(request):
 
     movieup = Movies.objects.filter(mid=89)
@@ -80,35 +100,24 @@ def testPage(request):
 
     # below is algorithm
 
-    browses = Browse.objects.all()
+    # Retrieve the most recent movie that each user has browsed
+    recent_browses = Browse.objects.order_by('uid', '-browseTime')
+    
+    # Extract movie IDs from the recent browses
+    recent_movie_ids = [browse.mid_id for browse in recent_browses]
+    
+    # Define user_item_matrix using the recent browses
+    user_item_matrix = pd.DataFrame(0, index=[1], columns=recent_movie_ids)
+    print(user_item_matrix)
+    # Define a KNN model on cosine similarity
+    cf_knn_model = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=10, n_jobs=-1)
+    
+    # Call movie_recommender_engine function to get recommendations
+    recommendations = movie_recommender_engine(movie_name=recent_movie_ids[0], matrix=user_item_matrix, cf_model=cf_knn_model, n_recs=10)
+    print('recom')
+    print(recommendations)
 
-    user_movies = {}
-    for browse in browses:
-        user_id = browse.uid.id
-        movie_id = browse.mid.mid
-        if user_id in user_movies:
-            user_movies[user_id].append(movie_id)
-        else:
-            user_movies[user_id] = [movie_id]
-
-    all_pairs = []
-    for user_id, movies in user_movies.items():
-        pairs = permutations(movies, 2)
-        all_pairs.extend(pairs)
-
-    pair_counts = pd.Series(all_pairs).value_counts()
-
-    top_10_pairs = pair_counts.head(10)
-
-    top_10_movie_objects = []
-    for pair, count in top_10_pairs.items():
-        movie_A = Movies.objects.get(mid=pair[0])
-        movie_B = Movies.objects.get(mid=pair[1])
-        top_10_movie_objects.append((movie_A, movie_B, count))
-
-    print(top_10_movie_objects)
-
-    return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'moviesalgo': top_10_movie_objects, 'movieup': movieup[0]}) 
+    return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'moviesalgo': movies1, 'movieup': movieup[0]}) 
 
 
 
