@@ -34,7 +34,16 @@
     <div class="movie_info">
         <span style="display: none;" class="movie_id"> {{i.0}} </span>
         <div class="movie_name">
-            <h1 style="color: orange;"> {{i.2}} </h1>
+            <div class="tilteNButton">
+                <h1 style="color: orange;"> {{i.2}} </h1>
+                {% if request.user.is_authenticated %}
+                <div class="followBox" data-movie-id="{{ i.0 }}">
+                    <p>Add to Favorite</p>
+                    <ion-icon name="bookmark-outline" id="notFav"></ion-icon>
+                </div>
+                <ion-icon name="bookmark" id="Fav" style="display: none;" class="FavoriteBtn"></ion-icon>
+                {% endif %}
+            </div>
             <span> {{i.3}}・{{i.5}}・{{i.6}} </span>
         </div>
 
@@ -253,6 +262,21 @@
             },
 
           });
+        });
+
+        var followBox = document.querySelector('.followBox');
+        var bookmarkNotFav = document.getElementById('notFav');
+        var bookmarkFav = document.getElementById('Fav');
+
+        followBox.addEventListener('click', function() {
+            // 切換 followBox 和 bookmark 圖標的顯示狀態
+            followBox.style.display = 'none'; // 隱藏 followBox
+            bookmarkFav.style.display = 'block'; // 顯示 bookmark 圖標
+        });
+
+        bookmarkFav.addEventListener('click', function() {
+            followBox.style.display = 'flex'; // 隱藏 followBox
+            bookmarkFav.style.display = 'none'; // 顯示 bookmark 圖標
         });
 
         document.addEventListener('DOMContentLoaded', function() {

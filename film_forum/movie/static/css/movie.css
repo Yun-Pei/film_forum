@@ -561,3 +561,48 @@ body {
     color: greenyellow;
     cursor: pointer;
 }
+
+.tilteNButton {
+    display: flex;
+    justify-content: left;
+    gap: 20px;
+    /* line-height: 70px; */
+    align-items: center;
+}
+
+.followBox {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    font-size: 16px;
+    padding: 5px 8px;
+    border: 1px solid orange;
+    border-radius: 10px;
+    height: 35px;
+    cursor: pointer;
+    color: orange;
+}
+
+.followBox p {
+    color: #ffffff;
+}
+
+.followBox ion-icon {
+    position: relative;
+    top: 4px;
+}
+
+.followBox:hover {
+    background: orange;
+    color: #ffffff;
+}
+
+.FavoriteBtn {
+    font-size: 30px;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.FavoriteBtn:hover {
+    color: orange;
+}
