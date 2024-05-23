@@ -47,48 +47,58 @@ def get_top_ten_movies_by_avg_score():
     top_movies_objects = Movies.objects.filter(mid__in=top_movie_ids)
     return top_movies_objects
 
-def create_user_item_matrix():
-    # 獲取所有瀏覽數據
-    browses = Browse.objects.all().select_related('uid', 'mid')
-
-    # 創建用戶-電影評分字典
-    user_movie_dict = {}
-    for browse in browses:
-        user_id = browse.uid.id
-        movie_id = browse.mid.mid
-        if user_id not in user_movie_dict:
-            user_movie_dict[user_id] = {}
-        user_movie_dict[user_id][movie_id] = 1  # 假設瀏覽過的電影評分為1
-
-    # 創建用戶-電影評分矩陣
-    user_item_matrix = pd.DataFrame(user_movie_dict).fillna(0).T
-
+def generate_user_item_matrix():
+    # 從數據庫中獲取所有瀏覽記錄
+    browse_data = Browse.objects.all().values('uid_id', 'mid_id', 'browseTime')
+    
+    # 將數據轉換為 Pandas DataFrame
+    df = pd.DataFrame(list(browse_data))
+    
+    # 為瀏覽行為添加隱式評分，這裡我們假設每個瀏覽行為對應一個隱式評分1
+    df['rating'] = 1
+    
+    # 透過 pivot 操作構建 user_item_matrix
+    user_item_matrix = df.pivot_table(index='uid_id', columns='mid_id', values='rating', fill_value=0)
+    
+    # 將列名稱和索引名稱調整為更合適的名稱
+    user_item_matrix.index.name = 'userId'
+    user_item_matrix.columns.name = 'movieId'
+    
     return user_item_matrix
 
-def train_knn_model(user_item_matrix):
-    # 定義基於餘弦相似度的 KNN 模型
-    cf_knn_model = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=10, n_jobs=-1)
-
-    # 訓練 KNN 模型
+def train_knn_model(user_item_matrix, n_neighbors=10):
+    # 定義使用餘弦相似度的 KNN 模型
+    cf_knn_model = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=n_neighbors, n_jobs=-1)
+    
+    # 擬合模型
     cf_knn_model.fit(user_item_matrix)
-
+    
     return cf_knn_model
 
-def movie_recommender_engine(movie_name, matrix, cf_model, n_recs):
-    # Fit model on matrix
-    cf_model.fit(matrix)
+# 呼叫這個函數來生成 user_item_matrix
+matrix = generate_user_item_matrix()
+print(matrix)
+print('aaa')
+
+
+def movie_recommender_engine(movie_id, matrix, cf_model, n_recs):
     
-    # Calculate neighbour distances
-    distances, indices = cf_model.kneighbors(matrix[movie_name], n_neighbors=n_recs)
-    movie_rec_ids = sorted(list(zip(indices.squeeze().tolist(), distances.squeeze().tolist())), key=lambda x: x[1])[:0:-1]
+    if movie_id not in matrix.columns:
+        raise KeyError(f"Movie ID {movie_id} not found in the matrix.")
     
-    # List to store recommendations
+    #改成從電影找推薦，因為我要從用戶最近的瀏覽找出要輸入的電影，如果是直接用用戶找也可以，同樣方法不同寫法，但就不用轉置
+    matrix_T = matrix.T
+    
+    cf_model.fit(matrix_T)
+    
+    distances, indices = cf_model.kneighbors(matrix_T.loc[movie_id].values.reshape(1, -1), n_neighbors=n_recs+1)
+    movie_rec_ids = sorted(list(zip(indices.squeeze().tolist(), distances.squeeze().tolist())), key=lambda x: x[1])[1:]
+    
     cf_recs = []
     for i in movie_rec_ids:
-        cf_recs.append({'Title': movie_name['title'][i[0]], 'Distance': i[1]})
+        cf_recs.append({'MovieID': matrix_T.index[i[0]], 'Distance': i[1]})
     
-    # Select top number of recommendations needed
-    df = pd.DataFrame(cf_recs, index=range(1, n_recs))
+    df = pd.DataFrame(cf_recs, index=range(1, n_recs + 1))
     
     return df
 
@@ -119,33 +129,16 @@ def testPage(request):
     
 
     # below is algorithm
-
-    # # Retrieve the most recent movie that each user has browsed
-    # recent_browses = Browse.objects.order_by('uid', '-browseTime')
+     # 生成 user_item_matrix
+    user_item_matrix = generate_user_item_matrix()
     
-    # # Extract movie IDs from the recent browses
-    # recent_movie_ids = [browse.mid_id for browse in recent_browses]
-    
-    # # Define user_item_matrix using the recent browses
-    # user_item_matrix = pd.DataFrame(0, index=[1], columns=recent_movie_ids)
-    # print(user_item_matrix)
-    # # Define a KNN model on cosine similarity
-    # cf_knn_model = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=10, n_jobs=-1)
-    
-    # # Call movie_recommender_engine function to get recommendations
-    # recommendations = movie_recommender_engine(movie_name=recent_movie_ids[0], matrix=user_item_matrix, cf_model=cf_knn_model, n_recs=10)
-    user_item_matrix = create_user_item_matrix()
-    cf_knn_model = train_knn_model(user_item_matrix)
+    # 訓練 KNN 模型
+    knn_model = train_knn_model(user_item_matrix)
 
-    recent_browses = Browse.objects.order_by('uid', '-browseTime').distinct('uid')
-    recent_movie_id = recent_browses[0].mid.mid
-    recommendations = movie_recommender_engine(recent_movie_id, user_item_matrix, cf_knn_model, n_recs=10)
+    recommended_movies = movie_recommender_engine(movie_id=62, matrix=user_item_matrix, cf_model=knn_model, n_recs=10)
+    recommended_movies_list = Movies.objects.filter(mid__in=recommended_movies['MovieID'])
 
-    recommended_movies = Movies.objects.filter(mid__in=[rec['movie_id'] for rec in recommendations])
-
-    return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'moviesalgo': recommended_movies, 'movieup': movieup[0]}) 
-
-
+    return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'moviesalgo': recommended_movies_list, 'movieup': movieup[0]})
 
 
 
