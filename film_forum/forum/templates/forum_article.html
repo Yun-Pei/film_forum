@@ -90,25 +90,63 @@
                             </form>
                         </div>
 
-                        
                     {% for row  in reserve_list_comment %}
                         {% for comment in row %}
-                        <hr>
-                        <div class="post_message">
-                            <div class="post_infor">
-                                <div class="post_user_name"><h3> {{comment.username}} </h3></div>
-                                <div class="post_time"><p> {{comment.time}} </p></div>
-                                <div class="post_content"><p> {{comment.conent}} </p></div>
+                            <div class="one_mess">
+                                <hr>
+                                {% if request.user.id == comment.uid_id %}
+                                    <span class="edit_message">
+                                        <span class="material-symbols-outlined mess_edit">
+                                            edit
+                                        </span>
+                                        <span class="material-symbols-outlined mess_delete">
+                                            delete
+                                        </span>
+                                    </span>
+
+                                {% endif %}
+                                <div class="post_message">
+                                    <div class="post_infor">
+                                        <p style="display: none;" class="com_id"> {{comment.ac_id}} </p>
+                                        <div class="post_user_name"><h3> {{comment.username}} </h3></div>
+                                        <div class="post_time"><p> {{comment.time}} </p></div>
+                                        <div class="post_content">
+                                            <p class="orignal_contnet"> {{comment.conent}} </p>
+                                            <textarea class="edit_mess_content" style="display: none;" required></textarea>
+                                        </div>
+                                    </div>
+                                    {% if request.user.id == comment.uid_id %}
+                                        <div class="mess_button form_info form_submit" style="display: none;">
+                                            <br>
+                                            <div class="mess_cancel_button" class="closePopupButton">Cancel</div>
+                                            <button class="mess_submit_button">Submit</button>
+                                        </div>
+                                    {% endif %}
+                                </div>
                             </div>
-                        </div>
                         {% endfor %}
                     {% endfor %}
-
-                    </div>
-                <!-- </div> -->
+                </div>
             </div>
         </div>
         {% endfor %}
     {% endfor %}
 </body>
+<script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script>
+        $(function() {
+        var url = "{% url 'home' %}"; 
+          $("#search").autocomplete({
+            source: url,
+            classes: {
+              "ui-autocomplete": "highlight"
+            },
+            select: function(event, ui) {
+            window.location.href = "{% url 'movie' %}"+"?m_id="+ui.item.url; 
+            },
+
+          });
+        });
+</script>
 </html>

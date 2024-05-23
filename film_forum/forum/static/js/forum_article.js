@@ -37,21 +37,8 @@ $(document).ready(function() {
         $(".content > h4").css("display", "none");
         // alert(content);
 
-        // // 调整 textarea 的大小
-        // function adjustTextareaSize() {
-        //     // 設置為滾動大小的高度
-        //     $(".edit_content").css("width", "100%");
-        //     $(".edit_content").css("height", $(".edit_content").prop("scrollHeight") + "px");
-
-        // }
-
-        // // 當textarea 有input資料後 實行調整大小
-        // $(".edit_content").on("input", adjustTextareaSize);
-
     
         $(".edit_content").val(content);
-        // adjustTextareaSize();
-
 
         // 修改button出現
         $(".edit_submit").css("display", "block");
@@ -65,18 +52,7 @@ $(document).ready(function() {
         $(".title > h1").css("display", "none");
         // alert(content);
 
-        // // 调整 textarea 的大小
-        // function adjustTitleSize() {
-        //     // 設置為滾動大小的高度
-        //     $(".edit_title").css("width", "100%");
-        //     $(".edit_title").css("height", $(".edit_title").prop("scrollHeight") + "px");
 
-        // }
-
-        // // 當textarea 有input資料後 實行調整大小
-        // $(".edit_title").on("input", adjustTitleSize);
-
-    
         $(".edit_title").val(title);
         // adjustTitleSize();
     });
@@ -129,7 +105,7 @@ $(document).ready(function() {
 
     $('#delete').on("click", function(){
         let answer = confirm('Are you sure you want to delete the entire article?');
-
+        // alert(m_id)
         // delete
         if(answer){
             $.ajax({
@@ -144,7 +120,7 @@ $(document).ready(function() {
                     // alert("POST arleady")
                     alert("The article has been successfully deleted! The page will now return to the discussion board.")
                     console.log(response);
-                    window.location.href = 'forum';
+                    // window.location.href = 'forum';
                 },
                 error: function(response){
                     alert("delete faild");
@@ -153,27 +129,100 @@ $(document).ready(function() {
             });            
         }
     });
-
-
-    // $('.submit_button').on("click", function(event){
-    //     event.preventDefault();
-    //     $.ajax({
-    //         url: 'forum_article',
-    //         type: 'POST', 
-    //         success: function(response){
-    //             alert("Message successfully posted")
-    //             $('#Message_form').submit();
-    //             location.reload(true);
-    //         },
-    //         error: function(response){
-    //             alert("faild");
-    //             console.log(response);
-    //         }
-    //     });
-    // });
     
     $('.cancel_button').on("click", function(event){
         $("#post-text").val("");
     });
 
+    $('.mess_edit').on("click", function(event){
+        event.preventDefault();
+        var postMessage = $(this).closest('.one_mess').find('.post_message');
+        var content = postMessage.find('.orignal_contnet').text().trim();
+        // alert(content);
+        // var id = $(".com_id").text().trim();
+        // alert(content)
+        postMessage.find(".orignal_contnet").css("display", "none");
+        postMessage.find(".edit_mess_content").css("display", "block");
+        postMessage.find(".edit_mess_content").val(content);
+
+        postMessage.find(".mess_button").css("display", "flex");
+
+    });
+
+    $('.mess_cancel_button').on("click", function(event){
+        var postMessage = $(this).closest('.one_mess').find('.post_message');
+
+        postMessage.find(".orignal_contnet").css("display", "block");
+        postMessage.find(".edit_mess_content").css("display", "none");       
+
+        postMessage.find(".mess_button").css("display", "none");       
+
+    });
+
+    $('.mess_submit_button').on("click", function(event){
+        var content = $(this).closest('.post_message').find('.edit_mess_content').val();
+        var id = $(this).closest('.post_message').find('.com_id').text().trim();
+
+        // alert(content);
+        // alert(id);
+
+        if (content == ''){
+            alert("Can't empty");
+        }
+        else{
+            $.ajax({
+                url: 'forum_article',
+                type: 'POST', 
+                data: {
+                    'content': content,
+                    'mode' : 'forum_message_edit',
+                    'm_id' : m_id,
+                    'art_id' : art_id,
+                    'acom_id' : id,
+                },
+                success: function(response){
+                    // alert("POST arleady")
+                    alert("The message has been successfully modified!");
+                    console.log(response);
+                    location.reload(true);
+                },
+                error: function(response){
+                    alert("edit faild");
+                    console.log(response);
+                }
+            });
+        }
+
+    });
+
+    // mess_delete
+    $('.mess_delete').on("click", function(event){
+        var postMessage = $(this).closest('.one_mess').find('.post_message');
+        
+        var ac_id = postMessage.find(".com_id").text().trim();
+        let answer = confirm('Delete the comment?');
+        // alert(ac_id);
+        // delete
+        if(answer){
+            $.ajax({
+                url: 'forum_article',
+                type: 'POST', 
+                data: {
+                    'mode' : 'forum_message_delete',
+                    'ac_id' : ac_id,
+                },
+                success: function(response){
+                    // alert("POST arleady")
+                    alert("Successfully deleted!")
+                    console.log(response);
+                    location.reload(true);
+                },
+                error: function(response){
+                    alert("delete faild");
+                    console.log(response);
+                }
+            });                 
+        }
+
+    });
 });

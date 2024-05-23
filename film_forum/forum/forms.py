@@ -4,13 +4,13 @@ from member.models import *
 class MessageForm(forms.ModelForm):
         
         class Meta:
-            model = ArticleComment
+            model = ArticleComments
             fields = ('conent', )
             # fields = '__all__'
             # fields = ('message_content', 'm_id', 'f_id',)
             # exclude = ['time']
             widgets = {
-                'conent': forms.TextInput(attrs={
+                'content': forms.Textarea(attrs={
                     'id': 'post-text', 
                     'required': True, 
                     'placeholder': 'Say something...'

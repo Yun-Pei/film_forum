@@ -81,21 +81,22 @@ $(document).ready(function() {
         // var art_id = $(this).find('.art_id').text();
 
         // alert(m_id);
+        window.location.href = "movie?m_id=" + m_id;
 
-        $.ajax({
-            type: "GET",
-            url: "movie",
-            data: {
-                'm_id': m_id,
-            },
-            success: function(response) {
-                // alert("123");
-                window.location.href = "movie?m_id=" + m_id;
-            },
-            error: function(xhr, status, error) {
-                console.error(error);
-            }
-        });
+        // $.ajax({
+        //     type: "GET",
+        //     url: "movie",
+        //     data: {
+        //         'm_id': m_id,
+        //     },
+        //     success: function(response) {
+        //         // alert("123");
+        //         window.location.href = "movie?m_id=" + m_id;
+        //     },
+        //     error: function(xhr, status, error) {
+        //         console.error(error);
+        //     }
+        // });
 
     });
     
