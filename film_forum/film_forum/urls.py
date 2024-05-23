@@ -35,7 +35,9 @@ urlpatterns = [
     path('log_out', member_views.log_out, name="log_out"),
     # path('chat', include('chatroom.urls')),
     path('chat/', chatroom_views.chatPage, name="chatPage"),
+    path('chat/addfriend', chatroom_views.addChatPage, name="addChatPage"),
     path('watchlist', member_views.watchlist, name="watchlist"),
+    path('chat/search/', chatroom_views.search_member, name='searchMember'),
     # path('crawl', member_views.crawl, name="crawl"),
     # path("", views.index, name="home")
     # path('searchbar/', home_views.searchbar, name='searchbar'),

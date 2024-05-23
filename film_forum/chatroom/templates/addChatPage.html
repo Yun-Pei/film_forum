@@ -136,13 +136,59 @@
         .userId {
             display: none;
         }
+        .memberInfoBox {
+            list-style: none;
+            position: relative;
+            top: 100px;
+            width: fit-content;
+            margin: auto;
+            font-size: 20px;
+        }
+        .userImg {
+            height: 150px;
+            width: 150px;
+            border-radius: 50%;
+        }
+        .name {
+            width: fit-content;
+            margin: 0px auto;
+            font-size: 20px;
+            color: #404040;
+        }
+        .Notfound {
+            position: relative;
+            top: 100px;
+            width: fit-content;
+            margin: auto;
+            font-size: 20px;
+        }
+        .chooseButton {
+            margin: 10px auto;
+            display: flex;
+            justify-content: space-around;
+            font-size: 14px;
+        }
+        .cancelBtn {
+            padding: 3px 8px;
+            border-radius: 10px;
+            border: 1px solid lightgrey;
+            cursor: pointer;
+            color: #404040;
+        }
+        .SearchBtn {
+            background: #ffa600;
+            padding: 3px 8px;
+            border-radius: 10px;
+            cursor: pointer;
+            color: #252525;
+        }
     </style>
 </head>
 
 <body>
-    <a href="#"><p class="title">Kounel</p></a>
+    <a href="{% url 'home' %}"><p class="title">Kounel</p></a>
     <div class="whole-container">
-        <form action="{% url 'search_members' %}" method="get" class="search_chat">
+        <form action="{% url 'searchMember' %}" method="POST" class="search_chat">
             {% csrf_token %}
             <div>
               <input type="text" placeholder="Search member" class="form-control" name="q">
@@ -150,50 +196,53 @@
             </div>
             <button type="submit" style="display: none;"></button>
         </form>
-        <form class="resultBox" method="POST" action="{% url 'chat-page' %}">
-            {% csrf_token %}
-            {% for user in users %}
-                <div class="result">
-                    <ul>
-                        <li>
-                            <div id="userSelf" style="display: none;">{{request.user.id}}</div>
-                            <button type="submit">
-                                <div id="userName" class="userName">{{user.username}}</div>
-                                <div id="userId" class="userId">{{user.id}}</div>
-                            </button>
+        <div class="searchResult">
+            {% if members %}
+                <ul>
+                    {% for member in members %}
+                        <li class="memberInfoBox">
+                            <img src="{% static 'pic/user.png' %}" class="userImg">
+                            <p class="name">{{ member.username }}</p>
+                            <div class="chooseButton">
+                                <div class="cancelBtn">Cancel</div>
+                                <div class="SearchBtn">
+                                    Search
+                                    <div class="ID" style="display: none;">{{ member.id }}</div>
+                                </div>
+                            </div>
                         </li>
-                    </ul>
-                </div>
-            {% endfor %}
-        </form>
-        <button type="submit" class="Cancel"><a href="{% url 'chat-page' %}">Cancel</a></button>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="Notfound">No results found.</p>
+            {% endif %}
+        </div>
+        <button type="submit" class="Cancel"><a href="{% url 'chatPage' %}">Cancel</a></button>
     </div>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
     <script>
-
-        $(document).on('click', '.userName', function() {
-        // 找到click的那個的 m_id 、 user_id
-        var tempBeId = document.getElementById('userId');
-        var tempUid = document.getElementById('userSelf');
-        alert(tempBeId, tempUid)
-            // $.ajax({
-            //     type: "POST",
-            //     url: "",
-            //     data: {
-            //         uid_id: tempUid.innerHTML,
-            //         be_uid: tempBeId.innerHTML,
-            //     },
-            //     success: function(response) {
-            //         console.log(response);
-            //     },
-            //     error: function(xhr, status, error) {
-            //         console.error('Error sending data: ' + error);
-            //     }
+        document.addEventListener('DOMContentLoaded', function() {
+            var cancelButton = document.querySelector('.cancelBtn');
+            var searchButtons = document.querySelectorAll('.SearchBtn');
+            cancelButton.addEventListener('click', function() {
+                var searchResults = document.querySelectorAll('.memberInfoBox');
+                searchResults.forEach(function(result) {
+                        result.style.display = 'none';
+                });
+            });
+            // searchButtons.forEach(function(searchButton) {
+            //     alert('22222');
+            //     searchButton.addEventListener('click', function() {
+            //         var idElement = this.querySelector('.ID');
+            //         var memberId = idElement.textContent; // 獲取ID內容
+            //         console.log("Member ID:", memberId);
+            //         alert('11111');
+            //         // 這裡可以進一步處理獲取的ID
+            //     });
             // });
-
-    });
+        });
     </script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

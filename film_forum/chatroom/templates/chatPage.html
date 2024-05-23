@@ -363,7 +363,7 @@
 </head>
 
 <body>
-    <a href="#"><p class="title">Kounel</p></a>
+    <a href="{% url 'home' %}"><p class="title">Kounel</p></a>
     <div class="whole-container">
         
         <div class="left-chat-container">
@@ -374,8 +374,8 @@
                 </div>
                 
                 <ul class="nav_icon">
-                    <li><a href=""><ion-icon name="add-circle"></ion-icon></a></li>
-                    <li><a href=""><ion-icon name="exit"></ion-icon></a></li>
+                    <li><a href="{% url 'addChatPage' %}"><ion-icon name="add-circle"></ion-icon></a></li>
+                    <!-- <li><a href=""><ion-icon name="exit"></ion-icon></a></li> -->
                 </ul>
             </div>
             <!-- search -->

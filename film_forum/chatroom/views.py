@@ -17,26 +17,37 @@ def chatPage(request):
     return render(request, "chatPage.html", context)
 
 def addChatPage(request):
-    if request.method == "GET":
-        return render(request, 'addChatPage.html')
-    elif request.method == "POST":
-        print(request.POST.get("uid_id"))
-        print(request.POST.get("be_uid"))
-        return HttpResponse("success")
+        
+    return render(request, 'addChatPage.html')
+    
 
-class MemberSearchView(ListView):
-    model = User
-    template_name = 'addChatPage.html'
-    context_object_name = 'users'
+def search_member(request):
+    query = request.POST.get('q')
+    members = []
+    if query and request.user.is_authenticated:
+        user_id = request.user.id
+        try:
+            # 使用exact查詢條件來完全匹配使用者名稱
+            member = User.objects.get(username=query)
+            if user_id != member.id:
+                members.append(member)
+        except User.DoesNotExist:
+            pass  # 如果沒有找到相應的使用者，就不添加到結果列表中
+    return render(request, 'addChatPage.html', {'members': members})
 
-    def get_queryset(self):
-        query = self.request.GET.get('q')
-        if query:
-            queryset = User.objects.filter(username__icontains=query)
-            if self.request.user.is_authenticated:
-                queryset = queryset.exclude(id=self.request.user.id)
-            return queryset
-        return User.objects.none()
+# class MemberSearchView(ListView):
+#     model = User
+#     template_name = 'addChatPage.html'
+#     context_object_name = 'users'
+
+#     def get_queryset(self):
+#         query = self.request.GET.get('q')
+#         if query:
+#             queryset = User.objects.filter(username__icontains=query)
+#             if self.request.user.is_authenticated:
+#                 queryset = queryset.exclude(id=self.request.user.id)
+#             return queryset
+#         return User.objects.none()
 
 # def autocomplete(request):
 #     if 'term' in request.GET:
