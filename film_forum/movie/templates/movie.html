@@ -117,7 +117,11 @@
         <div class="CommemtTitleBox">
             <h1 style="color: orange;">User reviews</h1>
             {% if request.user.is_authenticated %}
+                {% if user_has_commented %}
+                <button id="openBtn" class="addComment" style="display: none;">+ review</button>
+                {% else %}
                 <button id="openBtn" class="addComment">+ review</button>
+                {% endif %}
             {% endif %}
             {% for i in film %}
             <div class="addComment_sideBar">

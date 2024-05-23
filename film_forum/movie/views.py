@@ -87,6 +87,10 @@ def movie(request):
         user_has_favorite = LikeMovies.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
     else:
         user_has_favorite = False
+    if request.user.is_authenticated:
+        print('user_has_commented')
+        user_id = request.user.id
+        user_has_commented = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
 
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -172,3 +176,5 @@ def movie(request):
 
     # return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})
     return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment, 'user_has_favorite': user_has_favorite})
+
+    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment, 'user_has_commented': user_has_commented})
