@@ -374,8 +374,8 @@
                 </div>
                 
                 <ul class="nav_icon">
-                    <li><a href="{% url 'add-Chat' %}"><ion-icon name="add-circle"></ion-icon></a></li>
-                    <li><a href="{% url 'logout-user' %}"><ion-icon name="exit"></ion-icon></a></li>
+                    <li><a href=""><ion-icon name="add-circle"></ion-icon></a></li>
+                    <li><a href=""><ion-icon name="exit"></ion-icon></a></li>
                 </ul>
             </div>
             <!-- search -->
@@ -408,7 +408,7 @@
             <div class="chat-logout">
                 {% if request.user.is_authenticated %}
                 <div style="float: left;font-weight: bold; color: #51585c;">{{ request.user|title }} </div>
-                <!-- <div style="float: right;"><a href="{% url 'logout-user' %}"><i class="fas fa-sign-out-alt"></i></a></div> -->
+                <!-- <div style="float: right;"><a href=""><i class="fas fa-sign-out-alt"></i></a></div> -->
                 <div style="clear: both;"></div>
                 {% endif %}
             </div>
