@@ -9,7 +9,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'ajax.js'%}"></script>
     <script src="{% static 'js/addChatPage.js'%}"></script>
-    <script src="{% static 'css/addChatPage.css'%}"></script>
     <style>
         * {
             margin: 0px;
@@ -83,14 +82,20 @@
             font-size: 1.2em;
         }
         .resultBox {
-            max-width: 1020px;
+            width: 720px;
             margin: 0px auto;
             position: relative;
             display: flex;
             flex-wrap: wrap;
-            justify-content: left;
+            justify-content: center;
             top: 15%;
         }
+        .resultSmallBox {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: left;
+        }
+
         .result {
             position: relative;
             font-size: 20px;
@@ -103,7 +108,7 @@
             font-size: 16px;
             border-radius: 10px;
             border: #bbb 1px solid;
-            width: 300px;
+            width: 200px;
             padding: 10px;
             cursor: pointer;
         }
@@ -146,20 +151,20 @@
             <button type="submit" style="display: none;"></button>
         </form>
         <form class="resultBox" method="POST" action="{% url 'chat-page' %}">
-        {% csrf_token %}
-        {% for user in users %}
-        <div class="result">
-            <ul>
-                <li>
-                    <div id="userSelf" style="display: none;">{{request.user.id}}</div>
-                    <button type="submit">
-                        <div id="userName" class="userName">{{user.username}}</div>
-                        <div id="userId" class="userId">{{user.id}}</div>
-                    </button>
-                </li>
-            </ul>
-        </div>
-        {% endfor %}
+            {% csrf_token %}
+            {% for user in users %}
+                <div class="result">
+                    <ul>
+                        <li>
+                            <div id="userSelf" style="display: none;">{{request.user.id}}</div>
+                            <button type="submit">
+                                <div id="userName" class="userName">{{user.username}}</div>
+                                <div id="userId" class="userId">{{user.id}}</div>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            {% endfor %}
         </form>
         <button type="submit" class="Cancel"><a href="{% url 'chat-page' %}">Cancel</a></button>
     </div>
@@ -172,20 +177,21 @@
         // 找到click的那個的 m_id 、 user_id
         var tempBeId = document.getElementById('userId');
         var tempUid = document.getElementById('userSelf');
-        $.ajax({
-            type: "POST",
-            url: "",
-            data: {
-                uid_id: tempUid.innerHTML,
-                be_uid: tempBeId.innerHTML,
-            },
-            success: function(response) {
-                console.log(response);
-            },
-            error: function(xhr, status, error) {
-                console.error('Error sending data: ' + error);
-            }
-        });
+        alert(tempBeId, tempUid)
+            // $.ajax({
+            //     type: "POST",
+            //     url: "",
+            //     data: {
+            //         uid_id: tempUid.innerHTML,
+            //         be_uid: tempBeId.innerHTML,
+            //     },
+            //     success: function(response) {
+            //         console.log(response);
+            //     },
+            //     error: function(xhr, status, error) {
+            //         console.error('Error sending data: ' + error);
+            //     }
+            // });
 
     });
     </script>
