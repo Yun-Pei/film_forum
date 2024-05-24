@@ -29,7 +29,7 @@ def movie(request):
 
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT User.id, User.username, Article.*
+            SELECT User.id, User.username, User.img, Article.*
             FROM User
             JOIN Article ON User.id = Article .uid_id
             WHERE Article.mid_id = %s
@@ -61,7 +61,7 @@ def movie(request):
     # for article in forum_article:
     #     article.formatted_time = article.time.strftime("%Y-%m-%d %I:%M %p")
 
-    print(film)
+    # print(film)
 
 
     previous_url = request.META.get('HTTP_REFERER', '/')
@@ -136,7 +136,7 @@ def movie(request):
     if request.GET.get("mode") == "movie_comment_delete" and request.method == 'GET':
         movie_id = request.GET.get('m_id')
         Comment_id = request.GET.get('Comment_id')
-        print(movie_id, Comment_id)
+        # print(movie_id, Comment_id)
         delete_comment = MovieComments.objects.get(Comment_id=Comment_id)
         delete_comment.delete()
         return HttpResponseRedirect(f'movie?m_id={movie_id}')
@@ -146,7 +146,7 @@ def movie(request):
         movie_id = request.GET.get('m_id')
         content = request.GET.get('content')
         time = MovieComments.objects.filter(Comment_id=Comment_id).values('time')
-        print(Comment_id, movie_id, content, time)
+        # print(Comment_id, movie_id, content, time)
 
         # user_id = User.objects.get(pk=user_id)
         # movie_id = Movies.objects.get(pk=movie_id)
@@ -154,7 +154,7 @@ def movie(request):
 
         comment_edit = MovieComments.objects.get(Comment_id=Comment_id)
         # .objects.filter(pk=Comment_id)
-        print(comment_edit)
+        # print(comment_edit)
         comment_edit.content = content
         comment_edit.save()
 
@@ -164,7 +164,7 @@ def movie(request):
 
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT User.id, User.username, MovieComments.*
+            SELECT User.id, User.username, User.img, MovieComments.*
             FROM User
             JOIN MovieComments ON User.id = MovieComments .uid_id
             WHERE MovieComments.mid_id =%s
