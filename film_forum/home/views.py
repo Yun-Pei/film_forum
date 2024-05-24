@@ -12,6 +12,7 @@ import pandas as pd
 from django.db.models import Avg
 from sklearn.neighbors import NearestNeighbors
 from fuzzywuzzy import process
+import random
 # from movie.models import 
 #新加入的function
 
@@ -139,10 +140,15 @@ def testPage(request):
     knn_model = train_knn_model(user_item_matrix)
 
     user_id = request.user.id
-    latest_movie_id = get_latest_browsed_movie(user_id)
+    if user_id:
+        latest_movie_id = get_latest_browsed_movie(user_id)
+    else:
+        random_movie = random.choice(Browse.objects.values_list('mid_id', flat=True))
+        latest_movie_id = random_movie
+
     recommended_movies_list = []
     print(f"Latest movie ID for user {user_id}: {latest_movie_id}")
-    print('gggggggggg')
+    
     recommended_movies = movie_recommender_engine(movie_id=latest_movie_id, matrix=user_item_matrix, cf_model=knn_model, n_recs=10)
     recommended_movies_list = Movies.objects.filter(mid__in=recommended_movies['MovieID'])
 

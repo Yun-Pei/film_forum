@@ -129,6 +129,7 @@ def movie(request):
             user_id = request.user.id
             if user_id:
                 user = User.objects.get(pk=user_id)
+                print(f'{user}')
                 film = Movies.objects.get(pk=movie_id)
                 browse_time = timezone.now()
                 browse = Browse(uid=user, mid=film, browseTime=browse_time)
