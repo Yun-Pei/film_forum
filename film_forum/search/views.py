@@ -1,7 +1,7 @@
 # from member.models import Movies
 # from .models import TrieTree
 # from .utils import Trie
-# from django.shortcuts import render
+from django.shortcuts import render
 # import time
 
 
