@@ -102,10 +102,13 @@ def movie_recommender_engine(movie_id, matrix, cf_model, n_recs):
     
     return df
 
+def get_latest_browsed_movie(user_id):
+    latest_browse = Browse.objects.filter(uid_id=user_id).order_by('-browseTime').first()
+    if latest_browse:
+        return latest_browse.mid_id
+    return None
+
 def testPage(request):
-
-    movieup = Movies.objects.filter(mid=89)
-
     # top_movies = Browse.objects.values('mid').annotate(num_views=Count('mid')).order_by('num_views')[:10]
     movies1 = get_top_ten_movies()
 
@@ -135,10 +138,15 @@ def testPage(request):
     # 訓練 KNN 模型
     knn_model = train_knn_model(user_item_matrix)
 
-    recommended_movies = movie_recommender_engine(movie_id=62, matrix=user_item_matrix, cf_model=knn_model, n_recs=10)
+    user_id = request.user.id
+    latest_movie_id = get_latest_browsed_movie(user_id)
+    recommended_movies_list = []
+    print(f"Latest movie ID for user {user_id}: {latest_movie_id}")
+    print('gggggggggg')
+    recommended_movies = movie_recommender_engine(movie_id=latest_movie_id, matrix=user_item_matrix, cf_model=knn_model, n_recs=10)
     recommended_movies_list = Movies.objects.filter(mid__in=recommended_movies['MovieID'])
 
-    return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'moviesalgo': recommended_movies_list, 'movieup': movieup[0]})
+    return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'moviesalgo': recommended_movies_list})
 
 
 
