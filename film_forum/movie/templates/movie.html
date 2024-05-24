@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <script src='{% static "js/movie.js" %}'></script>
     <script src='{% static "ajax.js" %}'></script>
+    
 
 </head>
 <body>
@@ -33,49 +34,7 @@
     <div class="movie_info">
         <span style="display: none;" class="movie_id"> {{i.0}} </span>
         <div class="movie_name">
-            <div class="tilteNButton">
-                <h1 style="color: orange;"> {{i.2}} </h1>
-                {% if request.user.is_authenticated %}
-                    {% if user_has_favorite %}
-                        <div>
-                            <form method="post" id="favorite">
-                                {% csrf_token %}
-                                <button type="button"><ion-icon name="bookmark" class="FavoriteBtn"></ion-icon></button>
-                            </form>
-                            <div>
-                                <form action="" method='POST'>
-                                    {% csrf_token %}
-                                    <input type="hidden" name="movie_id" value="{{ i.0 }}">
-                                    <button name="addWatch" id="Follow" class="followBox" type="button" style="display: none;">
-                                        <p>Add to Favorite</p>
-                                        <p style="display: none;" class="movie_id"> {{i.0}} </p>
-                                        <ion-icon name="bookmark-outline" id="notFav"></ion-icon>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div>
-                            <form method="post" style="display: none;" id="favorite">
-                                {% csrf_token %}
-                                <button type="button"><ion-icon name="bookmark" class="FavoriteBtn"></ion-icon></button>
-                            </form>
-                            <div>
-                                <form action="" method='POST'>
-                                    {% csrf_token %}
-                                    <input type="hidden" name="movie_id" value="{{ i.0 }}">
-                                    <button name="addWatch" id="Follow" class="followBox" type="button">
-                                        <p>Add to Favorite</p>
-                                        <p style="display: none;" class="movie_id"> {{i.0}} </p>
-                                        <ion-icon name="bookmark-outline" id="notFav"></ion-icon>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    {% endif %}
-                
-                {% endif %}
-            </div>
+            <h1 style="color: orange;"> {{i.2}} </h1>
             <span> {{i.3}}・{{i.5}}・{{i.6}} </span>
         </div>
 
@@ -113,15 +72,11 @@
 
     <hr class="separate">
 
-    <!-- <div class="movieCommentBox">
+    <div class="movieCommentBox">
         <div class="CommemtTitleBox">
             <h1 style="color: orange;">User reviews</h1>
             {% if request.user.is_authenticated %}
-                {% if user_has_commented %}
-                <button id="openBtn" class="addComment" style="display: none;">+ review</button>
-                {% else %}
                 <button id="openBtn" class="addComment">+ review</button>
-                {% endif %}
             {% endif %}
             {% for i in film %}
             <div class="addComment_sideBar">
@@ -169,7 +124,6 @@
                             <textarea type="text" name="addCommentContBox" class="addComment_content" placeholder="Write your review here"></textarea>
                         </div>
                         <div class="submitBox">
-                            <p id="m_id" style="display: none;">{{i.0}}</p>
                             <button class="submitReviewBtn">Submit</button>
                         </div>
                     </form>
@@ -202,7 +156,10 @@
                             {% endif %}
                         </div>
                         <div class="userReview_info">
-                            <div class="userReview_username"><p>{{ j.username }}</p></div>
+                            <div class="userReview_username">
+                                <!-- <img src="{% static 'picture/pc_'|add:j.img|add:'.png' %}"  style="height: 8vh;"/> -->
+                                <p>{{ j.username }}</p>
+                            </div>
                             <div class="userReview_time">{{ j.time }}</div>
                         </div>
                         <div class="userReview_cont">
@@ -229,7 +186,7 @@
         </div>
         
 
-    </div> -->
+    </div>
 
     <div class="forum">
         <div id="forum_content">
@@ -256,7 +213,7 @@
                         <div id="member">
                             <!-- 應改成user NAME -->
                             <p>
-                                <img src="{% static 'picture/pc_'|add:comment.img|add:'.png' %}"  style="height: 8vh;"/>
+                                <!-- <img src="{% static 'picture/pc_'|add:i.img|add:'.png' %}"  style="height: 8vh;"/> -->
                                 <span> {{ i.username }} </span> 
                                 <span>・</span>
                                 <span> {{ i.time }} </span>
@@ -298,39 +255,12 @@
           });
         });
 
-        
-
         document.addEventListener('DOMContentLoaded', function() {
-            console.log("DOM fully loaded and parsed");
-
-            var Follow = document.getElementById('Follow');
-            // var bookmarkNotFav = document.getElementById('notFav');
-            var bookmarkFav = document.getElementById('favorite');
             var openBtn = document.getElementById('openBtn');
             var closeBtn = document.getElementById('closeBtn');
             var sidebar = document.querySelector('.addComment_sideBar');
             var popupBackground = document.querySelector('.popupBackground');
             var body = document.body;
-            var ratingInputs = document.querySelectorAll('.rating input');
-            var scoreDisplay = document.getElementById('scoreValue');
-            var form = document.getElementById('MovieCommentCont'); // 确保这是您表单的 ID
-
-            // console.log({ Follow, bookmarkNotFav, bookmarkFav, openBtn, closeBtn, sidebar, popupBackground, body, ratingInputs, scoreDisplay, form });
-            console.log({Follow, bookmarkFav, openBtn, closeBtn, sidebar, popupBackground, body, ratingInputs, scoreDisplay, form });
-
-
-
-            Follow.addEventListener('click', function() {
-            // 切換 Follow 和 bookmark 圖標的顯示狀態
-                Follow.style.display = 'none'; // 隱藏 Follow
-                bookmarkFav.style.display = 'block'; // 顯示 bookmark 圖標
-                // alert("followsuccess");
-            });
-
-            bookmarkFav.addEventListener('click', function() {
-                Follow.style.display = 'flex'; // 隱藏 Follow
-                bookmarkFav.style.display = 'none'; // 顯示 bookmark 圖標
-            });
 
             openBtn.addEventListener('click', function() {
                 sidebar.classList.add('active'); // 添加active
@@ -343,50 +273,16 @@
                 popupBackground.classList.remove('active');
                 body.style.overflow = "auto";
             });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var ratingInputs = document.querySelectorAll('.rating input');
+            var scoreDisplay = document.getElementById('scoreValue');
 
             ratingInputs.forEach(input => {
                 input.addEventListener('change', function() {
                     scoreDisplay.textContent = this.value; // 更新分数显示
                 });
-            });
-
-            form.addEventListener('submit', function(e) {
-                var isChecked = false;
-                var isTextFilled = false;
-                var radios = document.getElementsByName('rating');
-                var textArea = document.querySelector('.addComment_content');
-        
-                // 检查是否有选择评分
-                for (var i = 0; i < radios.length; i++) {
-                    if (radios[i].checked) {
-                        isChecked = true;
-                        break;
-                    }
-                }
-
-                // 检查文本区域是否已填写
-                if (textArea.value.trim() !== "") {
-                    isTextFilled = true;
-                }
-
-                var errorMessageDiv1 = document.getElementById('errorMessage1');
-                var errorMessageDiv2 = document.getElementById('errorMessage2');
-                if (!isChecked || !isTextFilled) {
-                    e.preventDefault(); // 阻止表单提交
-                    if (!isChecked && !isTextFilled) {
-                        errorMessageDiv1.textContent = 'Please select a rating.';
-                        errorMessageDiv2.textContent = 'Please fill in the review.';
-                    } else if (!isChecked) {
-                        errorMessageDiv1.textContent = 'Please select a rating.';
-                    } else if (!isTextFilled) {
-                        errorMessageDiv2.textContent = 'Please fill in the review.';
-                    }
-                    errorMessageDiv1.style.color = 'red'; // 设置错误信息的颜色为红色
-                    errorMessageDiv2.style.color = 'red'; // 设置错误信息的颜色为红色
-                } else {
-                    errorMessageDiv1.textContent = ''; // 确保在条件满足后清除错误消息
-                    errorMessageDiv2.textContent = ''; // 确保在条件满足后清除错误消息
-                }
             });
         });
 
@@ -435,47 +331,47 @@
         //         }
         //     });
         // });
-        // document.addEventListener('DOMContentLoaded', function () {
-        //     var form = document.getElementById('MovieCommentCont'); // 确保这是您表单的 ID
-        //     form.addEventListener('submit', function(e) {
-        //         var isChecked = false;
-        //         var isTextFilled = false;
-        //         var radios = document.getElementsByName('rating');
-        //         var textArea = document.querySelector('.addComment_content');
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.getElementById('MovieCommentCont'); // 确保这是您表单的 ID
+            form.addEventListener('submit', function(e) {
+                var isChecked = false;
+                var isTextFilled = false;
+                var radios = document.getElementsByName('rating');
+                var textArea = document.querySelector('.addComment_content');
         
-        //         // 检查是否有选择评分
-        //         for (var i = 0; i < radios.length; i++) {
-        //             if (radios[i].checked) {
-        //                 isChecked = true;
-        //                 break;
-        //             }
-        //         }
+                // 检查是否有选择评分
+                for (var i = 0; i < radios.length; i++) {
+                    if (radios[i].checked) {
+                        isChecked = true;
+                        break;
+                    }
+                }
 
-        //         // 检查文本区域是否已填写
-        //         if (textArea.value.trim() !== "") {
-        //             isTextFilled = true;
-        //         }
+                // 检查文本区域是否已填写
+                if (textArea.value.trim() !== "") {
+                    isTextFilled = true;
+                }
 
-        //         var errorMessageDiv1 = document.getElementById('errorMessage1');
-        //         var errorMessageDiv2 = document.getElementById('errorMessage2');
-        //         if (!isChecked || !isTextFilled) {
-        //             e.preventDefault(); // 阻止表单提交
-        //             if (!isChecked && !isTextFilled) {
-        //                 errorMessageDiv1.textContent = 'Please select a rating.';
-        //                 errorMessageDiv2.textContent = 'Please fill in the review.';
-        //             } else if (!isChecked) {
-        //                 errorMessageDiv1.textContent = 'Please select a rating.';
-        //             } else if (!isTextFilled) {
-        //                 errorMessageDiv2.textContent = 'Please fill in the review.';
-        //             }
-        //             errorMessageDiv1.style.color = 'red'; // 设置错误信息的颜色为红色
-        //             errorMessageDiv2.style.color = 'red'; // 设置错误信息的颜色为红色
-        //         } else {
-        //             errorMessageDiv1.textContent = ''; // 确保在条件满足后清除错误消息
-        //             errorMessageDiv2.textContent = ''; // 确保在条件满足后清除错误消息
-        //         }
-        //     });
-        // });
+                var errorMessageDiv1 = document.getElementById('errorMessage1');
+                var errorMessageDiv2 = document.getElementById('errorMessage2');
+                if (!isChecked || !isTextFilled) {
+                    e.preventDefault(); // 阻止表单提交
+                    if (!isChecked && !isTextFilled) {
+                        errorMessageDiv1.textContent = 'Please select a rating.';
+                        errorMessageDiv2.textContent = 'Please fill in the review.';
+                    } else if (!isChecked) {
+                        errorMessageDiv1.textContent = 'Please select a rating.';
+                    } else if (!isTextFilled) {
+                        errorMessageDiv2.textContent = 'Please fill in the review.';
+                    }
+                    errorMessageDiv1.style.color = 'red'; // 设置错误信息的颜色为红色
+                    errorMessageDiv2.style.color = 'red'; // 设置错误信息的颜色为红色
+                } else {
+                    errorMessageDiv1.textContent = ''; // 确保在条件满足后清除错误消息
+                    errorMessageDiv2.textContent = ''; // 确保在条件满足后清除错误消息
+                }
+            });
+        });
 
         // import Swal from 'sweetalert2';
 
