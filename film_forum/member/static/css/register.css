@@ -1,4 +1,21 @@
+/* BEGIN: avatar style */
+.member_pic img {
+    transition: opacity 0.3s;
+    opacity: 0.3; /* 默认图片为暗 */
+}
 
+/* 隐藏所有的 radio input */
+input[type="radio"] {
+    display: none;
+}
+
+/* 预设选中的图片样式 */
+input[type="radio"]:checked + img {
+    opacity: 1;
+}
+
+
+/* END: avatar style */
   
 h1, h2, h3, h4, h5, h6,
   .h1, .h2, .h3, .h4, .h5, .h6 {

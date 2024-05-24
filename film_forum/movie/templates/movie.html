@@ -255,10 +255,11 @@
                         <h3 id="title"> {{ i.title }} </h3>
                         <div id="member">
                             <!-- 應改成user NAME -->
-                            <p>
-                                <span> {{ i.username }} </span> 
-                                <span>・</span>
-                                <span> {{ i.time }} </span>
+                            <p> 
+                                <img src="{% static 'picture/pc_'|add:comment.img|add:'.png' %}"  style="height: 8vh;"/> 
+                                <span> {{ i.username }} </span>  
+                                <span>・</span> 
+                                <span> {{ i.time }} </span> 
                             </p>
                         </div>
                         <div id="content"> {{ i.conent }} </div>   

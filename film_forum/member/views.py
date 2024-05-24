@@ -82,7 +82,12 @@ def register(request):
 
             # forum = User(title=title, conent=conent, time=now_time, uid=user_id, mid=film_id)
 
-            form.save()
+            user = form.save(commit=False) #阻止form save
+            user.img = request.POST.get('picture', '1') #get img number, if not get push '1'
+
+            # print(request.POST.get('picture'))
+            user.save()
+            
             msg = 'user created'
 
             previous_url = request.session.get('previous_url', '/')

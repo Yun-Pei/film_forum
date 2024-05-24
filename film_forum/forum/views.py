@@ -32,7 +32,7 @@ def forum(request):
 
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT User.id, User.username, Article.*
+            SELECT User.id, User.username, User.img, Article.*
             FROM User
             JOIN Article ON User.id = Article .uid_id
             WHERE Article.mid_id = %s
@@ -107,7 +107,7 @@ def forum_article(request):
 
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT User.id, User.username, Article.*, Movies.name
+            SELECT User.id, User.username, User.img, Article.*, Movies.name
             FROM User
             JOIN Article ON User.id = Article.uid_id
             JOIN Movies ON Article.mid_id = Movies.mid
@@ -123,7 +123,7 @@ def forum_article(request):
     reserve_list_comment = list()
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT User.id, User.username, ArticleComments.*
+            SELECT User.id, User.username, User.img, ArticleComments.*
             FROM User
             JOIN ArticleComments ON User.id = ArticleComments.uid_id
             WHERE ArticleComments.art_id_id = %s
