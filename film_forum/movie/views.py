@@ -39,7 +39,6 @@ def movie(request):
         reserve_list.append(results)
 
 
-
     film = Movies.objects.filter(mid=movie_id).values_list("mid", "rid", "name", "year", "rating", "time", "age", "introduction", "img", "director", "star", "tag")
     
 
