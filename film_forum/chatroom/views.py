@@ -31,20 +31,37 @@ def chatPage(request):
 
     chatlist = list()
     with connection.cursor() as cursor:
+        # cursor.execute("""
+        #     SELECT *
+        #     FROM Chatroom
+        #     JOIN User ON User.id = Chatroom.be_uid
+        #     JOIN Message ON Message.aid_id = Chatroom.aid
+        #     WHERE uid_id = %s
+        #     ORDER BY Message.time DESC
+        # """, [user_id])
         cursor.execute("""
             SELECT *
             FROM Chatroom
             JOIN User ON User.id = Chatroom.be_uid
-            JOIN Message ON Message.aid_id = Chatroom.aid
             WHERE uid_id = %s
-            ORDER BY Message.time DESC
         """, [user_id])
         chatroom = dictfetchall(cursor)
         chatlist.append(chatroom)
         print(user_id, chatlist)
 
+    messagelist = list()
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT Message.time, Message.conent
+            FROM Message
+            JOIN Chatroom ON Chatroom.uid_id = Message.aid_id
+            WHERE Message.aid_id = %s
+            ORDER BY Message.time
+        """, [user_id])
+        messageResult = dictfetchall(cursor)
+        messagelist.append(messageResult)
 
-    return render(request, "chatPage.html", {'chatlist': chatlist})
+    return render(request, "chatPage.html", {'chatlist': chatlist, 'messagelist': messagelist})
 
 @csrf_protect
 def addChatPage(request):
@@ -57,8 +74,10 @@ def addChatPage(request):
                 # 檢查資料庫中是否已存在相同組合的資料
                 existing_chat = Chatroom.objects.filter(uid_id=uid, be_uid=buid).exists()
                 if not existing_chat:
-                    newChat = Chatroom(uid_id=uid, be_uid=buid)
-                    newChat.save()
+                    newChat1 = Chatroom(uid_id=uid, be_uid=buid)
+                    newChat1.save()
+                    newChat2 = Chatroom(uid_id=buid, be_uid=uid)
+                    newChat2.save()
                     return HttpResponseRedirect('/chat/')
     return render(request, 'addChatPage.html')
 

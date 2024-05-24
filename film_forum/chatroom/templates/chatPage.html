@@ -405,7 +405,7 @@
                 {% if chatlist.0 %}
                     {% for row in chatlist %}
                         {% for i in row %}
-                            <div class="block active">
+                            <div class="block">
                                 <div class="imgbox">
                                     <img src="{% static 'pic/user.png' %}" class="cover">
                                 </div>
@@ -427,23 +427,31 @@
         </div>
         <div class="right-chat-container">
             <div class="chat-logout">
-                {% if request.user.is_authenticated %}
-                <div style="float: left;font-weight: bold; color: #51585c;">{{ request.user|title }} </div>
-                <!-- <div style="float: right;"><a href=""><i class="fas fa-sign-out-alt"></i></a></div> -->
-                <div style="clear: both;"></div>
-                {% endif %}
+                <div id="beUid" style="float: left;font-weight: bold; color: #51585c;"></div>
             </div>
             <div class="chat__item__container" id="id_chat_item_container">
-
+                {% for row in messagelist %}
+                    {% for j in row %}
+                        <div class="message-content">
+                            <span class="message-text">{{j.conent}}</span>
+                            <span class="message-timestamp">{{j.time}}</span>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
             </div>
             <div class="chat-input-container">
                 <input style="padding-left: 10px; border-radius: 20px;" type="text" id="id_message_send_input" placeholder="Aa" required/>
-                <button type="submit" id="id_message_send_button" style="border-radius: 50%; font-size: 17px;"><i class="fas fa-paper-plane"></i></button>
+                <button type="button" id="id_message_send_button" style="border-radius: 50%; font-size: 17px;">
+                    <i class="fas fa-paper-plane"></i>
+                    
+                </button>
             </div>
         </div>
         
     </div>
-        
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>    
     <script>
         // Select all blocks
         const blocks = document.querySelectorAll('.block');
@@ -462,6 +470,11 @@
                 removeActiveClasses();
                 // Add 'active' class to the clicked block
                 block.classList.add('active');
+                var beUidDiv = document.getElementById('beUid');
+                var username = this.querySelector('h4').textContent;
+                beUidDiv.textContent = username;
+                var chatItemContainer = document.getElementById('id_chat_item_container');
+                chatItemContainer.innerHTML = '';
             });
         });
 
@@ -519,6 +532,13 @@
             // Scroll to the bottom of the chat container
             messageContainer.scrollTop = messageContainer.scrollHeight;
         };
+
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     var sendMessBtn = document.getElementById('id_message_send_button');
+        //     sendMessBtn.addEventListener('click', sendMessBtn() {
+
+        //     });
+        // });
     </script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
