@@ -6,6 +6,7 @@
     <title>KounelChat</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <script src="{% static 'js/chatPage.js'%}"></script>
+    {% csrf_token %}
     <style>
         * {
             margin: 0px;
@@ -401,6 +402,26 @@
                       </div>
                     </div>
                 </div>
+                {% if chatlist.0 %}
+                    {% for row in chatlist %}
+                        {% for i in row %}
+                            <div class="block active">
+                                <div class="imgbox">
+                                    <img src="{% static 'pic/user.png' %}" class="cover">
+                                </div>
+                                <div class="details">
+                                    <div class="listHead">
+                                        <h4>{{i.username}}</h4>
+                                        <p class="time">{{i.time}}</p>
+                                    </div>
+                                    <div class="message_p">
+                                        <p>{{i.conent}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
+                {% endif %}
 
             </div>
         </div>

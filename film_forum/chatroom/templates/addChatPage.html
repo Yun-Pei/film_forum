@@ -4,6 +4,7 @@
 
 <head>
     <title>KounelChat</title>
+    {% csrf_token %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -179,6 +180,7 @@
             background: #ffa600;
             padding: 3px 8px;
             border-radius: 10px;
+            border: none;
             cursor: pointer;
             color: #252525;
         }
@@ -200,16 +202,18 @@
             {% if members %}
                 <ul>
                     {% for member in members %}
-                        <li class="memberInfoBox">
-                            <img src="{% static 'pic/user.png' %}" class="userImg">
-                            <p class="name">{{ member.username }}</p>
-                            <div class="chooseButton">
-                                <div class="cancelBtn">Cancel</div>
-                                <div class="SearchBtn">
-                                    Search
-                                    <div class="ID" style="display: none;">{{ member.id }}</div>
+                        <li>
+                            <form class="memberInfoBox" method="post">
+                                <img src="{% static 'pic/user.png' %}" class="userImg">
+                                <p class="name">{{ member.username }}</p>
+                                <div class="chooseButton">
+                                    <div class="cancelBtn">Cancel</div>
+                                    <button class="SearchBtn" type="button">
+                                        Search
+                                        <div class="ID" style="display: none;">{{ member.id }}</div>
+                                    </button>
                                 </div>
-                            </div>
+                            </form>
                         </li>
                     {% endfor %}
                 </ul>
@@ -229,20 +233,59 @@
             cancelButton.addEventListener('click', function() {
                 var searchResults = document.querySelectorAll('.memberInfoBox');
                 searchResults.forEach(function(result) {
-                        result.style.display = 'none';
+                    result.style.display = 'none';
                 });
             });
-            // searchButtons.forEach(function(searchButton) {
-            //     alert('22222');
-            //     searchButton.addEventListener('click', function() {
-            //         var idElement = this.querySelector('.ID');
-            //         var memberId = idElement.textContent; // 獲取ID內容
-            //         console.log("Member ID:", memberId);
-            //         alert('11111');
-            //         // 這裡可以進一步處理獲取的ID
-            //     });
-            // });
+            searchButtons.forEach(function(searchButton) {
+                searchButton.addEventListener('click', function() {
+                    var idElement = this.querySelector('.ID');
+                    var memberId = idElement.textContent; // 獲取ID內容
+                    console.log("UID:", memberId);
+            
+                    // 獲取CSRF令牌
+                    var csrftoken = getCookie('csrftoken');
+            
+                    // 發送POST請求，包含CSRF令牌
+                    $.ajax({
+                        url: '/chat/addfriend',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrftoken
+                        },
+                        data: {
+                            'mode': 'addFriends',
+                            'be_uid': memberId,
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            alert('success');
+                            window.location.href = '/chat/'; // 在成功回應後進行跳轉
+                        },
+                        error: function(response) {
+                            console.log(response);
+                        }
+                    });
+                    // 這裡可以進一步處理獲取的ID
+                });
+            });
         });
+
+        // 函數來獲取cookie中的CSRF令牌
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // 判斷cookie是否為CSRF令牌
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
     </script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>

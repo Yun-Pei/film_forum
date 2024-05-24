@@ -6,20 +6,61 @@ from django.views.generic import ListView
 from django.http import HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse, HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_protect
+from django.db import connection
+
 #新加入的function
+def dictfetchall(cursor):
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
+
 def testPage(request):
     return render(request, "chatroom.html")
 
 def chatPage(request):
     if not request.user.is_authenticated:
-        return redirect("login-user")
-    context = {}
-    return render(request, "chatPage.html", context)
+        return redirect("login")
+    # context = {}
 
+    if request.user.is_authenticated:
+        user_id = request.user.id
+
+    chatlist = list()
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT *
+            FROM Chatroom
+            JOIN User ON User.id = Chatroom.be_uid
+            JOIN Message ON Message.aid_id = Chatroom.aid
+            WHERE uid_id = %s
+            ORDER BY Message.time DESC
+        """, [user_id])
+        chatroom = dictfetchall(cursor)
+        chatlist.append(chatroom)
+        print(user_id, chatlist)
+
+
+    return render(request, "chatPage.html", {'chatlist': chatlist})
+
+@csrf_protect
 def addChatPage(request):
-        
+    if request.method == 'POST':
+        if request.user.is_authenticated:
+            if request.POST.get('mode') == 'addFriends':
+                uid = request.user.id
+                buid = request.POST.get('be_uid')
+                print(uid, buid)
+                # 檢查資料庫中是否已存在相同組合的資料
+                existing_chat = Chatroom.objects.filter(uid_id=uid, be_uid=buid).exists()
+                if not existing_chat:
+                    newChat = Chatroom(uid_id=uid, be_uid=buid)
+                    newChat.save()
+                    return HttpResponseRedirect('/chat/')
     return render(request, 'addChatPage.html')
-    
 
 def search_member(request):
     query = request.POST.get('q')
