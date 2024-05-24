@@ -20,14 +20,7 @@
 
 </head>
 <body>
-    <!-- <div class="in_out">
-        {% if request.user.is_authenticated %}
-            <a href="{% url 'log_out' %}"><h2>LOG OUT</h2></a>
-        {% else %}
-            <a href="{% url 'login' %}"><h2>LOG IN</h2></a>
-            <a href="{% url 'register' %}"><h2>REGISTER</h2></a>
-        {% endif %}
-    </div> -->
+
     {% include "navbar.html" %}
 
     {% for i in film %}
