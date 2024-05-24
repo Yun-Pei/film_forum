@@ -12,22 +12,22 @@ from django.http import HttpResponseRedirect  #直接回到某個網址
 from django.db import connection
 
 
-# from urllib.request import urlopen as uReq
-# from selenium import webdriver
-# from selenium.webdriver.common.by import By
-# from selenium.webdriver.support.ui import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
-# from selenium.common.exceptions import StaleElementReferenceException
-# from time import sleep
-# import time
-# # import requests
-# from bs4 import BeautifulSoup
-# import re
-# import pandas as pd
-# import csv
-# from datetime import datetime, timedelta
-# from selenium.common.exceptions import TimeoutException
-# from selenium.common.exceptions import NoSuchElementException
+from urllib.request import urlopen as uReq
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException
+from time import sleep
+import time
+# import requests
+from bs4 import BeautifulSoup
+import re
+import pandas as pd
+import csv
+from datetime import datetime, timedelta
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 
 
 # Create your views here.
@@ -81,8 +81,12 @@ def register(request):
             # password = form.cleaned_data['title']
 
             # forum = User(title=title, conent=conent, time=now_time, uid=user_id, mid=film_id)
+            user = form.save(commit=False) #阻止form save
+            user.img = request.POST.get('picture', '1') #get img number, if not get push '1'
 
-            form.save()
+            print(request.POST.get('picture'))
+
+            user.save()
             msg = 'user created'
 
             previous_url = request.session.get('previous_url', '/')
@@ -147,7 +151,7 @@ def log_out(request):
 # def crawl(request):
 #     if request.method == "POST":
 
-#         with open('member/all_2020-06-22_1_400.csv', 'r', encoding='utf-8') as file:
+#         with open('C:/Users/Ariel/OneDrive/桌面/imdb/.csv', 'r', encoding='utf-8') as file:
 
 #             csv_reader = csv.reader(file)
 

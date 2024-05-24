@@ -95,7 +95,7 @@ $(document).ready(function() {
             if(result.isConfirmed) {
                 $.ajax({
                     url: 'movie',
-                    type: 'GET', 
+                    type: 'POST', 
                     data: {
                         'mode' : 'movie_comment_delete',
                         'm_id' : m_id,
@@ -175,7 +175,7 @@ $(document).ready(function() {
         }else {
             $.ajax({
                 url: 'movie',
-                type: 'GET', 
+                type: 'POST', 
                 data: {
                     'content': content,
                     'mode' : 'movie_comment_edit',

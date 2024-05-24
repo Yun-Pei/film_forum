@@ -3,6 +3,12 @@ body {
     background-color: #e6e4e4;
 }
 
+/* SWEET ALERT */
+.swal2-actions {
+    flex-direction: row-reverse;
+}
+/* SWEET ALERT */
+
 .edit {
     float: right;
     cursor: pointer;
@@ -39,9 +45,18 @@ body {
     margin-bottom: 5px;
 }
 
-.member p {
+.member {
+    display: flex;
+    align-items: center;
     margin-bottom: 20px;
 }
+.member img {
+    margin-right: 3vh;
+}
+
+/* .member p {
+    margin-bottom: 20px;
+} */
 
 .content h4{
     text-align: justify;
@@ -160,3 +175,11 @@ body {
 /* .movie_name hr{
     width: 70%;
 } */
+
+.post_user_name {
+    display: flex;
+    align-items: center;    
+}
+.post_user_name img {
+    margin-right: 1vw;
+}

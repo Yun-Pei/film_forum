@@ -29,7 +29,7 @@ def movie(request):
 
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT User.id, User.username, Article.*
+            SELECT User.id, User.username, User.img, Article.*
             FROM User
             JOIN Article ON User.id = Article .uid_id
             WHERE Article.mid_id = %s
@@ -84,12 +84,13 @@ def movie(request):
         user_id = request.user.id
         movie_id = request.GET.get('m_id')
         user_has_favorite = LikeMovies.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
+        user_has_commented = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
     else:
         user_has_favorite = False
-    if request.user.is_authenticated:
-        print('user_has_commented')
-        user_id = request.user.id
-        user_has_commented = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
+    # if request.user.is_authenticated:
+    #     print('user_has_commented')
+    #     user_id = request.user.id
+        
 
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -111,6 +112,34 @@ def movie(request):
                 unfollow = LikeMovies.objects.get(mid_id = movie_id, uid_id = user_id)
                 unfollow.delete()
                 return HttpResponseRedirect(f'movie?m_id={movie_id}')
+            
+            elif request.POST.get('mode') == "movie_comment_delete":
+                movie_id = request.POST.get('m_id')
+                Comment_id = request.POST.get('Comment_id')
+                print(movie_id, Comment_id)
+                delete_comment = MovieComments.objects.get(Comment_id=Comment_id)
+                delete_comment.delete()
+                return HttpResponseRedirect(f'movie?m_id={movie_id}')
+            
+            elif request.POST.get('mode') == "movie_comment_edit":
+                Comment_id = request.POST.get('Comment_id')
+                movie_id = request.POST.get('m_id')
+                content = request.POST.get('content')
+                time = MovieComments.objects.filter(Comment_id=Comment_id).values('time')
+                print(Comment_id, movie_id, content, time)
+
+                # user_id = User.objects.get(pk=user_id)
+                # movie_id = Movies.objects.get(pk=movie_id)
+                # Comment_id = MovieComments.objects.get(pk=Comment_id)
+
+                comment_edit = MovieComments.objects.get(Comment_id=Comment_id)
+                # .objects.filter(pk=Comment_id)
+                print(comment_edit)
+                comment_edit.content = content
+                comment_edit.save()
+
+                return HttpResponse('The review has been successfully modified!')
+            
             else:
                 rating = request.POST.get('rating')
                 # print(rating)
@@ -131,40 +160,14 @@ def movie(request):
                 review.save()
 
                 return HttpResponseRedirect(f'movie?m_id={movie_id}')
+            
 
-
-    if request.GET.get("mode") == "movie_comment_delete" and request.method == 'GET':
-        movie_id = request.GET.get('m_id')
-        Comment_id = request.GET.get('Comment_id')
-        print(movie_id, Comment_id)
-        delete_comment = MovieComments.objects.get(Comment_id=Comment_id)
-        delete_comment.delete()
-        return HttpResponseRedirect(f'movie?m_id={movie_id}')
-    
-    elif request.GET.get('mode') == "movie_comment_edit" and request.method == 'GET':
-        Comment_id = request.GET.get('Comment_id')
-        movie_id = request.GET.get('m_id')
-        content = request.GET.get('content')
-        time = MovieComments.objects.filter(Comment_id=Comment_id).values('time')
-        print(Comment_id, movie_id, content, time)
-
-        # user_id = User.objects.get(pk=user_id)
-        # movie_id = Movies.objects.get(pk=movie_id)
-        # Comment_id = MovieComments.objects.get(pk=Comment_id)
-
-        comment_edit = MovieComments.objects.get(Comment_id=Comment_id)
-        # .objects.filter(pk=Comment_id)
-        print(comment_edit)
-        comment_edit.content = content
-        comment_edit.save()
-
-        return HttpResponse('The review has been successfully modified!')
 
     reserve_list_comment = list()
 
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT User.id, User.username, MovieComments.*
+            SELECT User.id, User.username, User.img, MovieComments.*
             FROM User
             JOIN MovieComments ON User.id = MovieComments .uid_id
             WHERE MovieComments.mid_id =%s
