@@ -54,9 +54,14 @@
                         <h2> {{ i.name }} </h1>
                     </div>
                     <div class="member">
-                        <p> {{ i.username }} ・ {{ i.time }}</p>
+                        <!-- <div> -->
+                            <img src="{% static 'picture/pc_'|add:i.img|add:'.png' %}"  style="height: 8vh;"/>
+                            <p>{{ i.username }} ・ {{ i.time }}</p>
+                        <!-- </div> -->
+
                         <!-- <p>  </p> -->
                     </div>
+
                     <div class="content">
                         <span style="display: none;"> CONTENT </span>
                         <h4> {{ i.conent }} </h4>
@@ -109,7 +114,10 @@
                                 <div class="post_message">
                                     <div class="post_infor">
                                         <p style="display: none;" class="com_id"> {{comment.ac_id}} </p>
-                                        <div class="post_user_name"><h3> {{comment.username}} </h3></div>
+                                        <div class="post_user_name">
+                                            <img src="{% static 'picture/pc_'|add:comment.img|add:'.png' %}"  style="height: 8vh;"/>
+                                            <h3> {{comment.username}} </h3>
+                                        </div>
                                         <div class="post_time"><p> {{comment.time}} </p></div>
                                         <div class="post_content">
                                             <p class="orignal_contnet"> {{comment.conent}} </p>
