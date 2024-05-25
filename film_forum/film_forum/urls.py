@@ -20,7 +20,6 @@ from home import views as home_views
 from member import views as member_views
 from forum import views as forum_views
 from movie import views as movie_views
-# from search import views as search_views
 # from django.contrib.auth.views import 
 
 urlpatterns = [
