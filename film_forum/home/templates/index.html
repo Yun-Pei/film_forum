@@ -93,21 +93,6 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script>
-        // $(function() {
-        // var url = "{% url 'home' %}"; 
-        //   $("#search").autocomplete({
-        //     source: url,
-        //     classes: {
-        //       "ui-autocomplete": "highlight"
-        //     },
-        //     select: function(event, ui) {
-        //     window.location.href = "{% url 'movie' %}"+"?m_id="+ui.item.url; 
-        //     },
-
-        //   });
-        // });
-
-    // ORIGINAL
     $(function() {
         var url = "{% url 'home' %}";
         
@@ -140,19 +125,15 @@
     });
     </script>
     <script>
-      // 獲取所有電影項目
       const movieItems1 = document.querySelectorAll('.viewslide1');
-    
-      // 計算並設置排名
+
       movieItems1.forEach((item, index) => {
         const rankSpan = item.querySelector('.rank');
         rankSpan.textContent = (index + 1) + '.';
       });
 
-      // 獲取所有電影項目
       const movieItems2 = document.querySelectorAll('.viewslide2');
-    
-      // 計算並設置排名
+
       movieItems2.forEach((item, index) => {
         const rankSpan = item.querySelector('.rank');
         rankSpan.textContent = (index + 1) + '.';
