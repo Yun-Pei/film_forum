@@ -582,9 +582,12 @@ body {
     cursor: pointer;
     color: orange;
     background: none;
+    border-width: 1.5px;
 }
 
 .followBox p {
+    margin-top: 1.2%;
+    font-weight: bold;
     color: #ffffff;
 }
 

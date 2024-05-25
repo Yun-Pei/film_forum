@@ -15,6 +15,7 @@ from django.db.models import Avg
 from sklearn.neighbors import NearestNeighbors
 from fuzzywuzzy import process
 import random
+from django.db import connection
 # from movie.models import 
 #新加入的function
 
@@ -51,19 +52,14 @@ def get_top_ten_movies_by_avg_score():
     return top_movies_objects
 
 def generate_user_item_matrix():
-    # 從數據庫中獲取所有瀏覽記錄
     browse_data = Browse.objects.all().values('uid_id', 'mid_id', 'browseTime')
-    
-    # 將數據轉換為 Pandas DataFrame
+
     df = pd.DataFrame(list(browse_data))
-    
-    # 為瀏覽行為添加隱式評分，這裡我們假設每個瀏覽行為對應一個隱式評分1
+
     df['rating'] = 1
-    
-    # 透過 pivot 操作構建 user_item_matrix
+
     user_item_matrix = df.pivot_table(index='uid_id', columns='mid_id', values='rating', fill_value=0)
-    
-    # 將列名稱和索引名稱調整為更合適的名稱
+
     user_item_matrix.index.name = 'userId'
     user_item_matrix.columns.name = 'movieId'
     
@@ -80,8 +76,8 @@ def train_knn_model(user_item_matrix, n_neighbors=10):
 
 # 呼叫這個函數來生成 user_item_matrix
 matrix = generate_user_item_matrix()
-print(matrix)
-print('aaa')
+# print(matrix)
+# print('aaa')
 
 
 def movie_recommender_engine(movie_id, matrix, cf_model, n_recs):
@@ -112,52 +108,31 @@ def get_latest_browsed_movie(user_id):
     return None
 
 def testPage(request):
-    # top_movies = Browse.objects.values('mid').annotate(num_views=Count('mid')).order_by('num_views')[:10]
     movies1 = get_top_ten_movies()
 
     global result
     movies2 = get_top_ten_movies_by_avg_score()
-    
-    # for entry in top_movies:
-    #     movie_id = entry[0]
-    #     num_views = entry[1]
-    #     movie = Movies.objects.get(mid=movie_id)
-    #     print(f"Movie: {movie.mid} - Views: {num_views}")
-
-    # for movie_id in top_movie_ids:
-    #     print(movie_id)
 
     if request.GET.get("term"):
         term = request.GET.get('term')
+        # start_time = time.time()
+        # with connection.cursor() as cursor:
+        #     sql = f"select name, mid from Movies where name like \'{term}%\';"
+
+        #     cursor.execute(sql)
+        #     movies = cursor.fetchall()
         movies = result.search(term)
+
+        # end_time = time.time()
+
+        # search_time = (end_time - start_time)
+        # print(start_time, end_time)
+        # print(f"Orignal search time need {search_time} milliseconds")
 
         data = [{'label': movie[0], 'value': movie[0], 'url': str(movie[1]) } for movie in movies]
         return JsonResponse(data, safe=False)
 
-        
-    # if request.GET.get("term"):
-    #     # Before search
-    #     start_time = time.time()
-
-    #     term = request.GET.get('term')
-
-    #     movies = Movies.objects.filter(name__icontains=term)[:20]
-        
-
-    #     # After search
-    #     end_time = time.time()
-
-    #     search_time = (end_time - start_time)
-    #     # print(f"start {start_time} seconds")
-    #     # print(f"end {end_time} seconds")
-    #     print(f"Orignal search time need {search_time} milliseconds")
-        
-    #     data = [{'label': movie.name, 'value': movie.name, 'url': str(movie.mid) } for movie in movies]
-    #     return JsonResponse(data, safe=False)
-    
-
     # below is algorithm
-     # 生成 user_item_matrix
     user_item_matrix = generate_user_item_matrix()
     
     # 訓練 KNN 模型
@@ -171,7 +146,7 @@ def testPage(request):
         latest_movie_id = random_movie
 
     recommended_movies_list = []
-    print(f"Latest movie ID for user {user_id}: {latest_movie_id}")
+    # print(f"Latest movie ID for user {user_id}: {latest_movie_id}")
     
     recommended_movies = movie_recommender_engine(movie_id=latest_movie_id, matrix=user_item_matrix, cf_model=knn_model, n_recs=10)
     recommended_movies_list = Movies.objects.filter(mid__in=recommended_movies['MovieID'])
