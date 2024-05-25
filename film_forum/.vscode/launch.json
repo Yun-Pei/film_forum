@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/Ariel/db_project/film_forum/film_forum/search",
-      "program": "c:/Users/Ariel/db_project/film_forum/film_forum/search/build/Debug/outDebug",
+      "cwd": "c:/Users/Ariel/tree",
+      "program": "c:/Users/Ariel/tree/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
