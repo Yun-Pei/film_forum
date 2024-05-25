@@ -15,6 +15,9 @@ from django.db.models import Avg
 from sklearn.neighbors import NearestNeighbors
 from fuzzywuzzy import process
 import random
+from django.db import connection
+# from movie.models import 
+#新加入的function
 
 def get_top_ten_movies():
     with connection.cursor() as cursor:
@@ -113,7 +116,19 @@ def testPage(request):
 
     if request.GET.get("term"):
         term = request.GET.get('term')
+        # start_time = time.time()
+        # with connection.cursor() as cursor:
+        #     sql = f"select name, mid from Movies where name like \'{term}%\';"
+
+        #     cursor.execute(sql)
+        #     movies = cursor.fetchall()
         movies = result.search(term)
+
+        # end_time = time.time()
+
+        # search_time = (end_time - start_time)
+        # print(start_time, end_time)
+        # print(f"Orignal search time need {search_time} milliseconds")
 
         data = [{'label': movie[0], 'value': movie[0], 'url': str(movie[1]) } for movie in movies]
         return JsonResponse(data, safe=False)
