@@ -35,10 +35,11 @@
 
       <div class="swiper" id="ratedlist">
         <div class="swiper-wrapper">
-          {% for movie in movies1 %}
-          <div class="swiper-slide">
+          {% for movie in movies2 %}
+          <div class="swiper-slide viewslide1">
               <img src="{{ movie.img }}" alt="{{ movie.name }}">
                 <div class="title">
+                  <span class="rank" id="rank"></span>
                   <span>{{ movie.name }}</span>
                   <span style="display: none;" class="m_id">{{ movie.mid }}</span>
                 </div>
@@ -54,7 +55,7 @@
 
       <div class="swiper" id="likelist">
         <div class="swiper-wrapper">
-          {% for movie in movies1 %}
+          {% for movie in moviesalgo %}
           <div class="swiper-slide">
               <img src="{{ movie.img }}" alt="{{ movie.name }}">
                 <div class="title">
@@ -72,9 +73,10 @@
       <div class="swiper" id="watchlist">
         <div class="swiper-wrapper">
           {% for movie in movies1 %}
-          <div class="swiper-slide">
+          <div class="swiper-slide viewslide2">
               <img src="{{ movie.img }}" alt="{{ movie.name }}">
                 <div class="title">
+                  <span class="rank" id="rank"></span>
                   <span>{{ movie.name }}</span>
                   <span style="display: none;" class="m_id">{{ movie.mid }}</span>
                 </div>
@@ -91,19 +93,70 @@
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
     <script>
-        $(function() {
-        var url = "{% url 'home' %}"; 
-          $("#search").autocomplete({
-            source: url,
+        // $(function() {
+        // var url = "{% url 'home' %}"; 
+        //   $("#search").autocomplete({
+        //     source: url,
+        //     classes: {
+        //       "ui-autocomplete": "highlight"
+        //     },
+        //     select: function(event, ui) {
+        //     window.location.href = "{% url 'movie' %}"+"?m_id="+ui.item.url; 
+        //     },
+
+        //   });
+        // });
+
+    // ORIGINAL
+    $(function() {
+        var url = "{% url 'home' %}";
+        
+        $("#search").autocomplete({
+            source: function(request, response) {
+                console.time("autocomplete-search");
+                $.ajax({
+                    url: url,
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        console.timeEnd("autocomplete-search");
+                        response(data);
+                    },
+                    error: function() {
+                        console.timeEnd("autocomplete-search");
+                        response([]);
+                    }
+                });
+            },
             classes: {
-              "ui-autocomplete": "highlight"
+                "ui-autocomplete": "highlight"
             },
             select: function(event, ui) {
-            window.location.href = "{% url 'movie' %}"+"?m_id="+ui.item.url; 
-            },
-
-          });
+                window.location.href = "{% url 'movie' %}" + "?m_id=" + ui.item.url;
+            }
         });
+    });
+    </script>
+    <script>
+      // 獲取所有電影項目
+      const movieItems1 = document.querySelectorAll('.viewslide1');
+    
+      // 計算並設置排名
+      movieItems1.forEach((item, index) => {
+        const rankSpan = item.querySelector('.rank');
+        rankSpan.textContent = (index + 1) + '.';
+      });
+
+      // 獲取所有電影項目
+      const movieItems2 = document.querySelectorAll('.viewslide2');
+    
+      // 計算並設置排名
+      movieItems2.forEach((item, index) => {
+        const rankSpan = item.querySelector('.rank');
+        rankSpan.textContent = (index + 1) + '.';
+      });
     </script>
   </body>
 </html>

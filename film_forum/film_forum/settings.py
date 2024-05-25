@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'member',
     'forum',
     'movie',
+    # 'search',
 ]
 
 MIDDLEWARE = [

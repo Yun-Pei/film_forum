@@ -77,7 +77,7 @@ def movie(request):
     # else:
     #     form = ForumsForm()
 
-    # user_has_commented = False
+    user_has_commented = False
     # if user_id:
     #     user_has_commented = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
     if request.user.is_authenticated:
@@ -90,7 +90,8 @@ def movie(request):
     # if request.user.is_authenticated:
     #     print('user_has_commented')
     #     user_id = request.user.id
-        
+    
+    reserve_list_comment = list()
 
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -163,7 +164,7 @@ def movie(request):
             
 
 
-    reserve_list_comment = list()
+    
 
     with connection.cursor() as cursor:
         cursor.execute("""
@@ -180,3 +181,22 @@ def movie(request):
     return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment, 'user_has_favorite': user_has_favorite, 'user_has_commented': user_has_commented})
 
     # return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment, 'user_has_commented': user_has_commented})
+    # print(request.GET)
+    # print('below is mid')
+    # print(movie_id)
+    
+    movie_id = request.GET.get('m_id') 
+
+    if movie_id:
+        if request.user.is_authenticated:
+            user_id = request.user.id
+            if user_id:
+                user = User.objects.get(pk=user_id)
+                print(f'{user}')
+                film = Movies.objects.get(pk=movie_id)
+                browse_time = timezone.now()
+                browse = Browse(uid=user, mid=film, browseTime=browse_time)
+                browse.save()
+                print("Browse entry saved successfully!")
+
+    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})
