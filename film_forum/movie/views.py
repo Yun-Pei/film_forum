@@ -77,7 +77,7 @@ def movie(request):
     # else:
     #     form = ForumsForm()
 
-    # user_has_commented = False
+    user_has_commented = False
     # if user_id:
     #     user_has_commented = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
     if request.user.is_authenticated:
@@ -90,7 +90,8 @@ def movie(request):
     # if request.user.is_authenticated:
     #     print('user_has_commented')
     #     user_id = request.user.id
-        
+    
+    reserve_list_comment = list()
 
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -163,7 +164,7 @@ def movie(request):
             
 
 
-    reserve_list_comment = list()
+    
 
     with connection.cursor() as cursor:
         cursor.execute("""

@@ -12,22 +12,7 @@ from django.http import HttpResponseRedirect  #直接回到某個網址
 from django.db import connection
 
 
-from urllib.request import urlopen as uReq
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import StaleElementReferenceException
-from time import sleep
-import time
-# import requests
-from bs4 import BeautifulSoup
-import re
-import pandas as pd
-import csv
-from datetime import datetime, timedelta
-from selenium.common.exceptions import TimeoutException
-from selenium.common.exceptions import NoSuchElementException
+
 
 
 # Create your views here.
