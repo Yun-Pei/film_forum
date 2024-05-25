@@ -148,7 +148,7 @@ def testPage(request):
     recommended_movies_list = []
     # print(f"Latest movie ID for user {user_id}: {latest_movie_id}")
     
-    recommended_movies = movie_recommender_engine(movie_id=latest_movie_id, matrix=user_item_matrix, cf_model=knn_model, n_recs=10)
+    recommended_movies = movie_recommender_engine(movie_id=2, matrix=user_item_matrix, cf_model=knn_model, n_recs=10)
     recommended_movies_list = Movies.objects.filter(mid__in=recommended_movies['MovieID'])
 
     return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'moviesalgo': recommended_movies_list})
