@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+{% load static%}
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  {% csrf_token %}
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Watchlist</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link href = '{% static "css/navbar.css" %}' rel="stylesheet">
+  <link href = '{% static "css/watchlist.css" %}' rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+  <script src='{% static "ajax.js" %}'></script>
+  <script src='{% static "css/watchlist.js" %}'></script>
+
+</head>
+<body>
+  {% include "navbar.html" %}
+  <div style="height: 100px;"></div>
+  <div class="mainpicBox">
+    <div class="leftmainpicBox">
+      <ion-icon name="bookmark"></ion-icon>
+    </div>
+    <div class="rightmainpicBox">
+      <div class="mainpictextBox">
+        <p class="mainpictitle">My Watchlist</p>
+        <p class="mainpictimes">Username．How many movies</p>
+      </div>
+    </div>
+  </div>
+  <div style="height: 50px;"></div>
+  <div class="watchlistBox">
+    <div class="watchlisttitle">
+      <span class="Title">Title</span>
+      <span class="Release">Release</span>
+      <span class="Duration"><ion-icon name="time-outline"></ion-icon></span>
+      <span class="Genre"><ion-icon name="pricetag"></ion-icon></span>
+    </div>
+    <div class="watchlistmovie">
+      <ul>
+        {% if favo_movie.0 %}
+          {% for row in favo_movie %}
+            {% for j in row %}
+              <li class="movie">
+                <span style="display: none;" class="m_id">{{ j.mid }}</span>
+                <div class="movieBox">
+                  <div class="movieTitle">
+                    <img src="{{j.img}}" alt="" class="moviePic">
+                    <div class="movieName">
+                      <p>{{j.name}}</p>
+                    </div>
+                  </div>
+                  <div class="movieRelease">
+                    {{j.year}}
+                  </div>
+                  <div class="movieDuration">
+                    {{j.time}}
+                  </div>
+                  <div class="movieGenre">
+                    {{j.tag}}
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+          {% endfor %}
+        {% else %}
+          <p id="no_follow">No comment found.</p>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</body>

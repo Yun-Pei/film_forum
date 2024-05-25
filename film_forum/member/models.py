@@ -50,9 +50,9 @@ class MPreference(models.Model):
 
 
 class Browse(models.Model):
-    uid = models.ForeignKey(User, on_delete=models.CASCADE) #留言人
-    mid = models.ForeignKey(Movies, on_delete=models.CASCADE)
-    browseTime = models.DateTimeField()
+    uid = models.ForeignKey(User, on_delete=models.CASCADE) #瀏覽人
+    mid = models.ForeignKey(Movies, on_delete=models.CASCADE)#看的電影
+    browseTime = models.DateTimeField()#甚麼時候看
     class Meta:
         managed = True #代表需要Django幫你在資料庫建立這個table
         db_table = 'Browse' #資料庫內table的名字，預設會是django_space  

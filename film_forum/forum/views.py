@@ -32,7 +32,7 @@ def forum(request):
 
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT User.id, User.username, Article.*
+            SELECT User.id, User.username, User.img, Article.*
             FROM User
             JOIN Article ON User.id = Article .uid_id
             WHERE Article.mid_id = %s
@@ -107,7 +107,7 @@ def forum_article(request):
 
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT User.id, User.username, Article.*, Movies.name
+            SELECT User.id, User.username, User.img, Article.*, Movies.name
             FROM User
             JOIN Article ON User.id = Article.uid_id
             JOIN Movies ON Article.mid_id = Movies.mid
@@ -123,7 +123,7 @@ def forum_article(request):
     reserve_list_comment = list()
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT User.id, User.username, ArticleComments.*
+            SELECT User.id, User.username, User.img, ArticleComments.*
             FROM User
             JOIN ArticleComments ON User.id = ArticleComments.uid_id
             WHERE ArticleComments.art_id_id = %s
@@ -152,7 +152,7 @@ def forum_article(request):
             forum = ArticleComments(art_id=art_id, conent=conent, mid=film_id, time=time, uid=user_id)
             forum.save()
 
-
+            # return HttpResponse(status=200)
             return HttpResponseRedirect(f'forum_article?m_id={movie_id}&art_id={article_id}')
 
         
@@ -176,7 +176,7 @@ def forum_article(request):
             edit_article = Article(art_id=article_id, mid=film_id, title=request.POST.get('title'), conent=request.POST.get('content'), uid=user_id, time=time)
             edit_article.save()
 
-            return HttpResponse('The article has been successfully modified!')
+            return HttpResponse(status=200)
 
         # delete forum article
         elif request.POST.get("mode") == "forum_article_delete":
@@ -188,7 +188,8 @@ def forum_article(request):
 
             delete_article = Article.objects.get(art_id=article_id)
             delete_article.delete()
-            return HttpResponseRedirect(f'forum?m_id={movie_id}')  
+
+            return HttpResponse(status=200) 
         
         elif request.POST.get("mode") == "forum_message_edit":
             article_id = request.POST.get('art_id')

@@ -95,7 +95,7 @@ $(document).ready(function() {
             if(result.isConfirmed) {
                 $.ajax({
                     url: 'movie',
-                    type: 'GET', 
+                    type: 'POST', 
                     data: {
                         'mode' : 'movie_comment_delete',
                         'm_id' : m_id,
@@ -175,7 +175,7 @@ $(document).ready(function() {
         }else {
             $.ajax({
                 url: 'movie',
-                type: 'GET', 
+                type: 'POST', 
                 data: {
                     'content': content,
                     'mode' : 'movie_comment_edit',
@@ -194,5 +194,44 @@ $(document).ready(function() {
                 }
             });
         }
+    });
+
+    $('.FavoriteBtn').on('click', function(event) {
+        // console.log('1111111');
+        $.ajax({
+            url: 'movie',
+            type: 'POST',
+            data: {
+                'mode': 'unfollow',
+                'm_id' : m_id,
+            },
+            success: function(response) {
+                // alert('2111111')
+                console.log(response)
+            },
+            error: function(reaponse) {
+                // alert('1111211')
+                console.log(reaponse)
+            }
+        });
+        // alert(m_id);
+    });
+
+    $('.followBox').on('click', function(event) {
+        console.log('followBox');
+        $.ajax({
+            url: 'movie',
+            type: 'POST',
+            data: {
+                'mode': 'addfollow',
+                'm_id': m_id,
+            },
+            success: function(response) {
+                console.log(response)
+            },
+            error: function(reaponse) {
+                console.log(reaponse)
+            }
+        });
     });
 })

@@ -12,22 +12,22 @@ from django.http import HttpResponseRedirect  #直接回到某個網址
 from django.db import connection
 
 
-# from urllib.request import urlopen as uReq
-# from selenium import webdriver
-# from selenium.webdriver.common.by import By
-# from selenium.webdriver.support.ui import WebDriverWait
-# from selenium.webdriver.support import expected_conditions as EC
-# from selenium.common.exceptions import StaleElementReferenceException
-# from time import sleep
-# import time
-# # import requests
-# from bs4 import BeautifulSoup
-# import re
-# import pandas as pd
-# import csv
-# from datetime import datetime, timedelta
-# from selenium.common.exceptions import TimeoutException
-# from selenium.common.exceptions import NoSuchElementException
+from urllib.request import urlopen as uReq
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException
+from time import sleep
+import time
+# import requests
+from bs4 import BeautifulSoup
+import re
+import pandas as pd
+import csv
+from datetime import datetime, timedelta
+from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import NoSuchElementException
 
 
 # Create your views here.
@@ -81,8 +81,12 @@ def register(request):
             # password = form.cleaned_data['title']
 
             # forum = User(title=title, conent=conent, time=now_time, uid=user_id, mid=film_id)
+            user = form.save(commit=False) #阻止form save
+            user.img = request.POST.get('picture', '1') #get img number, if not get push '1'
 
-            form.save()
+            print(request.POST.get('picture'))
+
+            user.save()
             msg = 'user created'
 
             previous_url = request.session.get('previous_url', '/')
@@ -147,7 +151,7 @@ def log_out(request):
 # def crawl(request):
 #     if request.method == "POST":
 
-#         with open('C:/Users/Ariel/OneDrive/桌面/imdb/all_2018-09-24_3000.csv', 'r', encoding='utf-8') as file:
+#         with open('C:/Users/Ariel/OneDrive/桌面/imdb/.csv', 'r', encoding='utf-8') as file:
 
 #             csv_reader = csv.reader(file)
 
@@ -162,3 +166,30 @@ def log_out(request):
     
 #     # return render("crwal.html")
 #     return render(request, "crawl.html")
+
+def dictfetchall(cursor):
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]
+
+def watchlist(request):
+
+    if request.user.is_authenticated:
+        user_id = request.user.id
+
+    favo_movie = list()
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT Movies.*
+            FROM Movies
+            JOIN LikeMovies ON LikeMovies.mid_id = Movies.mid
+            WHERE LikeMovies.uid_id = %s
+            ORDER BY Movies.mid ASC
+        """, [user_id])
+        watchlistResults = dictfetchall(cursor)
+        favo_movie.append(watchlistResults)
+
+    print(favo_movie)
+    return render(request, 'watchlist.html', {'favo_movie': favo_movie})
