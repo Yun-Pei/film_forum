@@ -104,43 +104,38 @@
 
         //   });
         // });
-    // $(function() {
-    //     var url = "{% url 'search_tree' %}"; 
-    //     $("#search").autocomplete({
-    //     source: url
-    //     });
-    // });
+
     // ORIGINAL
-    // $(function() {
-    //     var url = "{% url 'home' %}";
+    $(function() {
+        var url = "{% url 'home' %}";
         
-    //     $("#search").autocomplete({
-    //         source: function(request, response) {
-    //             console.time("autocomplete-search");
-    //             $.ajax({
-    //                 url: url,
-    //                 dataType: "json",
-    //                 data: {
-    //                     term: request.term
-    //                 },
-    //                 success: function(data) {
-    //                     console.timeEnd("autocomplete-search");
-    //                     response(data);
-    //                 },
-    //                 error: function() {
-    //                     console.timeEnd("autocomplete-search");
-    //                     response([]);
-    //                 }
-    //             });
-    //         },
-    //         classes: {
-    //             "ui-autocomplete": "highlight"
-    //         },
-    //         select: function(event, ui) {
-    //             window.location.href = "{% url 'movie' %}" + "?m_id=" + ui.item.url;
-    //         }
-    //     });
-    // });
+        $("#search").autocomplete({
+            source: function(request, response) {
+                console.time("autocomplete-search");
+                $.ajax({
+                    url: url,
+                    dataType: "json",
+                    data: {
+                        term: request.term
+                    },
+                    success: function(data) {
+                        console.timeEnd("autocomplete-search");
+                        response(data);
+                    },
+                    error: function() {
+                        console.timeEnd("autocomplete-search");
+                        response([]);
+                    }
+                });
+            },
+            classes: {
+                "ui-autocomplete": "highlight"
+            },
+            select: function(event, ui) {
+                window.location.href = "{% url 'movie' %}" + "?m_id=" + ui.item.url;
+            }
+        });
+    });
     </script>
   </body>
 </html>
