@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 from member.models import Movies
+import time
+from test import result
 from member.models import User
 from member.models import Browse
 from member.models import MovieComments
@@ -113,6 +115,7 @@ def testPage(request):
     # top_movies = Browse.objects.values('mid').annotate(num_views=Count('mid')).order_by('num_views')[:10]
     movies1 = get_top_ten_movies()
 
+    global result
     movies2 = get_top_ten_movies_by_avg_score()
     
     # for entry in top_movies:
@@ -126,10 +129,31 @@ def testPage(request):
 
     if request.GET.get("term"):
         term = request.GET.get('term')
-        movies = Movies.objects.filter(name__icontains=term)[:20]
-        
-        data = [{'label': movie.name, 'value': movie.name, 'url': str(movie.mid) } for movie in movies]
+        movies = result.search(term)
+
+        data = [{'label': movie[0], 'value': movie[0], 'url': str(movie[1]) } for movie in movies]
         return JsonResponse(data, safe=False)
+
+        
+    # if request.GET.get("term"):
+    #     # Before search
+    #     start_time = time.time()
+
+    #     term = request.GET.get('term')
+
+    #     movies = Movies.objects.filter(name__icontains=term)[:20]
+        
+
+    #     # After search
+    #     end_time = time.time()
+
+    #     search_time = (end_time - start_time)
+    #     # print(f"start {start_time} seconds")
+    #     # print(f"end {end_time} seconds")
+    #     print(f"Orignal search time need {search_time} milliseconds")
+        
+    #     data = [{'label': movie.name, 'value': movie.name, 'url': str(movie.mid) } for movie in movies]
+    #     return JsonResponse(data, safe=False)
     
 
     # below is algorithm
