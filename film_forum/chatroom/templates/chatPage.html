@@ -108,7 +108,7 @@
             list-style: none;
             cursor: pointer;
             color: #51585c;
-            font-size: 1.5em;
+            font-size: 2em;
             margin-left: 22px;
         }
 
@@ -210,6 +210,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            width: 200px;
         }
         .message_p p {
             color: #aaa;
@@ -219,6 +220,7 @@
             -webkit-box-orient: vertical;
             overflow: hidden;
             text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .message_p b {
             background: #06d755;
@@ -255,9 +257,8 @@
         }
 
         .chat__item__container {
-            padding: 10px;
             border-radius: 10px;
-            height: calc(100% - 120px);
+            height: calc(100% - 110px);
             max-width: 100%;
             width: 100%;
             /* Set a maximum height for the chat container */
@@ -300,43 +301,105 @@
         }
 
         .chat-message {
-            background-color: #e4f9f5;
             border-radius: 10px;
-            margin: 10px 0;
             padding: 10px;
             position: relative;
         }
 
-        .chat-message.right {
-            background-color: black;
+        /* .chat-message.right {
+            display: flex;
             max-width: 80%;
             float: right;
             clear: both;
             margin-left: auto;
             margin-right: 0;
             padding: 20px 15px 10px;
+            
         }
 
+        .message-text {
+            
+        } */
+
+        .chat-message.right {
+            display: flex;
+            max-width: 80%;
+            float: right;
+            clear: both;
+            margin-left: auto;
+            margin-right: 0;
+            padding: 10px 15px 10px; /* 將文字內容的背景顏色設置為黑色 */
+            justify-content: right;
+        }
+
+
         .chat-message.left {
-            background-color: #075e54;
+            display: flex;
             max-width: 80%;
             float: left;
             clear: both;
             margin-left: 0;
             margin-right: auto;
-            padding: 20px 15px 10px;
+            padding: 10px 15px 10px;
+        }
+
+        .chat-message.right .message-text {
+            color: black; /* 設置文字的顏色為白色 */
+            background-color: orange;
+            max-width: 75%;
+            padding: 10px;
+            margin-left: 5px;
+            border-radius: 10px;
+        }
+
+        .message-text {
+            color: white; /* 設置文字的顏色為白色 */
+            background-color: black;
+            max-width: 75%;
+            padding: 10px;
+            margin-right: 5px;
+            border-radius: 10px;
+        }
+
+        .message-timestamp-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; /* 將時間框靠右對齊 */
+        }
+
+        .message-timestamp-date {
+            font-size: 12px;
+        }
+
+        .chat-message.right .timeBox {
+            width: 100px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: right;
+        }
+
+        .timeBox {
+            width: 100px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: left;
+        }
+
+        .message-timestamp-time {
+            font-size: 10px;
+            color: gray; /* 設置時間的顏色為灰色 */
         }
 
         .chat-message span {
             color: white;
         }
 
-        .message-timestamp {
+        /* .message-timestamp {
             font-size: 10px;
             position: absolute;
             top: 5px;
             right: 8px;
-        }
+        } */
 
         .message-username {
             font-size: 12px;
@@ -380,15 +443,15 @@
                 </ul>
             </div>
             <!-- search -->
-            <div class="search_chat">
+            <!-- <div class="search_chat">
                 <div>
                   <input type="text" placeholder="Search chat">
                   <ion-icon name="search-outline"></ion-icon>
                 </div>
-            </div>
+            </div> -->
             <!-- chatlist -->
             <div class="chatList">
-                <div class="block active">
+                <!-- <div class="block active">
                     <div class="imgbox">
                       <img src="../static/pic/img1.jpeg" class="cover">
                     </div>
@@ -401,7 +464,23 @@
                         <p>How to make Whatsapp clone using html and css only</p>
                       </div>
                     </div>
-                </div>
+                </div> -->
+                <!-- {% for row in Nochatlist %}
+                    {% for i in row %}
+                        <div class="block">
+                            <div class="imgbox">
+                                <img src="{% static 'pic/user.png' %}" class="cover">
+                            </div>
+                            <div class="details">
+                                <div class="listHead">
+                                    <h4>{{i.username}}</h4>
+                                    <p class="time">{{i.time}}</p>
+                                    <div class="chatroomId" style="display: none;">{{i.aid}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %} -->
                 {% if chatlist.0 %}
                     {% for row in chatlist %}
                         {% for i in row %}
@@ -412,9 +491,12 @@
                                 <div class="details">
                                     <div class="listHead">
                                         <h4>{{i.username}}</h4>
-                                        <p class="time">{{i.time}}</p>
+                                        <p class="time" style="display: none;">{{i.time}}</p>
+                                        <div class="chatroomId" style="display: none;">{{i.aid}}</div>
+                                        <div class="chatroomBe" style="display: none;">{{i.be_uid}}</div>
+                                        <div class="chatroomUid" style="display: none;">{{i.uid_id}}</div>
                                     </div>
-                                    <div class="message_p">
+                                    <div class="message_p" style="display: none;">
                                         <p>{{i.conent}}</p>
                                     </div>
                                 </div>
@@ -422,7 +504,22 @@
                         {% endfor %}
                     {% endfor %}
                 {% endif %}
-
+                {% for row in Nochatlist %}
+                    {% for i in row %}
+                        <div class="block">
+                            <div class="imgbox">
+                                <img src="{% static 'pic/user.png' %}" class="cover">
+                            </div>
+                            <div class="details">
+                                <div class="listHead">
+                                    <h4>{{i.username}}</h4>
+                                    <p class="time">{{i.time}}</p>
+                                    <div class="chatroomId" style="display: none;">{{i.aid}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
             </div>
         </div>
         <div class="right-chat-container">
@@ -430,20 +527,13 @@
                 <div id="beUid" style="float: left;font-weight: bold; color: #51585c;"></div>
             </div>
             <div class="chat__item__container" id="id_chat_item_container">
-                {% for row in messagelist %}
-                    {% for j in row %}
-                        <div class="message-content">
-                            <span class="message-text">{{j.conent}}</span>
-                            <span class="message-timestamp">{{j.time}}</span>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
+                
             </div>
             <div class="chat-input-container">
                 <input style="padding-left: 10px; border-radius: 20px;" type="text" id="id_message_send_input" placeholder="Aa" required/>
                 <button type="button" id="id_message_send_button" style="border-radius: 50%; font-size: 17px;">
                     <i class="fas fa-paper-plane"></i>
-                    
+                    <div id="chatroomID" class="Aid" style="display: none;"></div>
                 </button>
             </div>
         </div>
@@ -462,10 +552,14 @@
                 block.classList.remove('active');
             });
         }
-
+        var chatroomID = document.getElementById('chatroomID');
         // Add click event listener to each block
         blocks.forEach(block => {
             block.addEventListener('click', function() {
+                var aidValue = $(this).find('.chatroomId').text().trim();
+                var BeuidValue = $(this).find('.chatroomBe').text().trim();
+                var UidValue = $(this).find('.chatroomUid').text().trim();
+                // alert(aidValue);
                 // Remove 'active' class from all blocks
                 removeActiveClasses();
                 // Add 'active' class to the clicked block
@@ -473,10 +567,84 @@
                 var beUidDiv = document.getElementById('beUid');
                 var username = this.querySelector('h4').textContent;
                 beUidDiv.textContent = username;
-                var chatItemContainer = document.getElementById('id_chat_item_container');
-                chatItemContainer.innerHTML = '';
+                // var chatItemContainer = document.getElementById('id_chat_item_container');
+                // chatItemContainer.innerHTML = '';
+                var chatroomIdElement = this.querySelector('.chatroomId');
+                var chatroomId = chatroomIdElement.textContent;
+                chatroomID.textContent = chatroomId;
+                // alert(chatroomID.textContent);
+                var csrftoken = getCookie('csrftoken');
+                $.ajax({
+                    url: '/chat/',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    },
+                    data: {
+                        'mode': 'sendAid',
+                        aid: aidValue,
+                        chatroomUid: BeuidValue,
+                        chatroomBe: UidValue
+                    },
+                    success: function(response) {
+                        renderMessages(response);
+                    },
+                    error: function(response) {
+                        console.log(response);
+                        // alert('11');
+                    }
+                });
             });
         });
+        
+        function renderMessages(messages) {
+            var messageContainer = document.querySelector("#id_chat_item_container");
+            messageContainer.innerHTML = '';  // 清空容器
+    
+            // 迭代訊息數據並動態生成 HTML 元素
+            // messages.forEach(function(message) {
+            //     var div = document.createElement("div");
+            //     div.className = "chat-message right";
+            //     div.innerHTML = `
+            //         <div class="message-text">${message.content}</div>
+            //         <div class="message-timestamp">${message.time}</div>`;
+            //     messageContainer.appendChild(div);
+            // });
+            messages.forEach(function(message) {
+                var div = document.createElement("div");
+                var userId = '{{ request.user.id }}';
+                div.className = "chat-message";
+
+                // 根據條件設置消息的類別
+                
+                if (message.uid == userId) {
+                    div.classList.add("right");
+                    div.innerHTML = `
+                    <div class="timeBox">
+                        <div class="message-timestamp-time">${message.time}</div>
+                    </div>
+                    <div class="message-text">${message.content}</div>`;
+                }else if (message.beuid == userId) {
+                    div.classList.add("left");
+                    div.innerHTML = `
+                    <div class="message-text">${message.content}</div>
+                    <div class="timeBox">
+                        <div class="message-timestamp-time">${message.time}</div>
+                    </div>`;
+                }else {
+                    // 預設情況下的類別
+                    div.classList.add("right");
+                    div.innerHTML = `
+                    <div class="timeBox">
+                        <div class="message-timestamp-time">${message.time}</div>
+                    </div>
+                    <div class="message-text">${message.content}</div>`;
+                };
+
+                messageContainer.appendChild(div);
+            });
+        }
+
 
         const chatSocket = new WebSocket("ws://" + window.location.host + "/");
         chatSocket.onopen = function (e) {
@@ -501,9 +669,9 @@
 
             var currentTime = new Date();
             var timeOptions = {
-                //year: 'numeric',  // 以四位数显示年份
-                //month: '2-digit', // 以两位数显示月份
-                //day: '2-digit',   // 以两位数显示日期
+                year: 'numeric',  // 以四位数显示年份
+                month: '2-digit', // 以两位数显示月份
+                day: '2-digit',   // 以两位数显示日期
                 hour: '2-digit',  // 以两位数显示小时
                 minute: '2-digit',// 以两位数显示分钟
                 second: undefined // 不显示秒
@@ -523,10 +691,15 @@
             var div = document.createElement("div");
             div.className = (data.username === "{{request.user.username}}") ? "chat-message right" : "chat-message left";
             div.innerHTML = `
-            <div class="message-content">
-                <span class="message-text">${data.message}</span>
-                <span class="message-timestamp">${data.time}</span>
-            </div>`;
+                ${(data.username === "{{request.user.username}}") ? 
+                    `<div class="timeBox">
+                        <div class="message-timestamp-time">${data.time}</div>
+                    </div>
+                    <div class="message-text">${data.message}</div>` :
+                    `<div class="message-text">${data.message}</div>
+                    <div class="timeBox">
+                        <div class="message-timestamp-time">${data.time}</div>
+                    </div>`}`;
             document.querySelector("#id_message_send_input").value = "";
             messageContainer.appendChild(div);
             // Scroll to the bottom of the chat container
@@ -539,6 +712,56 @@
 
         //     });
         // });
+        
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // 判斷cookie是否為CSRF令牌
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+}
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var sendMessageButton = document.getElementById('id_message_send_button');
+            sendMessageButton.addEventListener('click', function() {
+                var messageInput = document.getElementById('id_message_send_input');
+                var aidValue = document.querySelector('.Aid').textContent;
+                
+                // console.log(messageInput.value);
+                // console.log(aidValue);
+                var csrftoken = getCookie('csrftoken');
+
+                $.ajax({
+                    url: '/chat/',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    },
+                    data: {
+                        'mode': 'sendMessage',
+                        aid: aidValue,
+                        messageContent: messageInput.value
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        // alert('1')
+                    },
+                    error: function(response) {
+                        console.log(response);
+                        // alert('11')
+                    }
+                });
+            });
+        });
     </script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
