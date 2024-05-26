@@ -67,10 +67,9 @@ matrix= generate_user_item_matrix();
 # print(matrix)
 
 def train_knn_model(user_item_matrix, n_neighbors=10):
-    # 定義使用餘弦相似度的 KNN 模型
+    # 定義KNN 模型
     cf_knn_model = NearestNeighbors(metric='cosine', algorithm='brute', n_neighbors=n_neighbors, n_jobs=-1)
     
-    # 擬合模型
     cf_knn_model.fit(user_item_matrix)
     
     return cf_knn_model
