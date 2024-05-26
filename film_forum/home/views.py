@@ -64,7 +64,7 @@ def generate_user_item_matrix():
     return user_item_matrix
 
 matrix= generate_user_item_matrix();
-print(matrix)
+# print(matrix)
 
 def train_knn_model(user_item_matrix, n_neighbors=10):
     # 定義使用餘弦相似度的 KNN 模型
