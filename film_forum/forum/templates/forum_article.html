@@ -56,7 +56,7 @@
                     </div>
                     <div class="member">
                         <!-- <div> -->
-                            <img src="{% static 'picture/pc_'|add:i.img|add:'.png' %}"  style="height: 8vh;"/>
+                            <img src="{% static 'picture/pc_'|add:i.img|add:'.png' %}" data-userid="{{ i.id }}" style="height: 8vh;"/>
                             <p>{{ i.username }} ・ {{ i.time }}</p>
                         <!-- </div> -->
 
@@ -116,7 +116,7 @@
                                     <div class="post_infor">
                                         <p style="display: none;" class="com_id"> {{comment.ac_id}} </p>
                                         <div class="post_user_name">
-                                            <img src="{% static 'picture/pc_'|add:comment.img|add:'.png' %}"  style="height: 8vh;"/>
+                                            <img src="{% static 'picture/pc_'|add:comment.img|add:'.png' %}" data-userid="{{ comment.id }}" style="height: 8vh;"/>
                                             <h3> {{comment.username}} </h3>
                                         </div>
                                         <div class="post_time"><p> {{comment.time}} </p></div>

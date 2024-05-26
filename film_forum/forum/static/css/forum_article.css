@@ -183,3 +183,6 @@ body {
 .post_user_name img {
     margin-right: 1vw;
 }
+img {
+    cursor: pointer;
+}

@@ -293,4 +293,41 @@ $(document).ready(function() {
             }
           });
     });
+
+    // 選擇所有的img元素
+    var images = document.querySelectorAll('img');
+
+    // 對每個img元素添加點擊事件監聽器
+    images.forEach(function(image) {
+        image.addEventListener('click', function() {
+            // 獲取img元素對應的成員ID
+            var memberId = this.getAttribute('data-userid');
+            // console.log("UID:", memberId);
+
+            // 獲取CSRF令牌
+            var csrftoken = getCookie('csrftoken');
+
+            // 發送POST請求，包含CSRF令牌
+            $.ajax({
+                url: '/chat/addfriend',
+                type: 'POST',
+                headers: {
+                    'X-CSRFToken': csrftoken
+                },
+                data: {
+                    'mode': 'addFriends',
+                    'be_uid': memberId,
+                },
+                success: function(response) {
+                    console.log(response);
+                    // alert('success');
+                    window.location.href = '/chat/'; // 在成功回應後進行跳轉
+                },
+                error: function(response) {
+                    console.log(response);
+                }
+            });
+            // 這裡可以進一步處理獲取的ID
+        });
+    });
 });
