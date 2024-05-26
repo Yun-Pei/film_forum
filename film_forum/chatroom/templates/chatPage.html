@@ -513,7 +513,7 @@
                     {% for i in row %}
                         <div class="block">
                             <div class="imgbox">
-                                <img src="{% static 'pic/user.png' %}" class="cover">
+                                <img src="{% static 'picture/pc_'|add:i.img|add:'.png' %}" class="cover">
                             </div>
                             <div class="details">
                                 <div class="listHead">
