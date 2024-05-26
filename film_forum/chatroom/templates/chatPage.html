@@ -563,6 +563,14 @@
                 block.classList.remove('active');
             });
         }
+
+        function refreshChatList() {
+            $('.chatList').load(location.href + ' .chatList');
+        }
+
+        // 設置定時器，每隔5秒執行一次 refreshChatList 函數
+        var refreshInterval = setInterval(refreshChatList, 5000);
+        
         var chatroomID = document.getElementById('chatroomID');
         // Add click event listener to each block
         blocks.forEach(block => {
