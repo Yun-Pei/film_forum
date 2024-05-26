@@ -42,6 +42,19 @@ def chatPage(request):
 
     chatlist = list()
     with connection.cursor() as cursor:
+        # cursor.execute("""
+        #     SELECT *
+        #     FROM Chatroom
+        #     JOIN User ON User.id = Chatroom.be_uid
+        #     JOIN (
+        #         SELECT aid_id, MAX(time) AS latest_time
+        #         FROM Message
+        #         GROUP BY aid_id
+        #     ) AS LatestMessage ON LatestMessage.aid_id = Chatroom.aid
+        #     JOIN Message ON Message.aid_id = LatestMessage.aid_id AND Message.time = LatestMessage.latest_time
+        #     WHERE uid_id = %s
+        #     ORDER BY Message.time DESC
+        # """, [user_id])
         cursor.execute("""
             SELECT *
             FROM Chatroom
@@ -52,9 +65,9 @@ def chatPage(request):
                 GROUP BY aid_id
             ) AS LatestMessage ON LatestMessage.aid_id = Chatroom.aid
             JOIN Message ON Message.aid_id = LatestMessage.aid_id AND Message.time = LatestMessage.latest_time
-            WHERE uid_id = %s
-            ORDER BY Message.time DESC
-        """, [user_id])
+            WHERE uid_id = %s OR be_uid = %s
+            ORDER BY LatestMessage.latest_time DESC
+        """, [user_id, user_id])
         chatroom = dictfetchall(cursor)
         chatlist.append(chatroom)
         print(user_id, chatlist)
