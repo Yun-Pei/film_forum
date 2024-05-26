@@ -439,7 +439,9 @@
             <!-- header -->
             <div class="header">
                 <div class="userimg">
-                  <img src="{% static 'picture/pc_'|add:request.user.id|add:'.img.png' %}" class="cover">
+                    {% if request.user.id %}
+                        <img src="{% static 'picture/pc_'|add:request.user.id|add:'.png' %}" class="cover">
+                    {% endif %}
                 </div>
                 
                 <ul class="nav_icon">
