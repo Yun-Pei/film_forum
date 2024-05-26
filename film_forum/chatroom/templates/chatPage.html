@@ -5,6 +5,7 @@
 <head>
     <title>KounelChat</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <script src="{% static 'js/chatPage.js'%}"></script>
     {% csrf_token %}
     <style>
@@ -438,7 +439,7 @@
             <!-- header -->
             <div class="header">
                 <div class="userimg">
-                  <img src="../static/pic/user.png" class="cover">
+                  <img src="{% static 'picture/pc_'|add:{{request.uesr.id}}.img|add:'.png' %}" class="cover">
                 </div>
                 
                 <ul class="nav_icon">
@@ -490,7 +491,7 @@
                         {% for i in row %}
                             <div class="block">
                                 <div class="imgbox">
-                                    <img src="{% static 'pic/user.png' %}" class="cover">
+                                    <img src="{% static 'picture/pc_'|add:i.img|add:'.png' %}" class="cover">
                                 </div>
                                 <div class="details">
                                     <div class="listHead">

@@ -7,6 +7,7 @@
     {% csrf_token %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="{% static 'ajax.js'%}"></script>
     <script src="{% static 'js/addChatPage.js'%}"></script>
@@ -204,7 +205,7 @@
                     {% for member in members %}
                         <li>
                             <form class="memberInfoBox" method="post">
-                                <img src="{% static 'pic/user.png' %}" class="userImg">
+                                <img src="{% static 'picture/pc_'|add:member.img|add:'.png' %}" class="userImg">
                                 <p class="name">{{ member.username }}</p>
                                 <div class="chooseButton">
                                     <div class="cancelBtn">Cancel</div>
