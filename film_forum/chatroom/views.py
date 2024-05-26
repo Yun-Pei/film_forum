@@ -30,6 +30,16 @@ def chatPage(request):
     if request.user.is_authenticated:
         user_id = request.user.id
 
+    userList = list()
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT *
+            FROM User
+            WHERE User.id = %s
+        """, [user_id])
+        userInfo = dictfetchall(cursor)
+        userList.append(userInfo)
+
     chatlist = list()
     with connection.cursor() as cursor:
         cursor.execute("""
@@ -121,7 +131,7 @@ def chatPage(request):
 
     # print(messagelist)      
     # return render(request, "chatPage.html", {'chatlist': chatlist, 'message_result': message_result, 'Nochatlist':Nochatlist})
-    return render(request, "chatPage.html", {'chatlist': chatlist, 'Nochatlist':Nochatlist})
+    return render(request, "chatPage.html", {'chatlist': chatlist, 'Nochatlist':Nochatlist, 'userList':userList})
 
 @csrf_protect
 def addChatPage(request):

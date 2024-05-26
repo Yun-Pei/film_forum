@@ -439,9 +439,11 @@
             <!-- header -->
             <div class="header">
                 <div class="userimg">
-                    {% if request.user.id %}
-                        <img src="{% static 'picture/pc_'|add:request.user.id|add:'.png' %}" class="cover">
-                    {% endif %}
+                    {% for row in userList %}
+                        {% for i in row %}
+                            <img src="{% static 'picture/pc_'|add:i.img|add:'.png' %}" class="cover">
+                        {% endfor %}
+                    {% endfor %}
                 </div>
                 
                 <ul class="nav_icon">
