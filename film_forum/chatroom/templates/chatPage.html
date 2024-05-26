@@ -88,6 +88,7 @@
             overflow: hidden;
             border-radius: 50%;
             cursor: pointer;
+            display: flex;
         }
 
         .cover {
@@ -438,14 +439,15 @@
         <div class="left-chat-container">
             <!-- header -->
             <div class="header">
-                <div class="userimg">
-                    {% for row in userList %}
-                        {% for i in row %}
+                {% for row in userList %}
+                    {% for i in row %}
+                        <div class="userimg">
                             <img src="{% static 'picture/pc_'|add:i.img|add:'.png' %}" class="cover">
-                        {% endfor %}
+                            <div class="userName">{{ i.username }}</div>
+                        </div>
+                        <!-- <div class="userName">{{ i.username }}</div> -->
                     {% endfor %}
-                </div>
-                
+                {% endfor %}
                 <ul class="nav_icon">
                     <li><a href="{% url 'addChatPage' %}"><ion-icon name="add-circle"></ion-icon></a></li>
                     <!-- <li><a href=""><ion-icon name="exit"></ion-icon></a></li> -->
