@@ -502,12 +502,12 @@
                                 <div class="details">
                                     <div class="listHead">
                                         <h4>{{i.username}}</h4>
-                                        <p class="time" style="display: none;">{{i.time}}</p>
+                                        <p class="time">{{i.time}}</p>
                                         <div class="chatroomId" style="display: none;">{{i.aid}}</div>
                                         <div class="chatroomBe" style="display: none;">{{i.be_uid}}</div>
                                         <div class="chatroomUid" style="display: none;">{{i.uid_id}}</div>
                                     </div>
-                                    <div class="message_p" style="display: none;">
+                                    <div class="message_p">
                                         <p>{{i.conent}}</p>
                                     </div>
                                 </div>
@@ -570,7 +570,7 @@
 
         // 設置定時器，每隔5秒執行一次 refreshChatList 函數
         var refreshInterval = setInterval(refreshChatList, 5000);
-        
+
         var chatroomID = document.getElementById('chatroomID');
         // Add click event listener to each block
         blocks.forEach(block => {
