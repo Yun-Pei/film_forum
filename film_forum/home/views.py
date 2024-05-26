@@ -52,18 +52,19 @@ def get_top_ten_movies_by_avg_score():
     return top_movies_objects
 
 def generate_user_item_matrix():
-    browse_data = Browse.objects.all().values('uid_id', 'mid_id', 'browseTime')
+    rating_data = MovieComments.objects.all().values('uid_id', 'mid_id', 'score')
 
-    df = pd.DataFrame(list(browse_data))
+    df = pd.DataFrame(list(rating_data))
 
-    df['rating'] = 1
-
-    user_item_matrix = df.pivot_table(index='uid_id', columns='mid_id', values='rating', fill_value=0)
+    user_item_matrix = df.pivot_table(index='uid_id', columns='mid_id', values='score', fill_value=0)
 
     user_item_matrix.index.name = 'userId'
     user_item_matrix.columns.name = 'movieId'
     
     return user_item_matrix
+
+matrix= generate_user_item_matrix();
+# print(matrix)
 
 def train_knn_model(user_item_matrix, n_neighbors=10):
     # 定義使用餘弦相似度的 KNN 模型
@@ -74,38 +75,38 @@ def train_knn_model(user_item_matrix, n_neighbors=10):
     
     return cf_knn_model
 
-# 呼叫這個函數來生成 user_item_matrix
-matrix = generate_user_item_matrix()
-# print(matrix)
-# print('aaa')
+def user_recommender_engine(user_id, matrix, cf_model, n_recs):
+    if user_id not in matrix.index:
+        raise KeyError(f"User ID {user_id} not found in the matrix.")
+    # print(f"User ID {user_id} found in the matrix.")
+    distances, indices = cf_model.kneighbors(matrix.loc[user_id].values.reshape(1, -1), n_neighbors=n_recs+1)
+    similar_user_ids = sorted(list(zip(indices.squeeze().tolist(), distances.squeeze().tolist())), key=lambda x: x[1])[1:]
+    
+    similar_user_ids = [matrix.index[i[0]] for i in similar_user_ids]
+    print(similar_user_ids)
+    movie_scores = {}
+    for similar_user_id in similar_user_ids:
+        similar_user_ratings = matrix.loc[similar_user_id]
+        # print(f"Ratings from similar user {similar_user_id}: {similar_user_ratings}")
+        for movie_id, score in similar_user_ratings.items():
+            # print(f"Checking movie {movie_id} with score {score} for similar user {similar_user_id}")
+            a=matrix.loc[user_id].index
+            # print(a)
+            if score > 0 :
+                if movie_id not in movie_scores:
+                    movie_scores[movie_id] = []
+                movie_scores[movie_id].append(score)
+    # print("Movie scores:", movie_scores)
+    recommended_movies = sorted(movie_scores.items(), key=lambda x: sum(x[1])/len(x[1]), reverse=True)[:n_recs]
+    recommended_movie_ids = [movie_id for movie_id, scores in recommended_movies]
+    
+    return recommended_movie_ids
 
-
-def movie_recommender_engine(movie_id, matrix, cf_model, n_recs):
-    
-    if movie_id not in matrix.columns:
-        raise KeyError(f"Movie ID {movie_id} not found in the matrix.")
-    
-    #改成從電影找推薦，因為我要從用戶最近的瀏覽找出要輸入的電影，如果是直接用用戶找也可以，同樣方法不同寫法，但就不用轉置
-    matrix_T = matrix.T
-    
-    cf_model.fit(matrix_T)
-    
-    distances, indices = cf_model.kneighbors(matrix_T.loc[movie_id].values.reshape(1, -1), n_neighbors=n_recs+1)
-    movie_rec_ids = sorted(list(zip(indices.squeeze().tolist(), distances.squeeze().tolist())), key=lambda x: x[1])[1:]
-    
-    cf_recs = []
-    for i in movie_rec_ids:
-        cf_recs.append({'MovieID': matrix_T.index[i[0]], 'Distance': i[1]})
-    
-    df = pd.DataFrame(cf_recs, index=range(1, n_recs + 1))
-    
-    return df
-
-def get_latest_browsed_movie(user_id):
-    latest_browse = Browse.objects.filter(uid_id=user_id).order_by('-browseTime').first()
-    if latest_browse:
-        return latest_browse.mid_id
-    return None
+# def get_latest_browsed_movie(user_id):
+#     latest_browse = Browse.objects.filter(uid_id=user_id).order_by('-browseTime').first()
+#     if latest_browse:
+#         return latest_browse.mid_id
+#     return None
 
 def testPage(request):
     movies1 = get_top_ten_movies()
@@ -121,14 +122,14 @@ def testPage(request):
 
         #     cursor.execute(sql)
         #     movies = cursor.fetchall()
+
         movies = result.search(term)
 
-        
         end_time = time.time()
 
         search_time = (end_time - start_time)
         # print(start_time, end_time)
-        print(f"Orignal search time need {search_time} milliseconds")
+        print(f"TrieTree search time need {search_time} milliseconds")
 
         data = [{'label': movie[0], 'value': movie[0], 'url': str(movie[1]) } for movie in movies]
         return JsonResponse(data, safe=False)
@@ -140,18 +141,22 @@ def testPage(request):
     knn_model = train_knn_model(user_item_matrix)
 
     user_id = request.user.id
+    
     if user_id:
-        latest_movie_id = get_latest_browsed_movie(user_id)
+        if user_id not in user_item_matrix.index:
+            user_id = user_item_matrix.index[0]
     else:
-        random_movie = random.choice(Browse.objects.values_list('mid_id', flat=True))
-        latest_movie_id = random_movie
+        random_user = random.choice(MovieComments.objects.values_list('uid_id', flat=True))
+        user_id = random_user
 
+    # print(f"User ID {user_id}")
+    # print(f'{latest_movie_id}')
     recommended_movies_list = []
     # print(f"Latest movie ID for user {user_id}: {latest_movie_id}")
     
-    recommended_movies = movie_recommender_engine(movie_id=latest_movie_id, matrix=user_item_matrix, cf_model=knn_model, n_recs=10)
-    recommended_movies_list = Movies.objects.filter(mid__in=recommended_movies['MovieID'])
-
+    recommended_movie_ids = user_recommender_engine(user_id=user_id, matrix=user_item_matrix, cf_model=knn_model, n_recs=10)
+    recommended_movies_list = Movies.objects.filter(mid__in=recommended_movie_ids)
+    # print("Recommended movies list:", recommended_movies_list)
     return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'moviesalgo': recommended_movies_list})
 
 
