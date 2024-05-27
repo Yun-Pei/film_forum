@@ -96,3 +96,20 @@
     </div>
   </div>
 </body>
+
+<script>
+  $(function() {
+    var url = "{% url 'home' %}"; 
+      $("#search").autocomplete({
+        source: url,
+        classes: {
+          "ui-autocomplete": "highlight"
+        },
+        select: function(event, ui) {
+        window.location.href = "{% url 'movie' %}"+"?m_id="+ui.item.url; 
+        },
+
+      });
+  });
+
+</script>

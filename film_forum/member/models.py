@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import Group, Permission
+from django.utils import timezone
 
 class Rank(models.Model):
     rid = models.AutoField(primary_key=True)
@@ -62,6 +63,7 @@ class Browse(models.Model):
 class LikeMovies(models.Model):
     uid = models.ForeignKey(User, on_delete=models.CASCADE)
     mid = models.ForeignKey(Movies, on_delete=models.CASCADE)
+    time = models.DateTimeField(default=timezone.now)
 
     class Meta:
         managed = True #代表需要Django幫你在資料庫建立這個table
