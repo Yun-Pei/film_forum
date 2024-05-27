@@ -1,6 +1,6 @@
 $(document).ready(function() {
   // alert('success');
-  $('.movie').on("click", function(){
+  $('.turntomovie').on("click", function(){
       var m_id = $(this).find('.m_id').text(); 
       // alert(m_id);
       
@@ -19,5 +19,26 @@ $(document).ready(function() {
           }
       });
   });
+    $('.movieFav').on("click", function(){
+    var m_id = $(this).find('.m_id').text(); 
+    // alert(m_id);
+    
+        $.ajax({
+            type: "POST",
+            url: "watchlist",
+            data: {
+                'm_id': m_id,
+                'mode': 'unfollow'
+            },
+            success: function(response) {
+                // alert("123");
+                console.log(response);
+                location.reload(true);
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    });
   
 });

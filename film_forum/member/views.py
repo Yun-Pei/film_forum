@@ -163,7 +163,17 @@ def watchlist(request):
 
     if request.user.is_authenticated:
         user_id = request.user.id
-
+        if request.method == 'POST':
+            if request.POST.get('mode') == 'unfollow':
+                print('1111111')
+                movie_id = request.POST.get('m_id')
+                # print(movie_id)
+                # if request.user.is_authenticated:
+                #     user_id = request.user.id
+                unfollow = LikeMovies.objects.get(mid_id = movie_id, uid_id = user_id)
+                unfollow.delete()
+                return HttpResponseRedirect('/watchlist')
+            
     favo_movie = list()
     with connection.cursor() as cursor:
         cursor.execute("""
@@ -171,10 +181,20 @@ def watchlist(request):
             FROM Movies
             JOIN LikeMovies ON LikeMovies.mid_id = Movies.mid
             WHERE LikeMovies.uid_id = %s
-            ORDER BY Movies.mid ASC
+            ORDER BY Movies.name ASC
         """, [user_id])
         watchlistResults = dictfetchall(cursor)
         favo_movie.append(watchlistResults)
 
-    print(favo_movie)
-    return render(request, 'watchlist.html', {'favo_movie': favo_movie})
+    InfoList = list()
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT User.username, COUNT(*) AS count
+            FROM User
+            JOIN LikeMovies ON User.id = LikeMovies.uid_id
+            WHERE User.id = %s
+            GROUP BY User.id
+        """, [user_id])
+    InfoList = dictfetchall(cursor)
+    # print(InfoList)
+    return render(request, 'watchlist.html', {'favo_movie': favo_movie, 'InfoList': InfoList})
