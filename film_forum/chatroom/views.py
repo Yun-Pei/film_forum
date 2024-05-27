@@ -79,7 +79,6 @@ def chatPage(request):
         be_user_chatrooms = dictfetchall(cursor)
         # print(be_user_chatrooms)
 
-
         for user_chatroom in user_chatrooms:
             for be_user_chatroom in be_user_chatrooms:
                 if be_user_chatroom['be_uid'] == user_chatroom['uid_id'] and be_user_chatroom['uid_id'] == user_chatroom['be_uid']:
@@ -148,6 +147,25 @@ def chatPage(request):
             time = timezone.now()
             content = request.POST.get('messageContent')
             chatroom_id = request.POST.get('aid')
+            print('chatroom_id: ', chatroom_id)
+
+            # 获取当前用户的ID
+            user_id = request.user.id
+
+            # 检查当前聊天室的发送者是否是当前用户
+            current_chatroom = Chatroom.objects.get(aid=chatroom_id)
+            print('HERE1')
+            if current_chatroom.uid_id != user_id:
+                print('HERE2')
+                # 找到发送者是当前用户且接收者是原始发送者的聊天室
+                chatroom = Chatroom.objects.filter(uid_id=user_id, be_uid=current_chatroom.uid_id).first()
+                if chatroom:
+                    print('HERE3')
+                    # 创建消息并保存到该聊天室
+                    NewMessage = Message(time=time, conent=content, aid_id=chatroom.aid)
+                    NewMessage.save()
+                    return HttpResponseRedirect('/chat/')
+
             # print(user_id, time, content, chatroom_id)
             NewMessage = Message(time=time, conent=content, aid_id=chatroom_id)
             NewMessage.save()
@@ -156,6 +174,7 @@ def chatPage(request):
             chatroom_aid = request.POST.get('aid')
             chatroomUid = request.POST.get('chatroomUid')
             chatroomBe = request.POST.get('chatroomBe')
+            print(chatroomUid, chatroomBe)
             # messagelist = list()
             with connection.cursor() as cursor:
                 cursor.execute("""

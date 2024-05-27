@@ -428,6 +428,15 @@
             font-size: 40px;
             font-weight: 700;
         }
+        .IMGNAME {
+            display: flex;
+        }
+        .userName {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+            font-weight: 700;
+        }
 
     </style>
 </head>
@@ -441,11 +450,13 @@
             <div class="header">
                 {% for row in userList %}
                     {% for i in row %}
+                    <div class="IMGNAME">
                         <div class="userimg">
                             <img src="{% static 'picture/pc_'|add:i.img|add:'.png' %}" class="cover">
-                            <div class="userName">{{ i.username }}</div>
                         </div>
-                        <!-- <div class="userName">{{ i.username }}</div> -->
+                        <div class="userName">{{request.user.username}}</div>
+                    </div>
+                        
                     {% endfor %}
                 {% endfor %}
                 <ul class="nav_icon">
