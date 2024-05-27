@@ -39,14 +39,14 @@ class User(AbstractUser):
         # Add related_name to groups field
 
 
-class MPreference(models.Model):
-    uid = models.ForeignKey(User, on_delete=models.CASCADE)
-    preference = models.CharField(max_length=255)
+# class MPreference(models.Model):
+#     uid = models.ForeignKey(User, on_delete=models.CASCADE)
+#     preference = models.CharField(max_length=255)
 
-    class Meta:
-        managed = True #代表需要Django幫你在資料庫建立這個table
-        db_table = 'MPreference' #資料庫內table的名字，預設會是django_space  
-        unique_together = ('uid', 'preference')    
+#     class Meta:
+#         managed = True #代表需要Django幫你在資料庫建立這個table
+#         db_table = 'MPreference' #資料庫內table的名字，預設會是django_space  
+#         unique_together = ('uid', 'preference')    
 
 
 class Browse(models.Model):

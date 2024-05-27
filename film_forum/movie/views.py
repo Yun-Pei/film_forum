@@ -23,7 +23,7 @@ def dictfetchall(cursor):
 def movie(request):
 
     movie_id = request.GET.get('m_id')
-    print(movie_id)
+    # print(movie_id)
 
     reserve_list = list()
 
@@ -47,14 +47,19 @@ def movie(request):
     # 遍歷資料
     for movie in film:
         # 將原始star欄位分割成名字列表
-        names_list = movie[10].split(',')
+        names_list_10 = movie[10].split(',')
+        names_list_11 = movie[11].split(',')
         
         # 使用'・'連接名字列表
-        new_names_string = '・'.join(names_list)
+        new_names_string_10 = '・'.join(names_list_10)
+        new_names_string_11 = '/ '.join(names_list_11)
         
-        processed_movie_tuple = (*movie[:10], new_names_string, *movie[11:])
+        # 建立處理後的電影元組
+        processed_movie_tuple = (*movie[:10], new_names_string_10, new_names_string_11, *movie[12:])
         
+        # 將處理後的電影元組加入處理後的電影數據列表
         processed_movie_data.append(processed_movie_tuple)
+
 
     # forum_article = Article.objects.filter(mid=movie_id).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
 
@@ -92,6 +97,7 @@ def movie(request):
     #     user_id = request.user.id
     
     reserve_list_comment = list()
+    avg_score = 0
 
     if request.method == 'POST':
         if request.user.is_authenticated:
@@ -117,7 +123,7 @@ def movie(request):
             elif request.POST.get('mode') == "movie_comment_delete":
                 movie_id = request.POST.get('m_id')
                 Comment_id = request.POST.get('Comment_id')
-                print(movie_id, Comment_id)
+                # print(movie_id, Comment_id)
                 delete_comment = MovieComments.objects.get(Comment_id=Comment_id)
                 delete_comment.delete()
                 return HttpResponseRedirect(f'movie?m_id={movie_id}')
@@ -127,7 +133,7 @@ def movie(request):
                 movie_id = request.POST.get('m_id')
                 content = request.POST.get('content')
                 time = MovieComments.objects.filter(Comment_id=Comment_id).values('time')
-                print(Comment_id, movie_id, content, time)
+                # print(Comment_id, movie_id, content, time)
 
                 # user_id = User.objects.get(pk=user_id)
                 # movie_id = Movies.objects.get(pk=movie_id)
@@ -135,7 +141,7 @@ def movie(request):
 
                 comment_edit = MovieComments.objects.get(Comment_id=Comment_id)
                 # .objects.filter(pk=Comment_id)
-                print(comment_edit)
+                # print(comment_edit)
                 comment_edit.content = content
                 comment_edit.save()
 
@@ -146,12 +152,12 @@ def movie(request):
                 # print(rating)
                 content = request.POST.get('addCommentContBox')
                 # print(content)
-                print(user_id)
-                print(movie_id)
+                # print(user_id)
+                # print(movie_id)
 
                 uid_id = User.objects.get(pk=user_id)
                 mid_id = Movies.objects.get(pk=movie_id)
-                print('success')
+                # print('success')
                 existing_comment = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
                 if existing_comment:
                     return HttpResponseRedirect(f'movie?m_id={movie_id}') #這個要處理一下
@@ -177,8 +183,18 @@ def movie(request):
         commentResults = dictfetchall(cursor)
         reserve_list_comment.append(commentResults)
 
+    
+    if commentResults:
+        total_score = sum(comment['score'] for comment in commentResults)
+        avg_score = total_score / len(commentResults)
+        avg_score = round(avg_score, 1)
+    else:
+        avg_score = 0
+
+    print(f'avg_score: {avg_score}')
+
     # return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})
-    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment, 'user_has_favorite': user_has_favorite, 'user_has_commented': user_has_commented})
+    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment, 'user_has_favorite': user_has_favorite, 'user_has_commented': user_has_commented, 'avg_score': avg_score})
 
     # return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment, 'user_has_commented': user_has_commented})
     # print(request.GET)
@@ -192,11 +208,11 @@ def movie(request):
             user_id = request.user.id
             if user_id:
                 user = User.objects.get(pk=user_id)
-                print(f'{user}')
+                # print(f'{user}')
                 film = Movies.objects.get(pk=movie_id)
                 browse_time = timezone.now()
                 browse = Browse(uid=user, mid=film, browseTime=browse_time)
                 browse.save()
-                print("Browse entry saved successfully!")
+                # print("Browse entry saved successfully!")
 
     return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})

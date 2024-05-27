@@ -8,6 +8,27 @@ body {
     color: black;
 } */
 
+.avg_score {
+    margin-right: 3px;
+    font-size: 28px;
+    color: orange;
+    position: relative;
+    top: 5px;
+    /* color: white; */
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 20px;
+}
+
+.avg_score .score {
+    color: white;
+}
+
+.avg_score p {
+    color: white;
+    font-size: 80%;
+}
+
 .content {
     display: flex;
     align-items: center;
@@ -234,7 +255,7 @@ body {
 .CommemtTitleBox {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 20px;
+    margin-bottom: 5px;
 }
 
 .addComment {
