@@ -1,7 +1,9 @@
 /* BEGIN: avatar style */
 .member_pic img {
     transition: opacity 0.3s;
-    opacity: 0.3; /* 默认图片为暗 */
+    opacity: 0.3;
+    margin-left: 5px;
+    padding-left: 5px;
 }
 
 /* 隐藏所有的 radio input */
