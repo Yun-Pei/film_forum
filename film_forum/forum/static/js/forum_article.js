@@ -330,4 +330,12 @@ $(document).ready(function() {
             // 這裡可以進一步處理獲取的ID
         });
     });
+
+    $('.movie_name').on("click", function(){
+        // 找到click的那個的 m_id 、 user_id
+        var m_id = $('.film_id').text();
+        // alert(m_id);
+        window.location.href = "movie?m_id=" + m_id;
+
+    });
 });

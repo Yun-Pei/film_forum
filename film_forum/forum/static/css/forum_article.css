@@ -41,8 +41,10 @@ body {
     margin-bottom: 5px;
 }
 
-.movie_name h2{
-    margin-bottom: 5px;
+.movie_name h3{
+    font-size: 80%;
+    margin-bottom: 3vh;
+    cursor: pointer;
 }
 
 .member {
@@ -106,6 +108,7 @@ body {
     height: 90px;
 }
 .form_submit {
+    width: 99%;
     display: flex;
     justify-content: flex-end;
     margin-bottom: 10px;
@@ -131,8 +134,9 @@ body {
 .submit_button, .mess_submit_button {
     margin-top: 10px;
     border: solid 1px;
-    background-color: #166aaf;
-    color: white;
+    background-color: #ffa500;
+    border: none;
+    color: black;
     padding: 3px;
     border-radius: 3px;
 }
