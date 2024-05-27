@@ -23,7 +23,7 @@ def dictfetchall(cursor):
 def movie(request):
 
     movie_id = request.GET.get('m_id')
-    # print(movie_id)
+    # print(f'First{movie_id}')
 
     reserve_list = list()
 
@@ -61,37 +61,32 @@ def movie(request):
         processed_movie_data.append(processed_movie_tuple)
 
 
-    # forum_article = Article.objects.filter(mid=movie_id).order_by("-time").values('uid', 'mid', 'art_id', 'time', 'conent', 'title')
-
-    # for article in forum_article:
-    #     article.formatted_time = article.time.strftime("%Y-%m-%d %I:%M %p")
-
-    # print(film)
-
 
     previous_url = request.META.get('HTTP_REFERER', '/')
     
     request.session['previous_url'] = previous_url
 
 
-            # return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-        
-        # jsut test
-        # else:
-        #     return redirect('forum')
-    # else:
-    #     form = ForumsForm()
-
     user_has_commented = False
-    # if user_id:
-    #     user_has_commented = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
-    if request.user.is_authenticated:
-        user_id = request.user.id
-        movie_id = request.GET.get('m_id')
-        user_has_favorite = LikeMovies.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
-        user_has_commented = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
-    else:
-        user_has_favorite = False
+
+    if request.method == 'GET':
+        if request.user.is_authenticated:
+            user_id = request.user.id
+            movie_id = request.GET.get('m_id')
+            user_has_favorite = LikeMovies.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
+            user_has_commented = MovieComments.objects.filter(uid_id=user_id, mid_id=movie_id).exists()
+
+            # Browse
+            Bro_user = User.objects.get(pk=user_id)
+            # print(f'{user}')
+            print(f'Second{movie_id}')
+            film = Movies.objects.get(pk=movie_id)
+            browse_time = timezone.now()
+            browse = Browse(uid=Bro_user, mid=film, browseTime=browse_time)
+            browse.save()
+            # print("Browse entry saved successfully!")
+        else:
+            user_has_favorite = False
     # if request.user.is_authenticated:
     #     print('user_has_commented')
     #     user_id = request.user.id
@@ -107,7 +102,8 @@ def movie(request):
                 # 检查是否已经存在该收藏记录
                 movie_id = request.POST.get('m_id')
                 if not LikeMovies.objects.filter(uid_id=user_id, mid_id=movie_id).exists():
-                    like = LikeMovies(uid_id=user_id, mid_id=movie_id)
+                    time = timezone.now()
+                    like = LikeMovies(uid_id=user_id, mid_id=movie_id, time=time)
                     like.save()
                 return HttpResponseRedirect(f'movie?m_id={movie_id}')
             elif request.POST.get('mode') == 'unfollow':
@@ -169,9 +165,6 @@ def movie(request):
                 return HttpResponseRedirect(f'movie?m_id={movie_id}')
             
 
-
-    
-
     with connection.cursor() as cursor:
         cursor.execute("""
             SELECT User.id, User.username, User.img, MovieComments.*
@@ -191,7 +184,7 @@ def movie(request):
     else:
         avg_score = 0
 
-    print(f'avg_score: {avg_score}')
+    # print(f'avg_score: {avg_score}')
 
     # return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})
     return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment, 'user_has_favorite': user_has_favorite, 'user_has_commented': user_has_commented, 'avg_score': avg_score})
@@ -201,18 +194,18 @@ def movie(request):
     # print('below is mid')
     # print(movie_id)
     
-    movie_id = request.GET.get('m_id') 
+    # movie_id = request.GET.get('m_id') 
 
-    if movie_id:
-        if request.user.is_authenticated:
-            user_id = request.user.id
-            if user_id:
-                user = User.objects.get(pk=user_id)
-                # print(f'{user}')
-                film = Movies.objects.get(pk=movie_id)
-                browse_time = timezone.now()
-                browse = Browse(uid=user, mid=film, browseTime=browse_time)
-                browse.save()
-                # print("Browse entry saved successfully!")
+    # if movie_id:
+    #     if request.user.is_authenticated:
+    #         user_id = request.user.id
+    #         if user_id:
+    #             user = User.objects.get(pk=user_id)
+    #             # print(f'{user}')
+    #             film = Movies.objects.get(pk=movie_id)
+    #             browse_time = timezone.now()
+    #             browse = Browse(uid=user, mid=film, browseTime=browse_time)
+    #             browse.save()
+    #             # print("Browse entry saved successfully!")
 
-    return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})
+    # return render(request, "movie.html", {'reserve_list': reserve_list, 'film': processed_movie_data, 'reserve_list_comment': reserve_list_comment})

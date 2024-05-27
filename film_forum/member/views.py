@@ -12,18 +12,6 @@ from django.http import HttpResponseRedirect  #直接回到某個網址
 from django.db import connection
 
 
-
-
-
-# Create your views here.
-
-# @csrf_exempt
-# def login(request):
-#     if request.method == "GET":
-#         return render(request, "login.html")
-
-
-# crawl data into database
 # @csrf_exempt
 def login(request):
     form = LoginForm(request.POST or None)
@@ -94,63 +82,6 @@ def log_out(request):
     auth.logout(request)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
-    
-    # if request.method == "POST":
-    #     # movie = Movies(name='The Shawshank Redemption', year='1994', time='2h 22m', age='R-12', introduction='Over the course of several years, two convicts form a friendship, seeking consolation and, eventually, redemption through basic compassion.'
-    #     #                 , img='https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_QL75_UX140_CR0,1,140,207_.jpg',
-    #     #                 director='Frank Darabont', star='Tim Robbins, Morgan Freeman, Bob Gunton, William Sadler, Clancy Brown, Gil Bellows, Mark Rolston, James Whitmore, Jeffrey DeMunn, Larry Brandenburg, Neil Giuntoli, Brian Libby, David Proval, Joseph Ragno, Jude Ciccolella, Paul McCrane, Renee Blaine, Scott Mann',
-    #     #                 tag='Drama', rating='5'
-    #     #                 )
-        
-    #     # movie.save()
-
-    #     # return HttpResponse('OK!')
-    #     with open('C:/Users/Ariel/db_project/film_forum/film_forum/member/top250_all.csv', 'r', encoding='latin-1') as file:
-    #     # 使用CSV讀取器讀取CSV文件
-    #         csv_reader = csv.reader(file)
-    #         # 跳過首行，因為它可能是標題行
-    #         next(csv_reader)
-    #         # 遍歷CSV文件中的每一行
-    #         for row in csv_reader:
-    #             # 根據CSV文件的結構，假設每一行的順序分別是：name, year, time, age, introduction, link, img, director, star, type
-    #             # 創建Movies對象並保存到數據庫中
-    #             movie = Movies.objects.create(
-    #                 name=row[0],
-    #                 year=row[1],
-    #                 time=row[2],
-    #                 age=row[3],
-    #                 introduction=row[4],
-    #                 # link=row[5],
-    #                 img=row[6],
-    #                 director=row[7],
-    #                 star=row[8],
-    #                 tag=row[9],
-    #                 rating='5',
-                    
-    #             )
-    #             # 保存Movies對象
-    #             movie.save()
-
-    #     return HttpResponse('Movies imported successfully from CSV!')
-# @csrf_exempt
-# def crawl(request):
-#     if request.method == "POST":
-
-#         with open('C:/Users/Ariel/OneDrive/桌面/imdb/.csv', 'r', encoding='utf-8') as file:
-
-#             csv_reader = csv.reader(file)
-
-#             for row in csv_reader:
-
-#                 movie = Movies(name=row[0], year=row[1], time=row[2], age=row[3], introduction=row[4], img=row[5],director=row[6], star=row[7],tag=row[8], rating='0')
-
-#                 movie.save()
-                        
-
-#         return HttpResponse('Movies imported successfully from CSV!')
-    
-#     # return render("crwal.html")
-#     return render(request, "crawl.html")
 
 def dictfetchall(cursor):
     columns = [col[0] for col in cursor.description]
@@ -165,7 +96,7 @@ def watchlist(request):
         user_id = request.user.id
         if request.method == 'POST':
             if request.POST.get('mode') == 'unfollow':
-                print('1111111')
+                # print('1111111')
                 movie_id = request.POST.get('m_id')
                 # print(movie_id)
                 # if request.user.is_authenticated:
@@ -181,7 +112,7 @@ def watchlist(request):
             FROM Movies
             JOIN LikeMovies ON LikeMovies.mid_id = Movies.mid
             WHERE LikeMovies.uid_id = %s
-            ORDER BY Movies.name ASC
+            ORDER BY LikeMovies.time ASC
         """, [user_id])
         watchlistResults = dictfetchall(cursor)
         favo_movie.append(watchlistResults)

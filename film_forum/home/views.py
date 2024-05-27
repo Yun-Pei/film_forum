@@ -63,7 +63,7 @@ def generate_user_item_matrix():
     
     return user_item_matrix
 
-matrix= generate_user_item_matrix();
+matrix= generate_user_item_matrix()
 # print(matrix)
 
 def train_knn_model(user_item_matrix, n_neighbors=10):
@@ -77,12 +77,12 @@ def train_knn_model(user_item_matrix, n_neighbors=10):
 def user_recommender_engine(user_id, matrix, cf_model, n_recs):
     if user_id not in matrix.index:
         raise KeyError(f"User ID {user_id} not found in the matrix.")
-    print(f"User ID {user_id} found in the matrix.")
+    # print(f"User ID {user_id} found in the matrix.")
     distances, indices = cf_model.kneighbors(matrix.loc[user_id].values.reshape(1, -1), n_neighbors=n_recs+1)
     similar_user_ids = sorted(list(zip(indices.squeeze().tolist(), distances.squeeze().tolist())), key=lambda x: x[1])[1:]
     
     similar_user_ids = [matrix.index[i[0]] for i in similar_user_ids]
-    print(similar_user_ids)
+    # print(similar_user_ids)
     movie_scores = {}
     for similar_user_id in similar_user_ids:
         similar_user_ratings = matrix.loc[similar_user_id]
@@ -147,14 +147,14 @@ def testPage(request):
         random_user = random.choice(MovieComments.objects.values_list('uid_id', flat=True))
         user_id = random_user
 
-    print(f"User ID {user_id}")
+    # print(f"User ID {user_id}")
     # print(f'{latest_movie_id}')
     recommended_movies_list = []
     # print(f"Latest movie ID for user {user_id}: {latest_movie_id}")
     
     recommended_movie_ids = user_recommender_engine(user_id=user_id, matrix=user_item_matrix, cf_model=knn_model, n_recs=10)
     recommended_movies_list = Movies.objects.filter(mid__in=recommended_movie_ids)
-    print("Recommended movies list:", recommended_movies_list)
+    # print("Recommended movies list:", recommended_movies_list)
     return render(request, "index.html", {'movies1': movies1, 'movies2': movies2, 'moviesalgo': recommended_movies_list})
 
 
