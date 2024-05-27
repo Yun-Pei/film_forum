@@ -31,6 +31,9 @@ def get_top_ten_movies():
         top_movies = cursor.fetchall()
     
     top_movie_ids = [entry[0] for entry in top_movies]
+    mids_str = ','.join(map(str, top_movie_ids))
+    new_rank = Rank(rtype=2, mids=mids_str)
+    new_rank.save()
     top_movies_objects = Movies.objects.filter(mid__in=top_movie_ids)
     
     return top_movies_objects
@@ -48,13 +51,12 @@ def get_top_ten_movies_by_avg_score():
         top_movies = cursor.fetchall()
 
     top_movie_ids = [entry[0] for entry in top_movies]
+    mids_str = ','.join(map(str, top_movie_ids))
+    new_rank = Rank(rtype=1, mids=mids_str)
+    new_rank.save()
     top_movies_objects = Movies.objects.filter(mid__in=top_movie_ids)
 
-    # rank_entries = []
-    # for movie in top_movies_objects:
-    #     rank_entries.append(Rank(rtype=1, movie=movie))
-
-    # Rank.objects.bulk_create(rank_entries)
+   
 
     return top_movies_objects
 
