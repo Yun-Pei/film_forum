@@ -44,7 +44,7 @@ def chatPage(request):
     
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT User.username, Message.time, Chatroom.aid, Chatroom.be_uid, Chatroom.uid_id, Message.conent
+            SELECT User.username, User.img, Message.time, Chatroom.aid, Chatroom.be_uid, Chatroom.uid_id, Message.conent
             FROM Chatroom
             JOIN User ON User.id = Chatroom.be_uid
             JOIN (
@@ -58,12 +58,12 @@ def chatPage(request):
         """, [user_id])
     
         user_chatrooms = dictfetchall(cursor)
-        print(user_chatrooms)
+        # print(user_chatrooms)
 
     # 获取以用户自己为 be_uid 的聊天室最新消息（用户信息由 be_uid 提供）
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT User.username, Message.time, Chatroom.aid, Chatroom.be_uid, Chatroom.uid_id, Message.conent
+            SELECT User.username, User.img, Message.time, Chatroom.aid, Chatroom.be_uid, Chatroom.uid_id, Message.conent
             FROM Chatroom
             JOIN User ON User.id = Chatroom.uid_id
             JOIN (
@@ -77,33 +77,37 @@ def chatPage(request):
         """, [user_id])
     
         be_user_chatrooms = dictfetchall(cursor)
-        print(be_user_chatrooms)
+        # print(be_user_chatrooms)
 
 
         for user_chatroom in user_chatrooms:
             for be_user_chatroom in be_user_chatrooms:
                 if be_user_chatroom['be_uid'] == user_chatroom['uid_id'] and be_user_chatroom['uid_id'] == user_chatroom['be_uid']:
-                    if be_user_chatroom['time'] > user_chatroom['time']:
-                        # chatlist.append(be_user_chatroom)
-                        user_chatroom['conent'] = None
-                    else:
-                        # chatlist.append(be_user_chatroom)
-                        be_user_chatroom['conent'] = None
+                    # print(f'be_user_chatroom[aid]:{be_user_chatroom['aid']}, be_user_chatroom[be_uid]:{be_user_chatroom['be_uid'], }')
+                    if user_chatroom['conent'] != None or be_user_chatroom['conent'] != None:
+                        if be_user_chatroom['time'] > user_chatroom['time']:
+                            # chatlist.append(be_user_chatroom)
+                            user_chatroom['conent'] = None
+                        else:
+                            # chatlist.append(be_user_chatroom)
+                            be_user_chatroom['conent'] = None
         
         for user_chatroom in user_chatrooms:
-             if user_chatroom['conent'] != None:
-                 chatlist.append(user_chatroom)
+            if user_chatroom['conent'] != None:
+                chatlist.append(user_chatroom)
         for be_user_chatroom in be_user_chatrooms:
-             if be_user_chatroom['conent'] != None:
-                 chatlist.append(be_user_chatroom)
+            if be_user_chatroom['conent'] != None:
+                chatlist.append(be_user_chatroom)
 
-        print("THE result: ")
-        print(chatlist)      
+        # 对 chatlist 按时间降序排序
+        chatlist.sort(key=lambda x: x['time'], reverse=True)
+
+        # print("THE result: ")
+        print(f'THE result: {chatlist}')      
         # print(be_user_chatrooms)
 
-
     # chatlist.append(user_as_be_uid_chatrooms)
-    print(user_id, chatlist)
+    # print(user_id, chatlist)
 
     Nochatlist = list()
     with connection.cursor() as cursor:

@@ -493,26 +493,24 @@
                     {% endfor %}
                 {% endfor %} -->
                 {% if chatlist.0 %}
-                    {% for row in chatlist %}
-                        {% for i in row %}
-                            <div class="block">
-                                <div class="imgbox">
-                                    <img class="cover">
+                    {% for i in chatlist %}
+                        <div class="block">
+                            <div class="imgbox">
+                                <img src="{% static 'picture/pc_'|add:i.img|add:'.png' %}" class="cover">
+                            </div>
+                            <div class="details">
+                                <div class="listHead">
+                                    <h4>{{i.username}}</h4>
+                                    <p class="time">{{i.time}}</p>
+                                    <div class="chatroomId" style="display: none;">{{i.aid}}</div>
+                                    <div class="chatroomBe" style="display: none;">{{i.be_uid}}</div>
+                                    <div class="chatroomUid" style="display: none;">{{i.uid_id}}</div>
                                 </div>
-                                <div class="details">
-                                    <div class="listHead">
-                                        <h4>{{i.username}}</h4>
-                                        <p class="time">{{i.time}}</p>
-                                        <div class="chatroomId" style="display: none;">{{i.aid}}</div>
-                                        <div class="chatroomBe" style="display: none;">{{i.be_uid}}</div>
-                                        <div class="chatroomUid" style="display: none;">{{i.uid_id}}</div>
-                                    </div>
-                                    <div class="message_p">
-                                        <p>{{i.conent}}</p>
-                                    </div>
+                                <div class="message_p">
+                                    <p>{{i.conent}}</p>
                                 </div>
                             </div>
-                        {% endfor %}
+                        </div>
                     {% endfor %}
                 {% endif %}
                 {% for row in Nochatlist %}
