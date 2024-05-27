@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from member.models import Movies
+from member.models import Movies,Rank
 import time
 from test import result
 from member.models import User
@@ -49,6 +49,13 @@ def get_top_ten_movies_by_avg_score():
 
     top_movie_ids = [entry[0] for entry in top_movies]
     top_movies_objects = Movies.objects.filter(mid__in=top_movie_ids)
+
+    # rank_entries = []
+    # for movie in top_movies_objects:
+    #     rank_entries.append(Rank(rtype=1, movie=movie))
+
+    # Rank.objects.bulk_create(rank_entries)
+
     return top_movies_objects
 
 def generate_user_item_matrix():
