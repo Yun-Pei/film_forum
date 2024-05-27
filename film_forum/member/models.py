@@ -9,6 +9,7 @@ class Rank(models.Model):
     rid = models.AutoField(primary_key=True)
     rtype_choice = [(1, 'score'), (2, 'hot')]
     rtype = models.IntegerField(choices=rtype_choice)
+    mids = models.CharField(max_length=255, default=None)
     class Meta:
         managed = True #代表需要Django幫你在資料庫建立這個table
         db_table = 'Rank' #資料庫內table的名字，預設會是django_space  
