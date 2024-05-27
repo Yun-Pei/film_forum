@@ -404,6 +404,12 @@ input{
   border-radius: 5px; 
 }
 
+#rank{
+  font-size: 27px;
+  color: #f4890f;
+  font-weight: bold;
+}
+
 /* jquery search ui */
 
 .highlight{

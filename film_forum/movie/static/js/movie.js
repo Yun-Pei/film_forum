@@ -46,7 +46,7 @@ $(document).ready(function() {
     
     $('#forum_content').on("click", "#article", function(){
         // 找到click的那個的 m_id 、 user_id
-        var m_id = $('.movie_id').text();
+        // var m_id = $('.movie_id').text();
         var art_id = $(this).find('#art_id').text();
         // alert(m_id)
 
@@ -95,7 +95,7 @@ $(document).ready(function() {
             if(result.isConfirmed) {
                 $.ajax({
                     url: 'movie',
-                    type: 'GET', 
+                    type: 'POST', 
                     data: {
                         'mode' : 'movie_comment_delete',
                         'm_id' : m_id,
@@ -175,7 +175,7 @@ $(document).ready(function() {
         }else {
             $.ajax({
                 url: 'movie',
-                type: 'GET', 
+                type: 'POST', 
                 data: {
                     'content': content,
                     'mode' : 'movie_comment_edit',
