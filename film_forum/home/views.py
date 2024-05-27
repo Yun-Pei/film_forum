@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from member.models import Movies
 import time
-# from test import result
+from test import result
 from member.models import User
 from member.models import Browse
 from member.models import MovieComments
