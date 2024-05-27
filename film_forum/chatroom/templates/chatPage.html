@@ -497,7 +497,7 @@
                         {% for i in row %}
                             <div class="block">
                                 <div class="imgbox">
-                                    <img src="{% static 'picture/pc_'|add:i.img|add:'.png' %}" class="cover">
+                                    <img class="cover">
                                 </div>
                                 <div class="details">
                                     <div class="listHead">
@@ -564,12 +564,13 @@
             });
         }
 
-        function refreshChatList() {
-            $('.chatList').load(location.href + ' .chatList');
-        }
+        // function refreshChatList() {
+        //     $('.time').load(location.href + ' .time');
+        //     $('.message_p').load(location.href + ' .message_p');
+        // }
 
-        // 設置定時器，每隔5秒執行一次 refreshChatList 函數
-        var refreshInterval = setInterval(refreshChatList, 5000);
+        // // 設置定時器，每隔5秒執行一次 refreshChatList 函數
+        // var refreshInterval = setInterval(refreshChatList, 5000);
 
         var chatroomID = document.getElementById('chatroomID');
         // Add click event listener to each block

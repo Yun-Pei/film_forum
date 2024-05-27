@@ -41,22 +41,10 @@ def chatPage(request):
         userList.append(userInfo)
 
     chatlist = list()
+    
     with connection.cursor() as cursor:
-        # cursor.execute("""
-        #     SELECT *
-        #     FROM Chatroom
-        #     JOIN User ON User.id = Chatroom.be_uid
-        #     JOIN (
-        #         SELECT aid_id, MAX(time) AS latest_time
-        #         FROM Message
-        #         GROUP BY aid_id
-        #     ) AS LatestMessage ON LatestMessage.aid_id = Chatroom.aid
-        #     JOIN Message ON Message.aid_id = LatestMessage.aid_id AND Message.time = LatestMessage.latest_time
-        #     WHERE uid_id = %s
-        #     ORDER BY Message.time DESC
-        # """, [user_id])
         cursor.execute("""
-            SELECT *
+            SELECT User.username, Message.time, Chatroom.aid, Chatroom.be_uid, Chatroom.uid_id, Message.conent
             FROM Chatroom
             JOIN User ON User.id = Chatroom.be_uid
             JOIN (
@@ -65,12 +53,57 @@ def chatPage(request):
                 GROUP BY aid_id
             ) AS LatestMessage ON LatestMessage.aid_id = Chatroom.aid
             JOIN Message ON Message.aid_id = LatestMessage.aid_id AND Message.time = LatestMessage.latest_time
-            WHERE uid_id = %s OR be_uid = %s
-            ORDER BY LatestMessage.latest_time DESC
-        """, [user_id, user_id])
-        chatroom = dictfetchall(cursor)
-        chatlist.append(chatroom)
-        print(user_id, chatlist)
+            WHERE uid_id = %s
+            ORDER BY Chatroom.aid
+        """, [user_id])
+    
+        user_chatrooms = dictfetchall(cursor)
+        print(user_chatrooms)
+
+    # 获取以用户自己为 be_uid 的聊天室最新消息（用户信息由 be_uid 提供）
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT User.username, Message.time, Chatroom.aid, Chatroom.be_uid, Chatroom.uid_id, Message.conent
+            FROM Chatroom
+            JOIN User ON User.id = Chatroom.uid_id
+            JOIN (
+                SELECT aid_id, MAX(time) AS latest_time
+                FROM Message
+                GROUP BY aid_id
+            ) AS LatestMessage ON LatestMessage.aid_id = Chatroom.aid
+            JOIN Message ON Message.aid_id = LatestMessage.aid_id AND Message.time = LatestMessage.latest_time
+            WHERE be_uid = %s
+            ORDER BY Chatroom.aid
+        """, [user_id])
+    
+        be_user_chatrooms = dictfetchall(cursor)
+        print(be_user_chatrooms)
+
+
+        for user_chatroom in user_chatrooms:
+            for be_user_chatroom in be_user_chatrooms:
+                if be_user_chatroom['be_uid'] == user_chatroom['uid_id'] and be_user_chatroom['uid_id'] == user_chatroom['be_uid']:
+                    if be_user_chatroom['time'] > user_chatroom['time']:
+                        # chatlist.append(be_user_chatroom)
+                        user_chatroom['conent'] = None
+                    else:
+                        # chatlist.append(be_user_chatroom)
+                        be_user_chatroom['conent'] = None
+        
+        for user_chatroom in user_chatrooms:
+             if user_chatroom['conent'] != None:
+                 chatlist.append(user_chatroom)
+        for be_user_chatroom in be_user_chatrooms:
+             if be_user_chatroom['conent'] != None:
+                 chatlist.append(be_user_chatroom)
+
+        print("THE result: ")
+        print(chatlist)      
+        # print(be_user_chatrooms)
+
+
+    # chatlist.append(user_as_be_uid_chatrooms)
+    print(user_id, chatlist)
 
     Nochatlist = list()
     with connection.cursor() as cursor:
