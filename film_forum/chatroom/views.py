@@ -154,13 +154,10 @@ def chatPage(request):
 
             # 检查当前聊天室的发送者是否是当前用户
             current_chatroom = Chatroom.objects.get(aid=chatroom_id)
-            print('HERE1')
             if current_chatroom.uid_id != user_id:
-                print('HERE2')
                 # 找到发送者是当前用户且接收者是原始发送者的聊天室
                 chatroom = Chatroom.objects.filter(uid_id=user_id, be_uid=current_chatroom.uid_id).first()
                 if chatroom:
-                    print('HERE3')
                     # 创建消息并保存到该聊天室
                     NewMessage = Message(time=time, conent=content, aid_id=chatroom.aid)
                     NewMessage.save()
