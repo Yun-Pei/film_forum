@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from member.models import Movies,Rank
 import time
-# from test import result
+from test import result
 from member.models import User
 from member.models import Browse
 from member.models import MovieComments
@@ -125,12 +125,12 @@ def testPage(request):
     if request.GET.get("term"):
         term = request.GET.get('term')
         start_time = time.time()
-        with connection.cursor() as cursor:
-            sql = f"select name, mid from Movies where name like \'{term}%\';"
+        # with connection.cursor() as cursor:
+        #     sql = f"select name, mid from Movies where name like \'{term}%\';"
 
-            cursor.execute(sql)
-            movies = cursor.fetchall()
-        # movies = result.search(term)
+        #     cursor.execute(sql)
+        #     movies = cursor.fetchall()
+        movies = result.search(term)
 
         # end_time = time.time()
 
