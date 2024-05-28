@@ -120,9 +120,16 @@ def chatPage(request):
                 FROM Chatroom AS C2
                 JOIN Message ON Message.aid_id = C2.aid
                 WHERE C2.uid_id = %s
-                AND C1.aid = C2.aid
+                AND C1.aid = C2.aid 
             )
-        """, [user_id, user_id])
+            AND NOT EXISTS (
+                SELECT 1
+                FROM Chatroom AS C3
+                JOIN Message ON Message.aid_id = C3.aid
+                WHERE C3.uid_id = C1.be_uid
+                AND C3.be_uid = %s
+            )
+        """, [user_id, user_id, user_id])
         Nochatroom = dictfetchall(cursor)
         Nochatlist.append(Nochatroom)
 
