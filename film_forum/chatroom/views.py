@@ -217,11 +217,12 @@ def addChatPage(request):
                 # 檢查資料庫中是否已存在相同組合的資料
                 existing_chat = Chatroom.objects.filter(uid_id=uid, be_uid=buid).exists()
                 if not existing_chat:
-                    newChat1 = Chatroom(uid_id=uid, be_uid=buid)
-                    newChat1.save()
-                    newChat2 = Chatroom(uid_id=buid, be_uid=uid)
-                    newChat2.save()
-                    return HttpResponseRedirect('/chat/')
+                    if uid != buid:
+                        newChat1 = Chatroom(uid_id=uid, be_uid=buid)
+                        newChat1.save()
+                        newChat2 = Chatroom(uid_id=buid, be_uid=uid)
+                        newChat2.save()
+                        return HttpResponseRedirect('/chat/')
     return render(request, 'addChatPage.html')
 
 def search_member(request):
