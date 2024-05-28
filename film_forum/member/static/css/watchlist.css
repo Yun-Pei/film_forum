@@ -48,7 +48,7 @@
 }
 
 .mainpictimes {
-  font-size: 16px;
+  font-size: 18px;
   color: #ffffff;
 }
 
@@ -64,7 +64,7 @@
   justify-content: space-around;
   font-size: 16px;
   margin-top: 20px;
-
+  border-bottom: 1px solid orange;
 }
 
 .movieBox {
@@ -80,7 +80,7 @@
 .movieTitle {
   display: flex;
   justify-content: left;
-  flex: 2;
+  flex: 3;
   padding: 0px 0px 10px 20px;
 }
 
@@ -92,23 +92,28 @@
 
 .watchlisttitle span {
   padding: 0px 0px 10px 20px;
-  border-bottom: 1px solid orange;
 }
 
 .Title {
-  flex: 2;
+  flex: 2.8;
+  position: relative;
+  left: 20px;
 }
 
 .Release {
-  flex: 1;
+  flex: 0.5;
 }
 
 .Duration {
-  flex: 1;
+  flex: 0.8;
+  position: relative;
+  left: 20px;
 }
 
 .Genre {
   flex: 2;
+  position: relative;
+  left: 100px;
 }
 
 .movie {
@@ -117,12 +122,31 @@
   cursor: pointer;
 }
 
+.nofollowbox {
+  height: 300px;
+  width: fit-content;
+  margin: 50px auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 #no_follow {
   color: #ffffff;
+  font-size: 25px;
+  font-weight: 700;
+  height: 50px;
+}
+
+#followtutorial {
+  color: #ffffff;
+  font-size: 18px;
+  justify-content: center;
 }
 
 .movieRelease {
-  flex: 1;
+  flex: 0.5;
   display: flex;
   align-items: center;
   padding: 0px 0px 10px 20px;
@@ -140,4 +164,21 @@
   display: flex;
   align-items: center;
   padding: 0px 0px 10px 20px;
+}
+
+.FavBtn {
+  flex: 0.5;
+  color: black;
+}
+
+.movieFav {
+  flex: 0.5;
+  display: flex;
+  align-items: center;
+  padding: 0px 0px 10px 20px;
+  justify-content: center;
+}
+
+.movieFav:hover {
+  color: orange;
 }

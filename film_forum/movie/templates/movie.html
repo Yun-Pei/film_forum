@@ -70,7 +70,7 @@
                 
                 {% endif %}
             </div>
-            <span> {{i.3}}・{{i.5}}・{{i.6}} </span>
+            <span> {{i.3}}・{{i.5}}・{{i.6}}・{{i.11}}</span>
         </div>
 
         <div class="content">
@@ -110,6 +110,8 @@
     <div class="movieCommentBox">
         <div class="CommemtTitleBox">
             <h1 style="color: orange;">User reviews</h1>
+
+
             {% if request.user.is_authenticated %}
                 {% if user_has_commented %}
                 <button id="openBtn" class="addComment" style="display: none;">+ review</button>
@@ -117,6 +119,7 @@
                 <button id="openBtn" class="addComment">+ review</button>
                 {% endif %}
             {% endif %}
+
             {% for i in film %}
             <div class="addComment_sideBar">
                 <div class="sideBarHeader">
@@ -171,6 +174,14 @@
             </div>
             {% endfor %}
             <div class="popupBackground"></div>
+        </div>
+        <div>
+            <div class="avg_score">
+                {% if avg_score != 0 %}
+                <ion-icon name="star"></ion-icon><h3 class="score">{{ avg_score }}</h3><p>/10</p>
+                {% endif %}
+            </div>
+            <!-- <h3 style="color: white;">{{ avg_score }}</h3> -->
         </div>
         <div class="allReviewBox">
         {% if reserve_list_comment.0 %}

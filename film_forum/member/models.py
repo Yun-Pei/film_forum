@@ -3,11 +3,13 @@ from django.contrib.auth.models import AbstractUser
 # Create your models here.
 from django.db import models
 from django.contrib.auth.models import Group, Permission
+from django.utils import timezone
 
 class Rank(models.Model):
     rid = models.AutoField(primary_key=True)
     rtype_choice = [(1, 'score'), (2, 'hot')]
     rtype = models.IntegerField(choices=rtype_choice)
+    mids = models.CharField(max_length=255, default=None)
     class Meta:
         managed = True #代表需要Django幫你在資料庫建立這個table
         db_table = 'Rank' #資料庫內table的名字，預設會是django_space  
@@ -39,14 +41,14 @@ class User(AbstractUser):
         # Add related_name to groups field
 
 
-class MPreference(models.Model):
-    uid = models.ForeignKey(User, on_delete=models.CASCADE)
-    preference = models.CharField(max_length=255)
+# class MPreference(models.Model):
+#     uid = models.ForeignKey(User, on_delete=models.CASCADE)
+#     preference = models.CharField(max_length=255)
 
-    class Meta:
-        managed = True #代表需要Django幫你在資料庫建立這個table
-        db_table = 'MPreference' #資料庫內table的名字，預設會是django_space  
-        unique_together = ('uid', 'preference')    
+#     class Meta:
+#         managed = True #代表需要Django幫你在資料庫建立這個table
+#         db_table = 'MPreference' #資料庫內table的名字，預設會是django_space  
+#         unique_together = ('uid', 'preference')    
 
 
 class Browse(models.Model):
@@ -62,6 +64,7 @@ class Browse(models.Model):
 class LikeMovies(models.Model):
     uid = models.ForeignKey(User, on_delete=models.CASCADE)
     mid = models.ForeignKey(Movies, on_delete=models.CASCADE)
+    time = models.DateTimeField(default=timezone.now)
 
     class Meta:
         managed = True #代表需要Django幫你在資料庫建立這個table

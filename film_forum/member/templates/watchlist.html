@@ -14,6 +14,7 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
   <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
   <script src='{% static "ajax.js" %}'></script>
@@ -30,7 +31,13 @@
     <div class="rightmainpicBox">
       <div class="mainpictextBox">
         <p class="mainpictitle">My Watchlist</p>
-        <p class="mainpictimes">Username．How many movies</p>
+          {% if InfoList.0 %}
+            {% for row in InfoList %}
+              <p class="mainpictimes">{{row.username}}．{{row.count}} movies</p>
+            {% endfor %}
+          {% else %}
+           <p class="mainpictimes">{{request.user.username}}．No movies</p>
+          {% endif %}
       </div>
     </div>
   </div>
@@ -41,6 +48,7 @@
       <span class="Release">Release</span>
       <span class="Duration"><ion-icon name="time-outline"></ion-icon></span>
       <span class="Genre"><ion-icon name="pricetag"></ion-icon></span>
+      <span class="FavBtn"><ion-icon name="bookmark" class="FavoriteBtn"></ion-icon></span>
     </div>
     <div class="watchlistmovie">
       <ul>
@@ -50,29 +58,58 @@
               <li class="movie">
                 <span style="display: none;" class="m_id">{{ j.mid }}</span>
                 <div class="movieBox">
-                  <div class="movieTitle">
+                  <div class="movieTitle turntomovie">
                     <img src="{{j.img}}" alt="" class="moviePic">
                     <div class="movieName">
                       <p>{{j.name}}</p>
                     </div>
+                    <span style="display: none;" class="m_id">{{ j.mid }}</span>
                   </div>
-                  <div class="movieRelease">
+                  <div class="movieRelease turntomovie">
                     {{j.year}}
+                    <span style="display: none;" class="m_id">{{ j.mid }}</span>
                   </div>
-                  <div class="movieDuration">
+                  <div class="movieDuration turntomovie">
                     {{j.time}}
+                    <span style="display: none;" class="m_id">{{ j.mid }}</span>
                   </div>
-                  <div class="movieGenre">
+                  <div class="movieGenre turntomovie">
                     {{j.tag}}
+                    <span style="display: none;" class="m_id">{{ j.mid }}</span>
+                  </div>
+                  <div class="movieFav">
+                    <ion-icon name="bookmark" class="FavoriteBtn"></ion-icon>
+                    <span style="display: none;" class="m_id">{{ j.mid }}</span>
                   </div>
                 </div>
               </li>
             {% endfor %}
           {% endfor %}
         {% else %}
-          <p id="no_follow">No comment found.</p>
+          <div class="nofollowbox">
+            <p id="no_follow">There are no favorites in the watch list.</p>
+            <p id="followtutorial">You can add a movie to your watchlist by pressing Add to Favorites on any movie page.</p>
+          </div>
+          
         {% endif %}
       </ul>
     </div>
   </div>
 </body>
+
+<script>
+  $(function() {
+    var url = "{% url 'home' %}"; 
+      $("#search").autocomplete({
+        source: url,
+        classes: {
+          "ui-autocomplete": "highlight"
+        },
+        select: function(event, ui) {
+        window.location.href = "{% url 'movie' %}"+"?m_id="+ui.item.url; 
+        },
+
+      });
+  });
+
+</script>
