@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+{% load static%}
+<html>
+
+<head>
+    <title>KounelChat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <script src="{% static 'js/chatPage.js'%}"></script>
+    {% csrf_token %}
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+            }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(#252525 60%, #ffa600 100%);
+        }
+
+        .whole-container {
+            position: relative;
+            top: 30px;
+            width: 75%;
+            max-width: 100%;
+            height: calc(100vh - 100px);
+            background: #fff;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.06);
+            display: flex;
+            border-radius: 25px;
+        }
+        
+        .left-chat-container {
+            position: relative;
+            flex: 30%;
+            background: #fff;
+            border-right: 1px solid rgba(0, 0, 0, 0.2);
+            border-top-left-radius: 25px;
+            border-bottom-left-radius: 25px;
+        }
+
+        .right-chat-container {
+            position: relative;
+            flex: 70%;
+            border-bottom-right-radius: 25px;
+        }
+
+        .right-chat-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url(../static/pic/IMG_8829.PNG);
+            opacity: 0.06;
+        }
+        
+        .chat-header {
+            width: 1396px;
+            max-width: 100%;
+            text-align: center;
+            background-color: #075e54;
+            color: #fff;
+            padding: 10px 0px;
+        }
+        
+        .header {
+            position: relative;
+            height: 60px;
+            background: #ededed;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0px 15px;
+            border-top-left-radius: 25px;
+        }
+
+        .userimg {
+            position: relative;
+            width: 40px;
+            height: 40px;
+            overflow: hidden;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+        }
+
+        .cover {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .nav_icon {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav_icon li {
+            display: flex;
+            list-style: none;
+            cursor: pointer;
+            color: #51585c;
+            font-size: 2em;
+            margin-left: 22px;
+        }
+
+        .nav_icon li a {
+            position: relative;
+            color: #51585c;
+            top: 3px;
+        }
+        
+        .search_chat {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            background: #f6f6f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 15px;
+        }
+        .search_chat div {
+            width: 100%;
+        }
+        .search_chat div input::placeholder {
+            color: #bbb;
+        } 
+        .search_chat div input {
+            width: 100%;
+            outline: none;
+            border: none;
+            background: #fff;
+            padding: 6px;
+            height: 38px;
+            border-radius: 30px;
+            font-size: 14px;
+            padding-left: 40px;
+        }
+        .search_chat div ion-icon {
+            position: absolute;
+            left: 30px;
+            top: 16px;
+            font-size: 1.2em;
+        }
+
+        .chatList {
+            position: relative;
+            height: calc(100% - 110px);/* 60 + 50 = 110*/
+            overflow-y: auto;
+            border-bottom-left-radius: 25px;
+        }
+        .chatList .block {
+            position: relative;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+        }
+        .chatList .block.active {
+            background: #ffa600;
+            p {
+                color: #111;
+            }
+        }
+        .chatList .block:hover {
+            background: #fcbc53;
+        } 
+        .chatList .block .imgbox {
+            position: relative;
+            height: 45px;
+            min-width: 45px;
+            overflow: hidden;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .chatList .block .details {
+            position: relative;
+            width: 100%;
+        }
+        .chatList .block .details .listHead {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        .chatList .block .details .listHead h4 {
+            font-size: 1.1em;
+            font-weight: 600;
+            color: #111;
+        }
+        .chatList .block .details .listHead .time {
+            font-size: 10px;
+            color: #aaa;
+            line-height: 24.5px;
+        } 
+        .chatList .block .details .listHead .time {
+            color: #111;
+        }
+        .chatList .block.unread .details .listHead .time {
+            color: #06d755;
+        }
+
+        .message_p {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 200px;
+        }
+        .message_p p {
+            color: #aaa;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            font-size: 0.9em;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .message_p b {
+            background: #06d755;
+            color: #fff;
+            min-width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 0.75em;
+        }
+        .chat-header h1 {
+            font-size: 24px;
+        }
+
+        .chat-logout {
+            text-align: right;
+            padding: 20px;
+            background: #ffffff;
+            border-bottom: 1px solid rgb(134, 134, 134);
+            border-top-right-radius: 25px;
+            height: 60px;
+        }
+
+        .chat-logout a {
+            text-decoration: none;
+            color: #075e54;
+            font-weight: bold;
+        }
+
+        .chat-logout a:hover {
+            text-decoration: underline;
+        }
+
+        .chat__item__container {
+            border-radius: 10px;
+            height: calc(100% - 110px);
+            max-width: 100%;
+            width: 100%;
+            /* Set a maximum height for the chat container */
+            overflow-y: auto;
+            word-break: break-all;
+            /* Add a vertical scrollbar when needed */
+        }
+
+        .chat-input-container {
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+            height: 50px;
+            background: #f0f0f0;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom-right-radius: 25px;
+        }
+
+        #id_message_send_input {
+            flex: 1;
+            /* Take up available space */
+            padding: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        #id_message_send_button {
+            padding: 5px 10px;
+            background-color: #ffa600;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .chat-message {
+            border-radius: 10px;
+            padding: 10px;
+            position: relative;
+        }
+
+        /* .chat-message.right {
+            display: flex;
+            max-width: 80%;
+            float: right;
+            clear: both;
+            margin-left: auto;
+            margin-right: 0;
+            padding: 20px 15px 10px;
+            
+        }
+
+        .message-text {
+            
+        } */
+
+        .chat-message.right {
+            display: flex;
+            max-width: 80%;
+            float: right;
+            clear: both;
+            margin-left: auto;
+            margin-right: 0;
+            padding: 10px 15px 10px; /* 將文字內容的背景顏色設置為黑色 */
+            justify-content: right;
+        }
+
+
+        .chat-message.left {
+            display: flex;
+            max-width: 80%;
+            float: left;
+            clear: both;
+            margin-left: 0;
+            margin-right: auto;
+            padding: 10px 15px 10px;
+        }
+
+        .chat-message.right .message-text {
+            color: black; /* 設置文字的顏色為白色 */
+            background-color: orange;
+            max-width: 75%;
+            padding: 10px;
+            margin-left: 5px;
+            border-radius: 10px;
+        }
+
+        .message-text {
+            color: white; /* 設置文字的顏色為白色 */
+            background-color: black;
+            max-width: 75%;
+            padding: 10px;
+            margin-right: 5px;
+            border-radius: 10px;
+        }
+
+        .message-timestamp-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end; /* 將時間框靠右對齊 */
+        }
+
+        .message-timestamp-date {
+            font-size: 12px;
+        }
+
+        .chat-message.right .timeBox {
+            width: 100px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: right;
+        }
+
+        .timeBox {
+            width: 100px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: left;
+        }
+
+        .message-timestamp-time {
+            font-size: 10px;
+            color: gray; /* 設置時間的顏色為灰色 */
+        }
+
+        .chat-message span {
+            color: white;
+        }
+
+        /* .message-timestamp {
+            font-size: 10px;
+            position: absolute;
+            top: 5px;
+            right: 8px;
+        } */
+
+        .message-username {
+            font-size: 12px;
+            position: absolute;
+            bottom: 5px;
+            right: 5px;
+        }
+
+        .exitLogo {
+            font-size: 24px;
+            color: #d9dbd5;
+        }
+
+        .title {
+            position: absolute;
+            top: 15px;
+            left: 13%;
+            /* left: 20px;  選一個好看的*/ 
+            color: #ffa600;
+            font-size: 40px;
+            font-weight: 700;
+        }
+        .IMGNAME {
+            display: flex;
+        }
+        .userName {
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+            font-weight: 700;
+        }
+
+    </style>
+</head>
+
+<body>
+    <a href="{% url 'home' %}"><p class="title">Kounel</p></a>
+    <div class="whole-container">
+        
+        <div class="left-chat-container">
+            <!-- header -->
+            <div class="header">
+                {% for row in userList %}
+                    {% for i in row %}
+                    <div class="IMGNAME">
+                        <div class="userimg">
+                            <img src="{% static 'picture/pc_'|add:i.img|add:'.png' %}" class="cover">
+                        </div>
+                        <div class="userName">{{request.user.username}}</div>
+                    </div>
+                        
+                    {% endfor %}
+                {% endfor %}
+                <ul class="nav_icon">
+                    <li><a href="{% url 'addChatPage' %}"><ion-icon name="add-circle"></ion-icon></a></li>
+                    <!-- <li><a href=""><ion-icon name="exit"></ion-icon></a></li> -->
+                </ul>
+            </div>
+            <!-- search -->
+            <!-- <div class="search_chat">
+                <div>
+                  <input type="text" placeholder="Search chat">
+                  <ion-icon name="search-outline"></ion-icon>
+                </div>
+            </div> -->
+            <!-- chatlist -->
+            <div class="chatList">
+                <!-- <div class="block active">
+                    <div class="imgbox">
+                      <img src="../static/pic/img1.jpeg" class="cover">
+                    </div>
+                    <div class="details">
+                      <div class="listHead">
+                        <h4>Muhammad</h4>
+                        <p class="time">10:56</p>
+                      </div>
+                      <div class="message_p">
+                        <p>How to make Whatsapp clone using html and css only</p>
+                      </div>
+                    </div>
+                </div> -->
+                <!-- {% for row in Nochatlist %}
+                    {% for i in row %}
+                        <div class="block">
+                            <div class="imgbox">
+                                <img src="{% static 'pic/user.png' %}" class="cover">
+                            </div>
+                            <div class="details">
+                                <div class="listHead">
+                                    <h4>{{i.username}}</h4>
+                                    <p class="time">{{i.time}}</p>
+                                    <div class="chatroomId" style="display: none;">{{i.aid}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %} -->
+                {% if chatlist.0 %}
+                    {% for i in chatlist %}
+                        <div class="block">
+                            <div class="imgbox">
+                                <img src="{% static 'picture/pc_'|add:i.img|add:'.png' %}" class="cover">
+                            </div>
+                            <div class="details">
+                                <div class="listHead">
+                                    <h4>{{i.username}}</h4>
+                                    <p class="time">{{i.time}}</p>
+                                    <div class="chatroomId" style="display: none;">{{i.aid}}</div>
+                                    <div class="chatroomBe" style="display: none;">{{i.be_uid}}</div>
+                                    <div class="chatroomUid" style="display: none;">{{i.uid_id}}</div>
+                                </div>
+                                <div class="message_p">
+                                    <p>{{i.conent}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                {% for row in Nochatlist %}
+                    {% for i in row %}
+                        <div class="block">
+                            <div class="imgbox">
+                                <img src="{% static 'picture/pc_'|add:i.img|add:'.png' %}" class="cover">
+                            </div>
+                            <div class="details">
+                                <div class="listHead">
+                                    <h4>{{i.username}}</h4>
+                                    <p class="time">{{i.time}}</p>
+                                    <div class="chatroomId" style="display: none;">{{i.aid}}</div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="right-chat-container">
+            <div class="chat-logout">
+                <div id="beUid" style="float: left;font-weight: bold; color: #51585c;"></div>
+            </div>
+            <div class="chat__item__container" id="id_chat_item_container">
+                
+            </div>
+            <div class="chat-input-container">
+                <input style="padding-left: 10px; border-radius: 20px;" type="text" id="id_message_send_input" placeholder="Aa" required/>
+                <button type="button" id="id_message_send_button" style="border-radius: 50%; font-size: 17px;">
+                    <i class="fas fa-paper-plane"></i>
+                    <div id="chatroomID" class="Aid" style="display: none;"></div>
+                </button>
+            </div>
+        </div>
+        
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>    
+    <script>
+        // Select all blocks
+        const blocks = document.querySelectorAll('.block');
+
+        // Function to remove 'active' class from all blocks
+        function removeActiveClasses() {
+            blocks.forEach(block => {
+                block.classList.remove('active');
+            });
+        }
+
+        // function refreshChatList() {
+        //     $('.block').each(function() {
+        //         var block = $(this);
+        //         block.find('.time').load(location.href + ' .time', function() {
+        //             // 刷新完毕后清空原内容
+        //         });
+        //         block.find('.message_p').load(location.href + ' .message_p', function() {
+        //             // 刷新完毕后清空原内容
+        //         });
+        //     });
+        // }
+
+        // // 設置定時器，每隔5秒執行一次 refreshChatList 函數
+        // var refreshInterval = setInterval(refreshChatList, 5000);
+
+        var chatroomID = document.getElementById('chatroomID');
+        // Add click event listener to each block
+        blocks.forEach(block => {
+            block.addEventListener('click', function() {
+                var aidValue = $(this).find('.chatroomId').text().trim();
+                var BeuidValue = $(this).find('.chatroomBe').text().trim();
+                var UidValue = $(this).find('.chatroomUid').text().trim();
+                // alert(aidValue);
+                // Remove 'active' class from all blocks
+                removeActiveClasses();
+                // Add 'active' class to the clicked block
+                block.classList.add('active');
+                var beUidDiv = document.getElementById('beUid');
+                var username = this.querySelector('h4').textContent;
+                beUidDiv.textContent = username;
+                // var chatItemContainer = document.getElementById('id_chat_item_container');
+                // chatItemContainer.innerHTML = '';
+                var chatroomIdElement = this.querySelector('.chatroomId');
+                var chatroomId = chatroomIdElement.textContent;
+                chatroomID.textContent = chatroomId;
+                // alert(chatroomID.textContent);
+                var csrftoken = getCookie('csrftoken');
+                $.ajax({
+                    url: '/chat/',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    },
+                    data: {
+                        'mode': 'sendAid',
+                        aid: aidValue,
+                        chatroomUid: BeuidValue,
+                        chatroomBe: UidValue
+                    },
+                    success: function(response) {
+                        renderMessages(response);
+                    },
+                    error: function(response) {
+                        console.log(response);
+                        // alert('11');
+                    }
+                });
+            });
+        });
+        
+        function renderMessages(messages) {
+            var messageContainer = document.querySelector("#id_chat_item_container");
+            messageContainer.innerHTML = '';  // 清空容器
+    
+            // 迭代訊息數據並動態生成 HTML 元素
+            // messages.forEach(function(message) {
+            //     var div = document.createElement("div");
+            //     div.className = "chat-message right";
+            //     div.innerHTML = `
+            //         <div class="message-text">${message.content}</div>
+            //         <div class="message-timestamp">${message.time}</div>`;
+            //     messageContainer.appendChild(div);
+            // });
+            messages.forEach(function(message) {
+                var div = document.createElement("div");
+                var userId = '{{ request.user.id }}';
+                div.className = "chat-message";
+
+                // 根據條件設置消息的類別
+                
+                if (message.uid == userId) {
+                    div.classList.add("right");
+                    div.innerHTML = `
+                    <div class="timeBox">
+                        <div class="message-timestamp-time">${message.time}</div>
+                    </div>
+                    <div class="message-text">${message.content}</div>`;
+                }else if (message.beuid == userId) {
+                    div.classList.add("left");
+                    div.innerHTML = `
+                    <div class="message-text">${message.content}</div>
+                    <div class="timeBox">
+                        <div class="message-timestamp-time">${message.time}</div>
+                    </div>`;
+                }else {
+                    // 預設情況下的類別
+                    div.classList.add("right");
+                    div.innerHTML = `
+                    <div class="timeBox">
+                        <div class="message-timestamp-time">${message.time}</div>
+                    </div>
+                    <div class="message-text">${message.content}</div>`;
+                };
+
+                messageContainer.appendChild(div);
+            });
+        }
+
+
+        const chatSocket = new WebSocket("ws://" + window.location.host + "/");
+        chatSocket.onopen = function (e) {
+            console.log("The connection was set up successfully!");
+        };
+        chatSocket.onclose = function (e) {
+            console.log("Something unexpected happened!");
+        };
+        document.querySelector("#id_message_send_input").focus();
+        document.querySelector("#id_message_send_input").onkeyup = function (e) {
+            if (e.keyCode == 13) {
+                document.querySelector("#id_message_send_button").click();
+            }
+        };
+        document.querySelector("#id_message_send_button").onclick = function (e) {
+            var messageInput = document.querySelector("#id_message_send_input").value;
+            // 检查输入内容是否为空或只包含空白字符
+            if (messageInput.trim() === "") {
+                e.preventDefault(); // 阻止表单提交
+                return; // 终止函数执行
+            }
+
+            var currentTime = new Date();
+            var timeOptions = {
+                year: 'numeric',  // 以四位数显示年份
+                month: '2-digit', // 以两位数显示月份
+                day: '2-digit',   // 以两位数显示日期
+                hour: '2-digit',  // 以两位数显示小时
+                minute: '2-digit',// 以两位数显示分钟
+                second: undefined // 不显示秒
+            };
+
+            var dateTime = currentTime.toLocaleString('zh-CN', timeOptions); // 使用 'zh-CN' 来确保格式适合中文环境
+            chatSocket.send(JSON.stringify({
+                message: messageInput,
+                username: "{{request.user.username}}",
+                time: dateTime
+            }));
+        };
+
+        chatSocket.onmessage = function (e) {
+            const data = JSON.parse(e.data);
+            var messageContainer = document.querySelector("#id_chat_item_container");
+            var div = document.createElement("div");
+            div.className = (data.username === "{{request.user.username}}") ? "chat-message right" : "chat-message left";
+            div.innerHTML = `
+                ${(data.username === "{{request.user.username}}") ? 
+                    `<div class="timeBox">
+                        <div class="message-timestamp-time">${data.time}</div>
+                    </div>
+                    <div class="message-text">${data.message}</div>` :
+                    `<div class="message-text">${data.message}</div>
+                    <div class="timeBox">
+                        <div class="message-timestamp-time">${data.time}</div>
+                    </div>`}`;
+            document.querySelector("#id_message_send_input").value = "";
+            messageContainer.appendChild(div);
+            // Scroll to the bottom of the chat container
+            messageContainer.scrollTop = messageContainer.scrollHeight;
+        };
+
+        // document.addEventListener('DOMContentLoaded', function() {
+        //     var sendMessBtn = document.getElementById('id_message_send_button');
+        //     sendMessBtn.addEventListener('click', sendMessBtn() {
+
+        //     });
+        // });
+        
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // 判斷cookie是否為CSRF令牌
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+}
+
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var sendMessageButton = document.getElementById('id_message_send_button');
+            sendMessageButton.addEventListener('click', function() {
+                var messageInput = document.getElementById('id_message_send_input');
+                var aidValue = document.querySelector('.Aid').textContent;
+                
+                // console.log(messageInput.value);
+                // console.log(aidValue);
+                var csrftoken = getCookie('csrftoken');
+
+                $.ajax({
+                    url: '/chat/',
+                    type: 'POST',
+                    headers: {
+                        'X-CSRFToken': csrftoken
+                    },
+                    data: {
+                        'mode': 'sendMessage',
+                        aid: aidValue,
+                        messageContent: messageInput.value
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        // alert('1')
+                    },
+                    error: function(response) {
+                        console.log(response);
+                        // alert('11')
+                    }
+                });
+            });
+        });
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>

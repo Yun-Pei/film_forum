@@ -107,7 +107,7 @@ def forum_article(request):
 
     with connection.cursor() as cursor:
         cursor.execute("""
-            SELECT User.id, User.username, User.img, Article.*, Movies.name
+            SELECT User.id, User.username, User.img, Article.*, Movies.name, Movies.mid
             FROM User
             JOIN Article ON User.id = Article.uid_id
             JOIN Movies ON Article.mid_id = Movies.mid

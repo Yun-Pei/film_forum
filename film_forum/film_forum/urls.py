@@ -20,7 +20,8 @@ from home import views as home_views
 from member import views as member_views
 from forum import views as forum_views
 from movie import views as movie_views
-# from django.contrib.auth.views import 
+from chatroom import views as chatroom_views
+from django.urls import include, path
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,7 +33,11 @@ urlpatterns = [
     path('forum_article', forum_views.forum_article, name="forum_article"),
     path('login', member_views.login, name="login"),
     path('log_out', member_views.log_out, name="log_out"),
+    # path('chat', include('chatroom.urls')),
+    path('chat/', chatroom_views.chatPage, name="chatPage"),
+    path('chat/addfriend', chatroom_views.addChatPage, name="addChatPage"),
     path('watchlist', member_views.watchlist, name="watchlist"),
+    path('chat/search/', chatroom_views.search_member, name='searchMember'),
     # path('crawl', member_views.crawl, name="crawl"),
     # path("", views.index, name="home")
     # path('searchbar/', home_views.searchbar, name='searchbar'),

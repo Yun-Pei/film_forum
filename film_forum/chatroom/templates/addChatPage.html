@@ -1,0 +1,297 @@
+{% load static%}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>KounelChat</title>
+    {% csrf_token %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <link rel="icon" href="{% static 'favicon.ico' %}" type="image/x-icon">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'ajax.js'%}"></script>
+    <script src="{% static 'js/addChatPage.js'%}"></script>
+    <style>
+        * {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+            font-family: 'Open Sans', sans-serif;
+            }
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(#252525 60%, #ffa600 100%);
+        }
+
+        .whole-container {
+            position: relative;
+            top: 30px;
+            width: 75%;
+            max-width: 100%;
+            height: calc(100vh - 100px);
+            background: #fff;
+            box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.06), 0 2px 5px 0 rgba(0, 0, 0, 0.06);
+            border-radius: 25px;
+        }
+        
+        .title {
+            position: absolute;
+            top: 15px;
+            left: 13%;
+            /* left: 20px;  選一個好看的*/ 
+            color: #ffa600;
+            font-size: 40px;
+            font-weight: 700;
+        }
+
+        .search_chat {
+            position: relative;
+            width: 100%;
+            height: 70px;
+            background: #f6f6f6;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 0 15px;
+            margin: 0px auto;
+            border-top-right-radius: 25px;
+            border-top-left-radius: 25px;
+        }
+        .search_chat div {
+            width: 100%;
+        }
+        .search_chat div input::placeholder {
+            color: #bbb;
+        } 
+        .search_chat div input {
+            width: 100%;
+            outline: none;
+            border: none;
+            background: #fff;
+            padding: 6px;
+            height: 45px;
+            border-radius: 30px;
+            font-size: 16px;
+            padding-left: 40px;
+        }
+        .search_chat div ion-icon {
+            position: absolute;
+            left: 30px;
+            top: 25px;
+            font-size: 1.2em;
+        }
+        .resultBox {
+            width: 720px;
+            margin: 0px auto;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            top: 15%;
+        }
+        .resultSmallBox {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: left;
+        }
+
+        .result {
+            position: relative;
+            font-size: 20px;
+            margin: 20px;
+        }
+        .result ul li{
+            list-style: none;
+        }
+        .result button {
+            font-size: 16px;
+            border-radius: 10px;
+            border: #bbb 1px solid;
+            width: 200px;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .result button:hover {
+            background: #ffa600;
+        }
+        .Cancel {
+            position: absolute;
+            cursor: pointer;
+            font-size: 14px;
+            height: 30px;
+            width: 80px;
+            border-radius: 10px;
+            border: #bbb 1px solid;
+            bottom: 5%;
+            left: 5%;
+        }
+        .Cancel:hover {
+            background: #ffa600;
+        }
+        a{
+	        text-decoration: none;
+            color: #252525;
+        }
+        .userId {
+            display: none;
+        }
+        .memberInfoBox {
+            list-style: none;
+            position: relative;
+            top: 100px;
+            width: fit-content;
+            margin: auto;
+            font-size: 20px;
+        }
+        .userImg {
+            height: 150px;
+            width: 150px;
+            border-radius: 50%;
+        }
+        .name {
+            width: fit-content;
+            margin: 0px auto;
+            font-size: 20px;
+            color: #404040;
+        }
+        .Notfound {
+            position: relative;
+            top: 100px;
+            width: fit-content;
+            margin: auto;
+            font-size: 20px;
+        }
+        .chooseButton {
+            margin: 10px auto;
+            display: flex;
+            justify-content: space-around;
+            font-size: 14px;
+        }
+        .cancelBtn {
+            padding: 3px 8px;
+            border-radius: 10px;
+            border: 1px solid lightgrey;
+            cursor: pointer;
+            color: #404040;
+            width: 65px;
+        }
+        .SearchBtn {
+            background: #ffa600;
+            padding: 3px 8px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            color: #252525;
+            width: 65px;
+        }
+    </style>
+</head>
+
+<body>
+    <a href="{% url 'home' %}"><p class="title">Kounel</p></a>
+    <div class="whole-container">
+        <form action="{% url 'searchMember' %}" method="POST" class="search_chat">
+            {% csrf_token %}
+            <div>
+              <input type="text" placeholder="Search member" class="form-control" name="q">
+              <ion-icon name="search-outline"></ion-icon>
+            </div>
+            <button type="submit" style="display: none;"></button>
+        </form>
+        <div class="searchResult">
+            {% if members %}
+                <ul>
+                    {% for member in members %}
+                        <li>
+                            <form class="memberInfoBox" method="post">
+                                <img src="{% static 'picture/pc_'|add:member.img|add:'.png' %}" class="userImg">
+                                <p class="name">{{ member.username }}</p>
+                                <div class="chooseButton">
+                                    <div class="cancelBtn">Cancel</div>
+                                    <button class="SearchBtn" type="button">
+                                        Add
+                                        <div class="ID" style="display: none;">{{ member.id }}</div>
+                                    </button>
+                                </div>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="Notfound">No results found.</p>
+            {% endif %}
+        </div>
+        <button type="submit" class="Cancel"><a href="{% url 'chatPage' %}">Cancel</a></button>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.3/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var cancelButton = document.querySelector('.cancelBtn');
+            var searchButtons = document.querySelectorAll('.SearchBtn');
+            cancelButton.addEventListener('click', function() {
+                var searchResults = document.querySelectorAll('.memberInfoBox');
+                searchResults.forEach(function(result) {
+                    result.style.display = 'none';
+                });
+            });
+            searchButtons.forEach(function(searchButton) {
+                searchButton.addEventListener('click', function() {
+                    var idElement = this.querySelector('.ID');
+                    var memberId = idElement.textContent; // 獲取ID內容
+                    console.log("UID:", memberId);
+            
+                    // 獲取CSRF令牌
+                    var csrftoken = getCookie('csrftoken');
+            
+                    // 發送POST請求，包含CSRF令牌
+                    $.ajax({
+                        url: '/chat/addfriend',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRFToken': csrftoken
+                        },
+                        data: {
+                            'mode': 'addFriends',
+                            'be_uid': memberId,
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            // alert('success');
+                            window.location.href = '/chat/'; // 在成功回應後進行跳轉
+                        },
+                        error: function(response) {
+                            console.log(response);
+                        }
+                    });
+                    // 這裡可以進一步處理獲取的ID
+                });
+            });
+        });
+
+        // 函數來獲取cookie中的CSRF令牌
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    // 判斷cookie是否為CSRF令牌
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+
+</html>
